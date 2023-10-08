@@ -49,4 +49,4 @@ Node *findIntersectionNode(DoublyLinkedList, DoublyLinkedList);
 void removeDuplicates(DoublyLinkedList *);
 bool isSortedAsc(DoublyLinkedList);
 bool isSortedDesc(DoublyLinkedList);
-Node* searchWithCriteria(DoublyLinkedList, CriteriaFunction);
+Node *searchWithCriteria(DoublyLinkedList, CriteriaFunction);

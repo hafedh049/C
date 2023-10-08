@@ -155,7 +155,7 @@ void showAllItems(DoublyLinkedList list)
     while (head)
     {
         if (head->next)
-            printf("\033[1;32m| %d | -> ", head->data);
+            printf("\033[1;32m| %d | <-> ", head->data);
         else
             printf("\033[1;32m| %d |", head->data);
         head = head->next;
