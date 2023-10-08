@@ -66,7 +66,7 @@ void shift(DoublyLinkedList *list, int item)
 
 void insertAfter(DoublyLinkedList *list, Node *node, int item)
 {
-    if (isEmpty(*list))
+    if (isEmpty(*list) || node == list->tail)
     {
         append(list, item);
         return;
@@ -81,10 +81,6 @@ void insertAfter(DoublyLinkedList *list, Node *node, int item)
         node->data = item;
         node->next = headNode->next;
         headNode->next = node;
-        printf("\033[1;33m\n\n---------------------------\n\n");
-        printf("Element added Successfully");
-        printf("\033[1;33m\n\n---------------------------\n\n");
-        printf("\033[1;0m");
     }
     else
     {
@@ -164,15 +160,21 @@ void showAllItems(DoublyLinkedList DoublyLinkedList)
     printf("\033[1;0m");
 }
 
-int search(DoublyLinkedList sll, int item)
+int search(DoublyLinkedList l, int item)
 {
-    assert(!isEmpty(sll));
-    Node *head = sll.head;
-    while (head)
+    assert(!isEmpty(l));
+    Node *head = l.head;
+    Node *tail = l.tail;
+    if(tail->data == head->data)
+        return 1;
+    while (head != tail)
     {
         if (head->data == item)
             return 1;
+        if (tail->data == item)
+            return 1;
         head = head->next;
+        tail = tail->next;
     }
     return 0;
 }

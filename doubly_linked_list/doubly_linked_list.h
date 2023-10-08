@@ -8,12 +8,12 @@ typedef struct Node
 {
     int data;
     struct Node *next;
+    struct Node *previous;
 } Node;
 
 typedef struct DoublyLinkedList
 {
     Node *head;
-    Node *tail;
 } DoublyLinkedList;
 
 typedef bool (*CriteriaFunction)(int);

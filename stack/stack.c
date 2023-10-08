@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-Stack createStack()
+Stack* createStack()
 {
-    Stack stack;
-    stack.head = NULL;
+    Stack *stack = (Stack*)malloc(sizeof(Stack));
+    stack->head = NULL;
     return stack;
 }
 
@@ -121,16 +121,16 @@ void sort(Stack *stack, int key)
     */
     assert(!isEmpty(*stack));
 
-    Stack auxilaryStack = createStack();
+    Stack* auxilaryStack = createStack();
     while ((*stack).head)
     {
         int stackItem = pop(stack)->data;
-        while (!isEmpty(auxilaryStack) && (key == 1 ? peek(auxilaryStack) > stackItem : peek(auxilaryStack) < stackItem))
+        while (!isEmpty(*auxilaryStack) && (key == 1 ? peek(*auxilaryStack) > stackItem : peek(*auxilaryStack) < stackItem))
             push(stack, pop(&auxilaryStack)->data);
 
         push(&auxilaryStack, stackItem);
     }
-    *stack = auxilaryStack;
+    stack = auxilaryStack;
 }
 
 // variadics macros
@@ -145,27 +145,27 @@ void pushMany(Stack *stack, int numberOfItems, ...)
 void reverse(Stack *stack)
 {
     assert(!isEmpty(*stack));
-    Stack auxilaryStack = createStack();
+    Stack* auxilaryStack = createStack();
     while ((*stack).head)
         push(&auxilaryStack, pop(stack)->data);
-    *stack = auxilaryStack;
+    stack = auxilaryStack;
 }
 
-Stack copy(Stack stack)
+Stack* copy(Stack stack)
 {
     assert(!isEmpty(stack));
-    Stack auxilaryStack = createStack();
-    Stack copyStack = createStack();
+    Stack* auxilaryStack = createStack();
+    Stack* copyStack = createStack();
     while (stack.head)
         push(&auxilaryStack, pop(&stack)->data);
-    while (auxilaryStack.head)
+    while (auxilaryStack->head)
         push(&copyStack, pop(&auxilaryStack)->data);
     return copyStack;
 }
 
-Stack merge(Stack firstStack, Stack secondStack)
+Stack* merge(Stack firstStack, Stack secondStack)
 {
-    Stack mergingStack = createStack();
+    Stack* mergingStack = createStack();
     while (firstStack.head)
         push(&mergingStack, pop(&firstStack)->data);
     while (secondStack.head)
