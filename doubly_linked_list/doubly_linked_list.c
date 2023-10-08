@@ -4,13 +4,12 @@ DoublyLinkedList *createDoublyLinkedList()
 {
     DoublyLinkedList *linkedList = (DoublyLinkedList *)malloc(sizeof(DoublyLinkedList));
     linkedList->head = NULL;
-    linkedList->tail = NULL;
     return linkedList;
 }
 
 int isEmpty(DoublyLinkedList list)
 {
-    return list.head == NULL && list.tail == NULL;
+    return list.head == NULL;
 }
 
 void append(DoublyLinkedList *list, int item)
@@ -20,13 +19,16 @@ void append(DoublyLinkedList *list, int item)
     node->next = NULL;
     if (isEmpty(*list))
     {
+        node->previous = NULL;
         list->head = node;
-        list->tail = node;
     }
     else
     {
-        list->tail->next = node;
-        list->tail = node;
+        Node *last = list->head;
+        while (last->next)
+            last = last->next;
+        node->previous = last;
+        last->next = node;
     }
 }
 
