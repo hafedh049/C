@@ -1,5 +1,8 @@
 #include "linked_list/single_linked_list.c"
 
+bool isEven(int a)
+{return a % 2;}
+
 void main()
 {
     //system("cls");
@@ -16,4 +19,5 @@ void main()
     showAllItems(*l1);
     showAllItems(*l2);
     showAllItems(*mergeSorted(*l1,*l2,-1));
+    searchWithCriteria(*sll,isEven);
 }

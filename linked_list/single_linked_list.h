@@ -15,7 +15,9 @@ typedef struct SingleLinkedList
     Node *head;
 } SingleLinkedList;
 
-SingleLinkedList* createSingleLinkedList();
+typedef bool (*CriteriaFunction)(int);
+
+SingleLinkedList *createSingleLinkedList();
 void showAllItems(SingleLinkedList);
 void insertBefore(SingleLinkedList *, Node *, int);
 void insertAfter(SingleLinkedList *, Node *, int);
@@ -42,4 +44,8 @@ void concatenate(SingleLinkedList *, SingleLinkedList);
 void splitByPosition(SingleLinkedList, int, SingleLinkedList *, SingleLinkedList *);
 SingleLinkedList *mergeSorted(SingleLinkedList, SingleLinkedList, int);
 bool FloydTurtoisHareCycle(SingleLinkedList);
-Node* findIntersectionNode(SingleLinkedList, SingleLinkedList);
+Node *findIntersectionNode(SingleLinkedList, SingleLinkedList);
+void removeDuplicates(SingleLinkedList *);
+bool isSortedAsc(SingleLinkedList);
+bool isSortedDesc(SingleLinkedList);
+Node* searchWithCriteria(SingleLinkedList, CriteriaFunction);

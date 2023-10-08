@@ -410,34 +410,107 @@ bool FloydTurtoisHareCycle(SingleLinkedList list)
     return false;
 }
 
-Node* findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2) {
+Node *findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2)
+{
     if (list1.head == NULL || list2.head == NULL)
         return NULL;
 
-    Node* ptr1 = list1.head;
-    Node* ptr2 = list2.head;
+    Node *ptr1 = list1.head;
+    Node *ptr2 = list2.head;
 
     bool switchPtr1 = false;
     bool switchPtr2 = false;
 
-    while (ptr1 != ptr2) {
+    while (ptr1 != ptr2)
+    {
         ptr1 = ptr1->next;
         ptr2 = ptr2->next;
 
-        if (ptr1 == NULL && !switchPtr1) {
+        if (ptr1 == NULL && !switchPtr1)
+        {
             ptr1 = list2.head;
             switchPtr1 = true;
         }
 
-        if (ptr2 == NULL && !switchPtr2) {
+        if (ptr2 == NULL && !switchPtr2)
+        {
             ptr2 = list1.head;
             switchPtr2 = true;
         }
 
-        if (switchPtr1 && switchPtr2 && ptr1 != ptr2) {
+        if (switchPtr1 && switchPtr2 && ptr1 != ptr2)
+        {
             return NULL;
         }
     }
 
     return ptr1;
+}
+
+void removeDuplicates(SingleLinkedList *list)
+{
+    if (list->head == NULL || list->head->next == NULL)
+        return;
+
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
+        Node *runner = current;
+
+        while (runner->next != NULL)
+        {
+            if (runner->next->data == current->data)
+            {
+                Node *duplicate = runner->next;
+                runner->next = runner->next->next;
+                free(duplicate);
+            }
+            else
+                runner = runner->next;
+        }
+        current = current->next;
+    }
+}
+
+bool isSortedAsc(SingleLinkedList list) {
+    if (list.head == NULL || list.head->next == NULL)
+        return true; 
+
+    Node* current = list.head;
+
+    while (current->next != NULL) {
+        if (current->data > current->next->data) 
+            return false;
+        current = current->next;
+    }
+
+    return true; 
+}
+
+bool isSortedDesc(SingleLinkedList list) {
+    if (list.head == NULL || list.head->next == NULL)
+        return true; 
+
+    Node* current = list.head;
+
+    while (current->next != NULL) {
+        if (current->data < current->next->data) 
+            return false;
+        current = current->next;
+    }
+
+    return true; 
+}
+
+Node* searchWithCriteria(SingleLinkedList list, CriteriaFunction criteria) {
+    Node* current = list.head;
+
+    while (current != NULL) {
+        if (criteria(current->data))
+            return current; 
+        current = current->next;
+    }
+
+    return NULL; 
 }
