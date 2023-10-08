@@ -1,4 +1,4 @@
-#include "linked_list/single_linked_list.c"
+#include "linked_list/singly_linked_list.c"
 
 bool isEven(int a)
 {return a % 2;}
