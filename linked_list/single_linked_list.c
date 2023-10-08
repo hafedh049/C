@@ -1,13 +1,9 @@
 #include "single_linked_list.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <assert.h>
 
-SingleLinkedList createSingleLinkedList()
+SingleLinkedList *createSingleLinkedList()
 {
-    SingleLinkedList linkedList;
-    linkedList.head = NULL;
+    SingleLinkedList *linkedList = (SingleLinkedList *)malloc(sizeof(SingleLinkedList));
+    linkedList->head = NULL;
     return linkedList;
 }
 
@@ -174,7 +170,7 @@ void showAllItems(SingleLinkedList singleLinkedList)
 int search(SingleLinkedList sll, int item)
 {
     assert(!isEmpty(sll));
-    Node* head = sll.head;
+    Node *head = sll.head;
     while (head)
     {
         if (head->data == item)
@@ -237,41 +233,211 @@ int pop(SingleLinkedList *sll, int item)
     }
 }
 
-int getFirst(SingleLinkedList sll){
+int getFirst(SingleLinkedList sll)
+{
     assert(!isEmpty(sll));
     return sll.head->data;
 }
 
-int getLast(SingleLinkedList sll){
+int getLast(SingleLinkedList sll)
+{
     assert(!isEmpty(sll));
-    Node* node = sll.head;
-    while(node->next) node = node->next;
+    Node *node = sll.head;
+    while (node->next)
+        node = node->next;
     return node->data;
 }
 
-int getSize(SingleLinkedList list,Node* head)
+int getSize(SingleLinkedList list, Node *head)
 {
-    if(isEmpty(list))
+    if (isEmpty(list))
         return 0;
-    if(head)
-        return 1 + getSize(list,head->next);
+    if (head)
+        return 1 + getSize(list, head->next);
 }
 
-int getItemByIndex(SingleLinkedList list,int index){  
+int getItemByIndex(SingleLinkedList list, int index)
+{
     assert(!isEmpty(list));
     int counter = -1;
-    Node* head = list.head;
+    Node *head = list.head;
     while (head)
-    {   
+    {
         counter++;
         if (counter == index)
             break;
         head = head->next;
     }
     assert(counter == index);
-    return head->data; 
+    return head->data;
 }
 
-void sort(SingleLinkedList *list,int left, int right){
-    
+void sort(SingleLinkedList *list, int key)
+{
+    Node *primaryPointer, *secondaryPointer;
+    for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
+        for (secondaryPointer = primaryPointer->next; secondaryPointer; secondaryPointer = secondaryPointer->next)
+            if (key == 1 && primaryPointer->data > secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+            else if (key == -1 && primaryPointer->data < secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+}
+
+void reverse(SingleLinkedList *list)
+{
+    Node *prev = NULL;
+    Node *current = list->head;
+    Node *next;
+    while (current)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    list->head = prev;
+}
+
+Node *getNode(SingleLinkedList sll, int item)
+{
+    assert(!isEmpty(sll));
+    Node *head = sll.head;
+    while (head)
+    {
+        if (head->data == item)
+            return head;
+        head = head->next;
+    }
+    return NULL;
+}
+
+void update(SingleLinkedList *list, int oldValue, int newValue)
+{
+    Node *element = getNode(*list, oldValue);
+    if (element)
+        element->data = newValue;
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+void concatenate(SingleLinkedList *list1, SingleLinkedList list2)
+{
+    if (!list1->head)
+        list1->head->next = list2.head;
+}
+
+void splitByPosition(SingleLinkedList list, int posiiton, SingleLinkedList *firstHalf, SingleLinkedList *secondHalf)
+{
+    Node *element = getNode(list, getItemByIndex(list, posiiton));
+    if (element)
+    {
+        Node *listHelper = list.head;
+        Node *firstHalfHelper = (firstHalf->head = listHelper);
+        while (listHelper && listHelper->next->data != element->data) /*should not reach the element or the link will be destroyed after referencing the second half*/
+        {
+            listHelper = listHelper->next;
+            firstHalfHelper->next = listHelper;
+            firstHalfHelper = firstHalfHelper->next;
+        }
+        firstHalfHelper->next = NULL;
+        secondHalf->head = element;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+SingleLinkedList *mergeSorted(SingleLinkedList firstSortedList, SingleLinkedList secondSortedList, int key)
+{
+    SingleLinkedList *thirdSortedList = createSingleLinkedList();
+    Node *secondListPointer = secondSortedList.head;
+    Node *firstListPointer = firstSortedList.head;
+    while (firstListPointer && secondListPointer)
+        if ((key == 1 && firstListPointer->data < secondListPointer->data) ||
+            (key != 1 && firstListPointer->data > secondListPointer->data))
+        {
+            append(thirdSortedList, firstListPointer->data);
+            firstListPointer = firstListPointer->next;
+        }
+        else
+        {
+            if (firstListPointer->data == secondListPointer->data)
+                firstListPointer = firstListPointer->next;
+            append(thirdSortedList, secondListPointer->data);
+            secondListPointer = secondListPointer->next;
+        }
+    while (firstListPointer)
+    {
+        append(thirdSortedList, firstListPointer->data);
+        firstListPointer = firstListPointer->next;
+    }
+
+    while (secondListPointer)
+    {
+        append(thirdSortedList, secondListPointer->data);
+        secondListPointer = secondListPointer->next;
+    }
+
+    return thirdSortedList;
+}
+
+bool FloydTurtoisHareCycle(SingleLinkedList list)
+{
+    if (!list.head || !list.head->next)
+        return false;
+
+    Node *tortoise = list.head;
+    Node *hare = list.head;
+
+    while (hare != NULL && hare->next != NULL)
+    {
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+
+        if (tortoise == hare)
+            return true;
+    }
+
+    return false;
+}
+
+Node* findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2) {
+    if (list1.head == NULL || list2.head == NULL)
+        return NULL;
+
+    Node* ptr1 = list1.head;
+    Node* ptr2 = list2.head;
+
+    bool switchPtr1 = false;
+    bool switchPtr2 = false;
+
+    while (ptr1 != ptr2) {
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+
+        if (ptr1 == NULL && !switchPtr1) {
+            ptr1 = list2.head;
+            switchPtr1 = true;
+        }
+
+        if (ptr2 == NULL && !switchPtr2) {
+            ptr2 = list1.head;
+            switchPtr2 = true;
+        }
+
+        if (switchPtr1 && switchPtr2 && ptr1 != ptr2) {
+            return NULL;
+        }
+    }
+
+    return ptr1;
 }
