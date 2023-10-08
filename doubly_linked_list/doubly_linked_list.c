@@ -283,19 +283,19 @@ void sort(DoublyLinkedList *list, int key)
 
 void reverse(DoublyLinkedList *list)
 {
-    Node* temp = NULL;
-    Node* current = list->head;
- 
-    while (current != NULL) {
+    Node *temp = NULL;
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
         temp = current->previous;
         current->previous = current->next;
         current->next = temp;
         current = current->previous;
     }
- 
+
     if (temp != NULL)
         list->head = temp->previous;
-    
 }
 
 Node *getNode(DoublyLinkedList list, int item)
@@ -327,28 +327,46 @@ void update(DoublyLinkedList *list, int oldValue, int newValue)
 
 void concatenate(DoublyLinkedList *list1, DoublyLinkedList list2)
 {
-    if (!list1->head)
+    if (list1->head == NULL)
+    {
+        list1->head = list2.head;
+    }
+    else
+    {
+        Node *current = list1->head;
+        while (current->next != NULL)
         {
-            list1->head->next = list2.head;
-            if(!list2.head)
+            current = current->next;
         }
+        current->next = list2.head;
+        if (list2.head != NULL)
+        {
+            list2.head->previous = current;
+        }
+    }
 }
 
-void splitByPosition(DoublyLinkedList list, int posiiton, DoublyLinkedList *firstHalf, DoublyLinkedList *secondHalf)
+void splitByPosition(DoublyLinkedList list, int position, DoublyLinkedList *firstHalf, DoublyLinkedList *secondHalf)
 {
-    Node *element = getNode(list, getItemByIndex(list, posiiton));
-    if (element)
+    firstHalf->head = NULL;
+    secondHalf->head = NULL;
+
+    Node *current = list.head;
+    int currentPosition = 0;
+    while (current != NULL && currentPosition < position)
     {
-        Node *listHelper = list.head;
-        Node *firstHalfHelper = (firstHalf->head = listHelper);
-        while (listHelper && listHelper->next->data != element->data) /*should not reach the element or the link will be destroyed after referencing the second half*/
-        {
-            listHelper = listHelper->next;
-            firstHalfHelper->next = listHelper;
-            firstHalfHelper = firstHalfHelper->next;
-        }
-        firstHalfHelper->next = NULL;
-        secondHalf->head = element;
+        current = current->next;
+        currentPosition++;
+    }
+    if (current != NULL)
+    {
+        firstHalf->head = list.head;
+        secondHalf->head = current->next;
+
+        if (secondHalf->head != NULL)
+            secondHalf->head->previous = NULL;
+
+        current->next = NULL;
     }
     else
     {
@@ -462,16 +480,18 @@ void removeDuplicates(DoublyLinkedList *list)
         Node *runner = current;
 
         while (runner->next != NULL)
-        {
             if (runner->next->data == current->data)
             {
                 Node *duplicate = runner->next;
                 runner->next = runner->next->next;
+
+                if (runner->next != NULL)
+                    runner->next->previous = runner;
+
                 free(duplicate);
             }
             else
                 runner = runner->next;
-        }
         current = current->next;
     }
 }

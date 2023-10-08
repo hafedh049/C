@@ -328,8 +328,17 @@ void update(SinglyLinkedList *list, int oldValue, int newValue)
 
 void concatenate(SinglyLinkedList *list1, SinglyLinkedList list2)
 {
-    if (!list1->head)
-        list1->head->next = list2.head;
+    if (list1->head == NULL)
+        list1->head = list2.head;
+    else
+    {
+        Node *current = list1->head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = list2.head;
+    }
 }
 
 void splitByPosition(SinglyLinkedList list, int posiiton, SinglyLinkedList *firstHalf, SinglyLinkedList *secondHalf)
@@ -474,44 +483,50 @@ void removeDuplicates(SinglyLinkedList *list)
     }
 }
 
-bool isSortedAsc(SinglyLinkedList list) {
+bool isSortedAsc(SinglyLinkedList list)
+{
     if (list.head == NULL || list.head->next == NULL)
-        return true; 
+        return true;
 
-    Node* current = list.head;
+    Node *current = list.head;
 
-    while (current->next != NULL) {
-        if (current->data > current->next->data) 
+    while (current->next != NULL)
+    {
+        if (current->data > current->next->data)
             return false;
         current = current->next;
     }
 
-    return true; 
+    return true;
 }
 
-bool isSortedDesc(SinglyLinkedList list) {
+bool isSortedDesc(SinglyLinkedList list)
+{
     if (list.head == NULL || list.head->next == NULL)
-        return true; 
+        return true;
 
-    Node* current = list.head;
+    Node *current = list.head;
 
-    while (current->next != NULL) {
-        if (current->data < current->next->data) 
+    while (current->next != NULL)
+    {
+        if (current->data < current->next->data)
             return false;
         current = current->next;
     }
 
-    return true; 
+    return true;
 }
 
-Node* searchWithCriteria(SinglyLinkedList list, CriteriaFunction criteria) {
-    Node* current = list.head;
+Node *searchWithCriteria(SinglyLinkedList list, CriteriaFunction criteria)
+{
+    Node *current = list.head;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         if (criteria(current->data))
-            return current; 
+            return current;
         current = current->next;
     }
 
-    return NULL; 
+    return NULL;
 }
