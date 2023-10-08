@@ -1,18 +1,19 @@
-#include "single_linked_list.h"
+#include "doubly_linked_list.h"
 
-SingleLinkedList *createSingleLinkedList()
+DoublyLinkedList *createDoublyLinkedList()
 {
-    SingleLinkedList *linkedList = (SingleLinkedList *)malloc(sizeof(SingleLinkedList));
+    DoublyLinkedList *linkedList = (DoublyLinkedList *)malloc(sizeof(DoublyLinkedList));
     linkedList->head = NULL;
+    linkedList->tail = NULL;
     return linkedList;
 }
 
-int isEmpty(SingleLinkedList list)
+int isEmpty(DoublyLinkedList list)
 {
-    return list.head == NULL;
+    return list.head == NULL && list.tail == NULL;
 }
 
-void append(SingleLinkedList *list, int item)
+void append(DoublyLinkedList *list, int item)
 {
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = item;
@@ -20,17 +21,16 @@ void append(SingleLinkedList *list, int item)
     if (isEmpty(*list))
     {
         list->head = node;
+        list->tail = node;
     }
     else
     {
-        Node *last = list->head;
-        while (last->next)
-            last = last->next;
-        last->next = node;
+        list->tail->next = node;
+        list->tail = node;
     }
 }
 
-void appendAll(SingleLinkedList *list, int itemCount, ...)
+void appendAll(DoublyLinkedList *list, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -38,7 +38,7 @@ void appendAll(SingleLinkedList *list, int itemCount, ...)
         append(list, va_arg(args, int));
 }
 
-void shiftAll(SingleLinkedList *list, int itemCount, ...)
+void shiftAll(DoublyLinkedList *list, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -46,7 +46,7 @@ void shiftAll(SingleLinkedList *list, int itemCount, ...)
         shift(list, va_arg(args, int));
 }
 
-void shift(SingleLinkedList *list, int item)
+void shift(DoublyLinkedList *list, int item)
 {
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = item;
@@ -55,6 +55,7 @@ void shift(SingleLinkedList *list, int item)
     {
         node->next = NULL;
         list->head = node;
+        list->tail = node;
     }
     else
     {
@@ -63,7 +64,7 @@ void shift(SingleLinkedList *list, int item)
     }
 }
 
-void insertAfter(SingleLinkedList *list, Node *node, int item)
+void insertAfter(DoublyLinkedList *list, Node *node, int item)
 {
     if (isEmpty(*list))
     {
@@ -94,7 +95,7 @@ void insertAfter(SingleLinkedList *list, Node *node, int item)
     }
 }
 
-void insertAllAfter(SingleLinkedList *list, Node *node, int item, int itemCount, ...)
+void insertAllAfter(DoublyLinkedList *list, Node *node, int item, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -102,7 +103,7 @@ void insertAllAfter(SingleLinkedList *list, Node *node, int item, int itemCount,
         insertAfter(list, node, va_arg(args, int));
 }
 
-void insertBefore(SingleLinkedList *list, Node *node, int item)
+void insertBefore(DoublyLinkedList *list, Node *node, int item)
 {
     if (isEmpty(*list))
     {
@@ -121,10 +122,6 @@ void insertBefore(SingleLinkedList *list, Node *node, int item)
         headNode->next = node;
         node->data = headNode->data;
         headNode->data = item;
-        printf("\033[1;33m\n\n---------------------------\n\n");
-        printf("Element added Successfully");
-        printf("\033[1;33m\n\n---------------------------\n\n");
-        printf("\033[1;0m");
     }
     else
     {
@@ -135,7 +132,7 @@ void insertBefore(SingleLinkedList *list, Node *node, int item)
     }
 }
 
-void insertAllBefore(SingleLinkedList *list, Node *node, int item, int itemCount, ...)
+void insertAllBefore(DoublyLinkedList *list, Node *node, int item, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -143,18 +140,18 @@ void insertAllBefore(SingleLinkedList *list, Node *node, int item, int itemCount
         insertBefore(list, node, va_arg(args, int));
 }
 
-void showAllItems(SingleLinkedList singleLinkedList)
+void showAllItems(DoublyLinkedList DoublyLinkedList)
 {
     printf("\033[1;33m\n\n---------------------------\n\n");
 
-    if (isEmpty(singleLinkedList))
+    if (isEmpty(DoublyLinkedList))
     {
         printf("This list is empty x(");
         printf("\033[1;33m\n\n---------------------------\n\n");
         printf("\033[1;0m");
         return;
     }
-    Node *head = singleLinkedList.head;
+    Node *head = DoublyLinkedList.head;
     while (head)
     {
         if (head->next)
@@ -167,7 +164,7 @@ void showAllItems(SingleLinkedList singleLinkedList)
     printf("\033[1;0m");
 }
 
-int search(SingleLinkedList sll, int item)
+int search(DoublyLinkedList sll, int item)
 {
     assert(!isEmpty(sll));
     Node *head = sll.head;
@@ -180,7 +177,7 @@ int search(SingleLinkedList sll, int item)
     return 0;
 }
 
-int popFirst(SingleLinkedList *sll)
+int popFirst(DoublyLinkedList *sll)
 {
     assert(!isEmpty(*sll));
 
@@ -191,7 +188,7 @@ int popFirst(SingleLinkedList *sll)
     return result;
 }
 
-int popLast(SingleLinkedList *sll)
+int popLast(DoublyLinkedList *sll)
 {
     assert(!isEmpty(*sll));
 
@@ -211,7 +208,7 @@ int popLast(SingleLinkedList *sll)
     return result;
 }
 
-int pop(SingleLinkedList *sll, int item)
+int pop(DoublyLinkedList *sll, int item)
 {
     assert(!isEmpty(*sll));
     if (!sll->head->next && sll->head->data == item)
@@ -233,13 +230,13 @@ int pop(SingleLinkedList *sll, int item)
     }
 }
 
-int getFirst(SingleLinkedList sll)
+int getFirst(DoublyLinkedList sll)
 {
     assert(!isEmpty(sll));
     return sll.head->data;
 }
 
-int getLast(SingleLinkedList sll)
+int getLast(DoublyLinkedList sll)
 {
     assert(!isEmpty(sll));
     Node *node = sll.head;
@@ -248,7 +245,7 @@ int getLast(SingleLinkedList sll)
     return node->data;
 }
 
-int getSize(SingleLinkedList list, Node *head)
+int getSize(DoublyLinkedList list, Node *head)
 {
     if (isEmpty(list))
         return 0;
@@ -256,7 +253,7 @@ int getSize(SingleLinkedList list, Node *head)
         return 1 + getSize(list, head->next);
 }
 
-int getItemByIndex(SingleLinkedList list, int index)
+int getItemByIndex(DoublyLinkedList list, int index)
 {
     assert(!isEmpty(list));
     int counter = -1;
@@ -272,7 +269,7 @@ int getItemByIndex(SingleLinkedList list, int index)
     return head->data;
 }
 
-void sort(SingleLinkedList *list, int key)
+void sort(DoublyLinkedList *list, int key)
 {
     Node *primaryPointer, *secondaryPointer;
     for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
@@ -283,7 +280,7 @@ void sort(SingleLinkedList *list, int key)
                 primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
 }
 
-void reverse(SingleLinkedList *list)
+void reverse(DoublyLinkedList *list)
 {
     Node *prev = NULL;
     Node *current = list->head;
@@ -298,7 +295,7 @@ void reverse(SingleLinkedList *list)
     list->head = prev;
 }
 
-Node *getNode(SingleLinkedList sll, int item)
+Node *getNode(DoublyLinkedList sll, int item)
 {
     assert(!isEmpty(sll));
     Node *head = sll.head;
@@ -311,7 +308,7 @@ Node *getNode(SingleLinkedList sll, int item)
     return NULL;
 }
 
-void update(SingleLinkedList *list, int oldValue, int newValue)
+void update(DoublyLinkedList *list, int oldValue, int newValue)
 {
     Node *element = getNode(*list, oldValue);
     if (element)
@@ -325,13 +322,13 @@ void update(SingleLinkedList *list, int oldValue, int newValue)
     }
 }
 
-void concatenate(SingleLinkedList *list1, SingleLinkedList list2)
+void concatenate(DoublyLinkedList *list1, DoublyLinkedList list2)
 {
     if (!list1->head)
         list1->head->next = list2.head;
 }
 
-void splitByPosition(SingleLinkedList list, int posiiton, SingleLinkedList *firstHalf, SingleLinkedList *secondHalf)
+void splitByPosition(DoublyLinkedList list, int posiiton, DoublyLinkedList *firstHalf, DoublyLinkedList *secondHalf)
 {
     Node *element = getNode(list, getItemByIndex(list, posiiton));
     if (element)
@@ -356,9 +353,9 @@ void splitByPosition(SingleLinkedList list, int posiiton, SingleLinkedList *firs
     }
 }
 
-SingleLinkedList *mergeSorted(SingleLinkedList firstSortedList, SingleLinkedList secondSortedList, int key)
+DoublyLinkedList *mergeSorted(DoublyLinkedList firstSortedList, DoublyLinkedList secondSortedList, int key)
 {
-    SingleLinkedList *thirdSortedList = createSingleLinkedList();
+    DoublyLinkedList *thirdSortedList = createDoublyLinkedList();
     Node *secondListPointer = secondSortedList.head;
     Node *firstListPointer = firstSortedList.head;
     while (firstListPointer && secondListPointer)
@@ -390,7 +387,7 @@ SingleLinkedList *mergeSorted(SingleLinkedList firstSortedList, SingleLinkedList
     return thirdSortedList;
 }
 
-bool FloydTurtoisHareCycle(SingleLinkedList list)
+bool FloydTurtoisHareCycle(DoublyLinkedList list)
 {
     if (!list.head || !list.head->next)
         return false;
@@ -410,7 +407,7 @@ bool FloydTurtoisHareCycle(SingleLinkedList list)
     return false;
 }
 
-Node *findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2)
+Node *findIntersectionNode(DoublyLinkedList list1, DoublyLinkedList list2)
 {
     if (list1.head == NULL || list2.head == NULL)
         return NULL;
@@ -447,7 +444,7 @@ Node *findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2)
     return ptr1;
 }
 
-void removeDuplicates(SingleLinkedList *list)
+void removeDuplicates(DoublyLinkedList *list)
 {
     if (list->head == NULL || list->head->next == NULL)
         return;
@@ -473,44 +470,50 @@ void removeDuplicates(SingleLinkedList *list)
     }
 }
 
-bool isSortedAsc(SingleLinkedList list) {
+bool isSortedAsc(DoublyLinkedList list)
+{
     if (list.head == NULL || list.head->next == NULL)
-        return true; 
+        return true;
 
-    Node* current = list.head;
+    Node *current = list.head;
 
-    while (current->next != NULL) {
-        if (current->data > current->next->data) 
+    while (current->next != NULL)
+    {
+        if (current->data > current->next->data)
             return false;
         current = current->next;
     }
 
-    return true; 
+    return true;
 }
 
-bool isSortedDesc(SingleLinkedList list) {
+bool isSortedDesc(DoublyLinkedList list)
+{
     if (list.head == NULL || list.head->next == NULL)
-        return true; 
+        return true;
 
-    Node* current = list.head;
+    Node *current = list.head;
 
-    while (current->next != NULL) {
-        if (current->data < current->next->data) 
+    while (current->next != NULL)
+    {
+        if (current->data < current->next->data)
             return false;
         current = current->next;
     }
 
-    return true; 
+    return true;
 }
 
-Node* searchWithCriteria(SingleLinkedList list, CriteriaFunction criteria) {
-    Node* current = list.head;
+Node *searchWithCriteria(DoublyLinkedList list, CriteriaFunction criteria)
+{
+    Node *current = list.head;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         if (criteria(current->data))
-            return current; 
+            return current;
         current = current->next;
     }
 
-    return NULL; 
+    return NULL;
 }

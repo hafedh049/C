@@ -6,9 +6,9 @@ bool isEven(int a)
 void main()
 {
     //system("cls");
-    SingleLinkedList* sll = createSingleLinkedList();
-    SingleLinkedList* l1 = createSingleLinkedList();
-    SingleLinkedList* l2 = createSingleLinkedList();
+    SinglyLinkedList* sll = createSinglyLinkedList();
+    SinglyLinkedList* l1 = createSinglyLinkedList();
+    SinglyLinkedList* l2 = createSinglyLinkedList();
     appendAll(sll, 12, 1, 8, 7, 4, 5,10,-7,4,0,15,200,333333);
     showAllItems(*sll);
     splitByPosition(*sll,6,l1,l2);

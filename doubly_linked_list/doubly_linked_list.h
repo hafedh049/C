@@ -10,42 +10,43 @@ typedef struct Node
     struct Node *next;
 } Node;
 
-typedef struct SingleLinkedList
+typedef struct DoublyLinkedList
 {
     Node *head;
-} SingleLinkedList;
+    Node *tail;
+} DoublyLinkedList;
 
 typedef bool (*CriteriaFunction)(int);
 
-SingleLinkedList *createSingleLinkedList();
-void showAllItems(SingleLinkedList);
-void insertBefore(SingleLinkedList *, Node *, int);
-void insertAfter(SingleLinkedList *, Node *, int);
-void shift(SingleLinkedList *, int);
-void append(SingleLinkedList *, int);
-int isEmpty(SingleLinkedList);
-int search(SingleLinkedList, int);
-void insertAllBefore(SingleLinkedList *, Node *, int, int, ...);
-void insertAllAfter(SingleLinkedList *, Node *, int, int, ...);
-void appendAll(SingleLinkedList *, int, ...);
-void shiftAll(SingleLinkedList *, int, ...);
-int popFirst(SingleLinkedList *);
-int popLast(SingleLinkedList *);
-int pop(SingleLinkedList *, int);
-int getSize(SingleLinkedList, Node *);
-int getFirst(SingleLinkedList);
-int getLast(SingleLinkedList);
-int getItemByIndex(SingleLinkedList, int);
-void sort(SingleLinkedList *, int);
-Node *getNode(SingleLinkedList, int);
-void reverse(SingleLinkedList *);
-void update(SingleLinkedList *, int, int);
-void concatenate(SingleLinkedList *, SingleLinkedList);
-void splitByPosition(SingleLinkedList, int, SingleLinkedList *, SingleLinkedList *);
-SingleLinkedList *mergeSorted(SingleLinkedList, SingleLinkedList, int);
-bool FloydTurtoisHareCycle(SingleLinkedList);
-Node *findIntersectionNode(SingleLinkedList, SingleLinkedList);
-void removeDuplicates(SingleLinkedList *);
-bool isSortedAsc(SingleLinkedList);
-bool isSortedDesc(SingleLinkedList);
-Node* searchWithCriteria(SingleLinkedList, CriteriaFunction);
+DoublyLinkedList *createDoublyLinkedList();
+void showAllItems(DoublyLinkedList);
+void insertBefore(DoublyLinkedList *, Node *, int);
+void insertAfter(DoublyLinkedList *, Node *, int);
+void shift(DoublyLinkedList *, int);
+void append(DoublyLinkedList *, int);
+int isEmpty(DoublyLinkedList);
+int search(DoublyLinkedList, int);
+void insertAllBefore(DoublyLinkedList *, Node *, int, int, ...);
+void insertAllAfter(DoublyLinkedList *, Node *, int, int, ...);
+void appendAll(DoublyLinkedList *, int, ...);
+void shiftAll(DoublyLinkedList *, int, ...);
+int popFirst(DoublyLinkedList *);
+int popLast(DoublyLinkedList *);
+int pop(DoublyLinkedList *, int);
+int getSize(DoublyLinkedList, Node *);
+int getFirst(DoublyLinkedList);
+int getLast(DoublyLinkedList);
+int getItemByIndex(DoublyLinkedList, int);
+void sort(DoublyLinkedList *, int);
+Node *getNode(DoublyLinkedList, int);
+void reverse(DoublyLinkedList *);
+void update(DoublyLinkedList *, int, int);
+void concatenate(DoublyLinkedList *, DoublyLinkedList);
+void splitByPosition(DoublyLinkedList, int, DoublyLinkedList *, DoublyLinkedList *);
+DoublyLinkedList *mergeSorted(DoublyLinkedList, DoublyLinkedList, int);
+bool FloydTurtoisHareCycle(DoublyLinkedList);
+Node *findIntersectionNode(DoublyLinkedList, DoublyLinkedList);
+void removeDuplicates(DoublyLinkedList *);
+bool isSortedAsc(DoublyLinkedList);
+bool isSortedDesc(DoublyLinkedList);
+Node* searchWithCriteria(DoublyLinkedList, CriteriaFunction);

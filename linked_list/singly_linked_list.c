@@ -1,18 +1,18 @@
 #include "singly_linked_list.h"
 
-SingleLinkedList *createSingleLinkedList()
+SinglyLinkedList *createSinglyLinkedList()
 {
-    SingleLinkedList *linkedList = (SingleLinkedList *)malloc(sizeof(SingleLinkedList));
+    SinglyLinkedList *linkedList = (SinglyLinkedList *)malloc(sizeof(SinglyLinkedList));
     linkedList->head = NULL;
     return linkedList;
 }
 
-int isEmpty(SingleLinkedList list)
+int isEmpty(SinglyLinkedList list)
 {
     return list.head == NULL;
 }
 
-void append(SingleLinkedList *list, int item)
+void append(SinglyLinkedList *list, int item)
 {
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = item;
@@ -30,7 +30,7 @@ void append(SingleLinkedList *list, int item)
     }
 }
 
-void appendAll(SingleLinkedList *list, int itemCount, ...)
+void appendAll(SinglyLinkedList *list, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -38,7 +38,7 @@ void appendAll(SingleLinkedList *list, int itemCount, ...)
         append(list, va_arg(args, int));
 }
 
-void shiftAll(SingleLinkedList *list, int itemCount, ...)
+void shiftAll(SinglyLinkedList *list, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -46,7 +46,7 @@ void shiftAll(SingleLinkedList *list, int itemCount, ...)
         shift(list, va_arg(args, int));
 }
 
-void shift(SingleLinkedList *list, int item)
+void shift(SinglyLinkedList *list, int item)
 {
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = item;
@@ -63,7 +63,7 @@ void shift(SingleLinkedList *list, int item)
     }
 }
 
-void insertAfter(SingleLinkedList *list, Node *node, int item)
+void insertAfter(SinglyLinkedList *list, Node *node, int item)
 {
     if (isEmpty(*list))
     {
@@ -94,7 +94,7 @@ void insertAfter(SingleLinkedList *list, Node *node, int item)
     }
 }
 
-void insertAllAfter(SingleLinkedList *list, Node *node, int item, int itemCount, ...)
+void insertAllAfter(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -102,7 +102,7 @@ void insertAllAfter(SingleLinkedList *list, Node *node, int item, int itemCount,
         insertAfter(list, node, va_arg(args, int));
 }
 
-void insertBefore(SingleLinkedList *list, Node *node, int item)
+void insertBefore(SinglyLinkedList *list, Node *node, int item)
 {
     if (isEmpty(*list))
     {
@@ -135,7 +135,7 @@ void insertBefore(SingleLinkedList *list, Node *node, int item)
     }
 }
 
-void insertAllBefore(SingleLinkedList *list, Node *node, int item, int itemCount, ...)
+void insertAllBefore(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
 {
     va_list args;
     va_start(args, itemCount);
@@ -143,18 +143,18 @@ void insertAllBefore(SingleLinkedList *list, Node *node, int item, int itemCount
         insertBefore(list, node, va_arg(args, int));
 }
 
-void showAllItems(SingleLinkedList singleLinkedList)
+void showAllItems(SinglyLinkedList SinglyLinkedList)
 {
     printf("\033[1;33m\n\n---------------------------\n\n");
 
-    if (isEmpty(singleLinkedList))
+    if (isEmpty(SinglyLinkedList))
     {
         printf("This list is empty x(");
         printf("\033[1;33m\n\n---------------------------\n\n");
         printf("\033[1;0m");
         return;
     }
-    Node *head = singleLinkedList.head;
+    Node *head = SinglyLinkedList.head;
     while (head)
     {
         if (head->next)
@@ -167,7 +167,7 @@ void showAllItems(SingleLinkedList singleLinkedList)
     printf("\033[1;0m");
 }
 
-int search(SingleLinkedList sll, int item)
+int search(SinglyLinkedList sll, int item)
 {
     assert(!isEmpty(sll));
     Node *head = sll.head;
@@ -180,7 +180,7 @@ int search(SingleLinkedList sll, int item)
     return 0;
 }
 
-int popFirst(SingleLinkedList *sll)
+int popFirst(SinglyLinkedList *sll)
 {
     assert(!isEmpty(*sll));
 
@@ -191,7 +191,7 @@ int popFirst(SingleLinkedList *sll)
     return result;
 }
 
-int popLast(SingleLinkedList *sll)
+int popLast(SinglyLinkedList *sll)
 {
     assert(!isEmpty(*sll));
 
@@ -211,7 +211,7 @@ int popLast(SingleLinkedList *sll)
     return result;
 }
 
-int pop(SingleLinkedList *sll, int item)
+int pop(SinglyLinkedList *sll, int item)
 {
     assert(!isEmpty(*sll));
     if (!sll->head->next && sll->head->data == item)
@@ -233,13 +233,13 @@ int pop(SingleLinkedList *sll, int item)
     }
 }
 
-int getFirst(SingleLinkedList sll)
+int getFirst(SinglyLinkedList sll)
 {
     assert(!isEmpty(sll));
     return sll.head->data;
 }
 
-int getLast(SingleLinkedList sll)
+int getLast(SinglyLinkedList sll)
 {
     assert(!isEmpty(sll));
     Node *node = sll.head;
@@ -248,7 +248,7 @@ int getLast(SingleLinkedList sll)
     return node->data;
 }
 
-int getSize(SingleLinkedList list, Node *head)
+int getSize(SinglyLinkedList list, Node *head)
 {
     if (isEmpty(list))
         return 0;
@@ -256,7 +256,7 @@ int getSize(SingleLinkedList list, Node *head)
         return 1 + getSize(list, head->next);
 }
 
-int getItemByIndex(SingleLinkedList list, int index)
+int getItemByIndex(SinglyLinkedList list, int index)
 {
     assert(!isEmpty(list));
     int counter = -1;
@@ -272,7 +272,7 @@ int getItemByIndex(SingleLinkedList list, int index)
     return head->data;
 }
 
-void sort(SingleLinkedList *list, int key)
+void sort(SinglyLinkedList *list, int key)
 {
     Node *primaryPointer, *secondaryPointer;
     for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
@@ -283,7 +283,7 @@ void sort(SingleLinkedList *list, int key)
                 primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
 }
 
-void reverse(SingleLinkedList *list)
+void reverse(SinglyLinkedList *list)
 {
     Node *prev = NULL;
     Node *current = list->head;
@@ -298,7 +298,7 @@ void reverse(SingleLinkedList *list)
     list->head = prev;
 }
 
-Node *getNode(SingleLinkedList sll, int item)
+Node *getNode(SinglyLinkedList sll, int item)
 {
     assert(!isEmpty(sll));
     Node *head = sll.head;
@@ -311,7 +311,7 @@ Node *getNode(SingleLinkedList sll, int item)
     return NULL;
 }
 
-void update(SingleLinkedList *list, int oldValue, int newValue)
+void update(SinglyLinkedList *list, int oldValue, int newValue)
 {
     Node *element = getNode(*list, oldValue);
     if (element)
@@ -325,13 +325,13 @@ void update(SingleLinkedList *list, int oldValue, int newValue)
     }
 }
 
-void concatenate(SingleLinkedList *list1, SingleLinkedList list2)
+void concatenate(SinglyLinkedList *list1, SinglyLinkedList list2)
 {
     if (!list1->head)
         list1->head->next = list2.head;
 }
 
-void splitByPosition(SingleLinkedList list, int posiiton, SingleLinkedList *firstHalf, SingleLinkedList *secondHalf)
+void splitByPosition(SinglyLinkedList list, int posiiton, SinglyLinkedList *firstHalf, SinglyLinkedList *secondHalf)
 {
     Node *element = getNode(list, getItemByIndex(list, posiiton));
     if (element)
@@ -356,9 +356,9 @@ void splitByPosition(SingleLinkedList list, int posiiton, SingleLinkedList *firs
     }
 }
 
-SingleLinkedList *mergeSorted(SingleLinkedList firstSortedList, SingleLinkedList secondSortedList, int key)
+SinglyLinkedList *mergeSorted(SinglyLinkedList firstSortedList, SinglyLinkedList secondSortedList, int key)
 {
-    SingleLinkedList *thirdSortedList = createSingleLinkedList();
+    SinglyLinkedList *thirdSortedList = createSinglyLinkedList();
     Node *secondListPointer = secondSortedList.head;
     Node *firstListPointer = firstSortedList.head;
     while (firstListPointer && secondListPointer)
@@ -390,7 +390,7 @@ SingleLinkedList *mergeSorted(SingleLinkedList firstSortedList, SingleLinkedList
     return thirdSortedList;
 }
 
-bool FloydTurtoisHareCycle(SingleLinkedList list)
+bool FloydTurtoisHareCycle(SinglyLinkedList list)
 {
     if (!list.head || !list.head->next)
         return false;
@@ -410,7 +410,7 @@ bool FloydTurtoisHareCycle(SingleLinkedList list)
     return false;
 }
 
-Node *findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2)
+Node *findIntersectionNode(SinglyLinkedList list1, SinglyLinkedList list2)
 {
     if (list1.head == NULL || list2.head == NULL)
         return NULL;
@@ -447,7 +447,7 @@ Node *findIntersectionNode(SingleLinkedList list1, SingleLinkedList list2)
     return ptr1;
 }
 
-void removeDuplicates(SingleLinkedList *list)
+void removeDuplicates(SinglyLinkedList *list)
 {
     if (list->head == NULL || list->head->next == NULL)
         return;
@@ -473,7 +473,7 @@ void removeDuplicates(SingleLinkedList *list)
     }
 }
 
-bool isSortedAsc(SingleLinkedList list) {
+bool isSortedAsc(SinglyLinkedList list) {
     if (list.head == NULL || list.head->next == NULL)
         return true; 
 
@@ -488,7 +488,7 @@ bool isSortedAsc(SingleLinkedList list) {
     return true; 
 }
 
-bool isSortedDesc(SingleLinkedList list) {
+bool isSortedDesc(SinglyLinkedList list) {
     if (list.head == NULL || list.head->next == NULL)
         return true; 
 
@@ -503,7 +503,7 @@ bool isSortedDesc(SingleLinkedList list) {
     return true; 
 }
 
-Node* searchWithCriteria(SingleLinkedList list, CriteriaFunction criteria) {
+Node* searchWithCriteria(SinglyLinkedList list, CriteriaFunction criteria) {
     Node* current = list.head;
 
     while (current != NULL) {
