@@ -56,19 +56,20 @@ void shift(DoublyLinkedList *list, int item)
     if (isEmpty(*list))
     {
         node->next = NULL;
+        node->previous = NULL;
         list->head = node;
-        list->tail = node;
     }
     else
     {
         node->next = list->head;
+        list->head->previous = node;
         list->head = node;
     }
 }
 
 void insertAfter(DoublyLinkedList *list, Node *node, int item)
 {
-    if (isEmpty(*list) || node == list->tail)
+    if (isEmpty(*list))
     {
         append(list, item);
         return;
@@ -101,7 +102,7 @@ void insertAllAfter(DoublyLinkedList *list, Node *node, int item, int itemCount,
         insertAfter(list, node, va_arg(args, int));
 }
 
-void insertBefore(DoublyLinkedList *list, Node *node, int item)
+void insertBefore(DoublyLinkedList *list, Node *searchnode, int item)
 {
     if (isEmpty(*list))
     {
@@ -110,13 +111,14 @@ void insertBefore(DoublyLinkedList *list, Node *node, int item)
     }
 
     Node *headNode = list->head;
-    while (headNode && headNode != node)
+    while (headNode && headNode != searchnode)
         headNode = headNode->next;
     if (headNode)
     {
         Node *node = (Node *)malloc(sizeof(Node));
         node->data = item;
         node->next = headNode->next;
+        node->previous = headNode;
         headNode->next = node;
         node->data = headNode->data;
         headNode->data = item;
@@ -138,18 +140,18 @@ void insertAllBefore(DoublyLinkedList *list, Node *node, int item, int itemCount
         insertBefore(list, node, va_arg(args, int));
 }
 
-void showAllItems(DoublyLinkedList DoublyLinkedList)
+void showAllItems(DoublyLinkedList list)
 {
     printf("\033[1;33m\n\n---------------------------\n\n");
 
-    if (isEmpty(DoublyLinkedList))
+    if (isEmpty(list))
     {
         printf("This list is empty x(");
         printf("\033[1;33m\n\n---------------------------\n\n");
         printf("\033[1;0m");
         return;
     }
-    Node *head = DoublyLinkedList.head;
+    Node *head = list.head;
     while (head)
     {
         if (head->next)
@@ -166,41 +168,38 @@ int search(DoublyLinkedList l, int item)
 {
     assert(!isEmpty(l));
     Node *head = l.head;
-    Node *tail = l.tail;
-    if(tail->data == head->data)
-        return 1;
-    while (head != tail)
+    while (head)
     {
         if (head->data == item)
             return 1;
-        if (tail->data == item)
-            return 1;
         head = head->next;
-        tail = tail->next;
     }
     return 0;
 }
 
-int popFirst(DoublyLinkedList *sll)
+int popFirst(DoublyLinkedList *list)
 {
-    assert(!isEmpty(*sll));
+    assert(!isEmpty(*list));
 
-    Node *head = sll->head;
+    Node *head = list->head;
     int result = head->data;
-    sll->head = sll->head->next;
+    list->head = list->head->next;
+    if (list->head)
+        list->head->previous = NULL;
     free(head);
     return result;
 }
 
-int popLast(DoublyLinkedList *sll)
+int popLast(DoublyLinkedList *list)
 {
-    assert(!isEmpty(*sll));
+    assert(!isEmpty(*list));
 
-    Node *head = sll->head;
+    Node *head = list->head;
     int result;
     if (!head->next)
     {
         result = head->data;
+        list->head = NULL;
         free(head);
         return result;
     }
@@ -212,12 +211,12 @@ int popLast(DoublyLinkedList *sll)
     return result;
 }
 
-int pop(DoublyLinkedList *sll, int item)
+int pop(DoublyLinkedList *list, int item)
 {
-    assert(!isEmpty(*sll));
-    if (!sll->head->next && sll->head->data == item)
-        return popFirst(sll);
-    Node *head = sll->head;
+    assert(!isEmpty(*list));
+    if (list->head->data == item)
+        return popFirst(list);
+    Node *head = list->head;
     while (head->next && head->next->data != item)
         head = head->next;
     if (head->next)
@@ -229,21 +228,19 @@ int pop(DoublyLinkedList *sll, int item)
         return value;
     }
     else
-    {
-        return 2147483647;
-    }
+        return -1;
 }
 
-int getFirst(DoublyLinkedList sll)
+int getFirst(DoublyLinkedList list)
 {
-    assert(!isEmpty(sll));
-    return sll.head->data;
+    assert(!isEmpty(list));
+    return list.head->data;
 }
 
-int getLast(DoublyLinkedList sll)
+int getLast(DoublyLinkedList list)
 {
-    assert(!isEmpty(sll));
-    Node *node = sll.head;
+    assert(!isEmpty(list));
+    Node *node = list.head;
     while (node->next)
         node = node->next;
     return node->data;
@@ -286,23 +283,25 @@ void sort(DoublyLinkedList *list, int key)
 
 void reverse(DoublyLinkedList *list)
 {
-    Node *prev = NULL;
-    Node *current = list->head;
-    Node *next;
-    while (current)
-    {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
+    Node* temp = NULL;
+    Node* current = list->head;
+ 
+    while (current != NULL) {
+        temp = current->previous;
+        current->previous = current->next;
+        current->next = temp;
+        current = current->previous;
     }
-    list->head = prev;
+ 
+    if (temp != NULL)
+        list->head = temp->previous;
+    
 }
 
-Node *getNode(DoublyLinkedList sll, int item)
+Node *getNode(DoublyLinkedList list, int item)
 {
-    assert(!isEmpty(sll));
-    Node *head = sll.head;
+    assert(!isEmpty(list));
+    Node *head = list.head;
     while (head)
     {
         if (head->data == item)
@@ -329,7 +328,10 @@ void update(DoublyLinkedList *list, int oldValue, int newValue)
 void concatenate(DoublyLinkedList *list1, DoublyLinkedList list2)
 {
     if (!list1->head)
-        list1->head->next = list2.head;
+        {
+            list1->head->next = list2.head;
+            if(!list2.head)
+        }
 }
 
 void splitByPosition(DoublyLinkedList list, int posiiton, DoublyLinkedList *firstHalf, DoublyLinkedList *secondHalf)

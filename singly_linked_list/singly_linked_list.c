@@ -102,7 +102,7 @@ void insertAllAfter(SinglyLinkedList *list, Node *node, int item, int itemCount,
         insertAfter(list, node, va_arg(args, int));
 }
 
-void insertBefore(SinglyLinkedList *list, Node *node, int item)
+void insertBefore(SinglyLinkedList *list, Node *searchnode, int item)
 {
     if (isEmpty(*list))
     {
@@ -111,7 +111,7 @@ void insertBefore(SinglyLinkedList *list, Node *node, int item)
     }
 
     Node *headNode = list->head;
-    while (headNode && headNode != node)
+    while (headNode && headNode != searchnode)
         headNode = headNode->next;
     if (headNode)
     {
@@ -167,10 +167,10 @@ void showAllItems(SinglyLinkedList SinglyLinkedList)
     printf("\033[1;0m");
 }
 
-int search(SinglyLinkedList sll, int item)
+int search(SinglyLinkedList list, int item)
 {
-    assert(!isEmpty(sll));
-    Node *head = sll.head;
+    assert(!isEmpty(list));
+    Node *head = list.head;
     while (head)
     {
         if (head->data == item)
@@ -180,26 +180,27 @@ int search(SinglyLinkedList sll, int item)
     return 0;
 }
 
-int popFirst(SinglyLinkedList *sll)
+int popFirst(SinglyLinkedList *list)
 {
-    assert(!isEmpty(*sll));
+    assert(!isEmpty(*list));
 
-    Node *head = sll->head;
+    Node *head = list->head;
     int result = head->data;
-    sll->head = sll->head->next;
+    list->head = list->head->next;
     free(head);
     return result;
 }
 
-int popLast(SinglyLinkedList *sll)
+int popLast(SinglyLinkedList *list)
 {
-    assert(!isEmpty(*sll));
+    assert(!isEmpty(*list));
 
-    Node *head = sll->head;
+    Node *head = list->head;
     int result;
     if (!head->next)
     {
         result = head->data;
+        list->head = NULL;
         free(head);
         return result;
     }
@@ -211,12 +212,12 @@ int popLast(SinglyLinkedList *sll)
     return result;
 }
 
-int pop(SinglyLinkedList *sll, int item)
+int pop(SinglyLinkedList *list, int item)
 {
-    assert(!isEmpty(*sll));
-    if (!sll->head->next && sll->head->data == item)
-        return popFirst(sll);
-    Node *head = sll->head;
+    assert(!isEmpty(*list));
+    if (!list->head->next && list->head->data == item)
+        return popFirst(list);
+    Node *head = list->head;
     while (head->next && head->next->data != item)
         head = head->next;
     if (head->next)
@@ -233,16 +234,16 @@ int pop(SinglyLinkedList *sll, int item)
     }
 }
 
-int getFirst(SinglyLinkedList sll)
+int getFirst(SinglyLinkedList list)
 {
-    assert(!isEmpty(sll));
-    return sll.head->data;
+    assert(!isEmpty(list));
+    return list.head->data;
 }
 
-int getLast(SinglyLinkedList sll)
+int getLast(SinglyLinkedList list)
 {
-    assert(!isEmpty(sll));
-    Node *node = sll.head;
+    assert(!isEmpty(list));
+    Node *node = list.head;
     while (node->next)
         node = node->next;
     return node->data;
@@ -298,10 +299,10 @@ void reverse(SinglyLinkedList *list)
     list->head = prev;
 }
 
-Node *getNode(SinglyLinkedList sll, int item)
+Node *getNode(SinglyLinkedList list, int item)
 {
-    assert(!isEmpty(sll));
-    Node *head = sll.head;
+    assert(!isEmpty(list));
+    Node *head = list.head;
     while (head)
     {
         if (head->data == item)
