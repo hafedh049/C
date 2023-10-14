@@ -59,6 +59,10 @@
   "files.associations": {
     "stdbool.h": "c",
     "stdio.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "tuple.h": "c",
+    "string.h": "c",
+    "ctype.h": "c",
+    "stdarg.h": "c"
   }
 }
