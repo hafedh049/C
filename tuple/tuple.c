@@ -21,7 +21,7 @@ const Tuple *createTuple(int numArgs, ...)
     {
         newTuple->head = createNode(va_arg(args, int));
         Node *current = newTuple->head;
-        for (int i = 0; i < numArgs; i++)
+        for (int i = 1; i < numArgs; i++)
         {
             Node *newNode = createNode(va_arg(args, int));
             current->next = newNode;
@@ -154,7 +154,7 @@ char *tupleToString(const Tuple tuple)
         int charsWritten = sprintf(temp, "%d", num);
         temp += charsWritten;
 
-        if (index < size - 1)
+        if (index < size(tuple) - 1)
         {
             *temp = ',';
             temp++;
@@ -174,7 +174,7 @@ int count(const Tuple tuple, int target)
 {
     int count = 0;
 
-    for (int index = 0; index < size; index++)
+    for (int index = 0; index < size(tuple); index++)
         if (getFromTuple(tuple, index) == target)
             count++;
 

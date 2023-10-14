@@ -63,6 +63,7 @@
     "tuple.h": "c",
     "string.h": "c",
     "ctype.h": "c",
-    "stdarg.h": "c"
+    "stdarg.h": "c",
+    "set.h": "c"
   }
 }

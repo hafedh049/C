@@ -71,20 +71,3 @@ void clear(HashTable *hashtable)
         }
     }
 }
-
-/*void resize( HashTable* hashtable) {
-    int newBucketCount = NUM_BUCKETS * 2;
-    KV* newBuckets[newBucketCount];
-    for (int i = 0; i < NUM_BUCKETS; i++) {
-         KV* current = hashtable->buckets[i];
-        while (current != NULL) {
-            int newIndex = hash(current->key) % newBucketCount;
-            current->next = newBuckets[newIndex];
-            newBuckets[newIndex] = current;            
-            current = current->next;
-        }
-    }
-    
-    NUM_BUCKETS = newBucketCount;
-    memcpy(hashtable->buckets, newBuckets, sizeof(newBuckets));
-}*/

@@ -21,6 +21,4 @@ void insert(struct HashTable *hashtable, const char *key, int value);
 
 int get(struct HashTable *hashtable, const char *key);
 
-//void resize(struct HashTable *hashtable);
-
 void cleanup(struct HashTable *hashtable);
