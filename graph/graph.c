@@ -190,23 +190,44 @@ void topologicalSort(Graph *graph)
     printf("\n");
 }
 
-int** graphToMatrix(Graph* graph) {
+int **graphToMatrix(Graph *graph)
+{
     int numVertices = graph->numVertices;
-    int** adjacencyMatrix = (int**)malloc(numVertices * sizeof(int*));
+    int **adjacencyMatrix = (int **)malloc(numVertices * sizeof(int *));
 
-    for (int i = 0; i < numVertices; i++) {
-        adjacencyMatrix[i] = (int*)malloc(numVertices * sizeof(int));
+    for (int i = 0; i < numVertices; i++)
+    {
+        adjacencyMatrix[i] = (int *)malloc(numVertices * sizeof(int));
         for (int j = 0; j < numVertices; j++)
             adjacencyMatrix[i][j] = 0;
     }
 
-    for (int i = 0; i < numVertices; i++) {
-        Node* temp = graph->adjLists[i];
-        while (temp) {
+    for (int i = 0; i < numVertices; i++)
+    {
+        Node *temp = graph->adjLists[i];
+        while (temp)
+        {
             adjacencyMatrix[i][temp->data] = 1;
             temp = temp->next;
         }
     }
 
     return adjacencyMatrix;
+}
+
+void printMatrix(int **matrix, int numVertices)
+{
+    printf("\e[4;31m{\n\e[0m");
+    for (int i = 0; i < numVertices; i++)
+    {
+        printf("\e[1;34m{ \e[0m");
+        for (int j = 0; j < numVertices; j++)
+        {
+            printf(matrix[i][j] ? "\e[1;35m%d" : "\e[1;32m%d", matrix[i][j]);
+            if (j < numVertices - 1)
+                printf("\e[1;33m, ");
+        }
+        printf("\e[1;34m },\n\e[0m");
+    }
+    printf("\e[4;31m }\n\e[0m");
 }

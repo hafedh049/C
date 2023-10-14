@@ -1,58 +1,141 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "tree.h"
 
-struct TreeNode {
-    int data;
-    struct TreeNode* left;
-    struct TreeNode* right;
-};
+void inorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    inorderTraversal(root->left);
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+    inorderTraversal(root->right);
+}
 
-typedef struct TreeNode TreeNode;
+void preorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+    preorderTraversal(root->left);
+    preorderTraversal(root->right);
+}
 
-// Function to create a new node
-TreeNode* createNode(int data) {
-    TreeNode* newNode = (TreeNode*)malloc(sizeof(TreeNode));
-    newNode->data = data;
+void postorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+}
+
+TreeNode *createNode(int value)
+{
+    struct TreeNode *newNode = (TreeNode *)malloc(sizeof(TreeNode));
+    newNode->data = value;
     newNode->left = NULL;
     newNode->right = NULL;
+
     return newNode;
 }
 
-// Function to insert a node into the binary tree
-TreeNode* insert(TreeNode* root, int data) {
-    if (root == NULL) {
-        return createNode(data);
-    }
+void insert(TreeNode **root, int value)
+{
 
-    if (data < root->data) {
-        root->left = insert(root->left, data);
-    } else if (data > root->data) {
-        root->right = insert(root->right, data);
+    if (!(*root))
+    {
+        TreeNode *tmp = NULL;
+        tmp = (TreeNode *)malloc(sizeof(TreeNode));
+        tmp->left = tmp->right = NULL;
+        tmp->data = value;
+        *root = tmp;
+        return;
     }
-
-    return root;
+    if (value < (*root)->data)
+        insert(&((*root)->left), value);
+    else if (value > (*root)->data)
+        insert(&((*root)->right), value);
 }
 
-// Function to perform an in-order traversal and print the values
-void inOrderTraversal(TreeNode* root) {
-    if (root != NULL) {
-        inOrderTraversal(root->left);
-        printf("%d ", root->data);
-        inOrderTraversal(root->right);
+TreeNode *search(TreeNode *root, int value)
+{
+    if (!(root))
+        return NULL;
+    if (value == root->data)
+        return root;
+    else if (value < root->data)
+        search(root->left, value);
+    else if (value > root->data)
+        search(root->right, value);
+}
+
+void delete_tree(TreeNode **root)
+{
+    if (*root)
+    {
+        delete_tree(&(*root)->left);
+        delete_tree(&(*root)->right);
+        free((*root));
     }
 }
 
-int main() {
-    TreeNode* root = NULL;
-    root = insert(root, 50);
-    root = insert(root, 30);
-    root = insert(root, 70);
-    root = insert(root, 20);
-    root = insert(root, 40);
+TreeNode *findMinValueNode(TreeNode *node)
+{
+    if (node == NULL)
+        return NULL;
 
-    printf("In-Order Traversal: ");
-    inOrderTraversal(root);
+    while (node->left != NULL)
+        node = node->left;
+
+    return node;
+}
+
+void deleteNode(TreeNode **root, int key)
+{
+    if (*root == NULL)
+        return;
+
+    if (key < (*root)->data)
+        deleteNode(&((*root)->left), key);
+    else if (key > (*root)->data)
+        deleteNode(&((*root)->right), key);
+    else
+    {
+        if ((*root)->left == NULL)
+        {
+            TreeNode *temp = (*root)->right;
+            free(*root);
+            *root = temp;
+        }
+        else if ((*root)->right == NULL)
+        {
+            TreeNode *temp = (*root)->left;
+            free(*root);
+            *root = temp;
+        }
+        else
+        {
+            TreeNode *temp = findMinValueNode((*root)->right);
+            (*root)->data = temp->data;
+            deleteNode(&((*root)->right), temp->data);
+        }
+    }
+}
+
+void printTree(TreeNode* root, int space) {
+    if (root == NULL) return;
+
+    // Increase distance between levels
+    space += 5;
+
+    // Process the right child first
+    printTree(root->right, space);
+
+    // Print current node with edges
     printf("\n");
+    for (int i = 5; i < space; i++) {
+        printf(" ");
+    }
+    printf("\e[1;32m%d\e[0m", root->data);
 
-    return 0;
+    // Process the left child
+    printTree(root->left, space);
 }
