@@ -1,29 +1,4 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <limits.h>
-
-int V = 100;
-
-typedef enum GraphTypes
-{
-    DIRECTED, // DEFAULT
-    UNDIRECTED,
-    WEIGHTED
-} GraphTypes;
-
-typedef struct Node
-{
-    int data;
-    struct Node *next;
-} Node;
-
-typedef struct Graph
-{
-    GraphTypes type;
-    int numVertices;
-    Node **adjLists;
-} Graph;
+#include "graph.h"
 
 Node *createNode(int data)
 {
@@ -215,3 +190,23 @@ void topologicalSort(Graph *graph)
     printf("\n");
 }
 
+int** graphToMatrix(Graph* graph) {
+    int numVertices = graph->numVertices;
+    int** adjacencyMatrix = (int**)malloc(numVertices * sizeof(int*));
+
+    for (int i = 0; i < numVertices; i++) {
+        adjacencyMatrix[i] = (int*)malloc(numVertices * sizeof(int));
+        for (int j = 0; j < numVertices; j++)
+            adjacencyMatrix[i][j] = 0;
+    }
+
+    for (int i = 0; i < numVertices; i++) {
+        Node* temp = graph->adjLists[i];
+        while (temp) {
+            adjacencyMatrix[i][temp->data] = 1;
+            temp = temp->next;
+        }
+    }
+
+    return adjacencyMatrix;
+}
