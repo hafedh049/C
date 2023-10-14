@@ -19,7 +19,6 @@ const Tuple *createTuple(int numArgs, ...)
 
     if (numArgs > 0)
     {
-
         newTuple->head = createNode(va_arg(args, int));
         Node *current = newTuple->head;
         for (int i = 0; i < numArgs; i++)
