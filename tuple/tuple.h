@@ -14,5 +14,20 @@ typedef struct Tuple{
 }Tuple;
 
 
-const Tuple* createTuple(int,...);
+const Tuple *createTuple(int, ...);
+
 int getFromTuple(const Tuple, int);
+
+void showTuple(const Tuple);
+
+int size(const Tuple);
+
+bool tuplesEquality(const Tuple, const Tuple);
+
+Tuple *copy(const Tuple);
+
+int *tupleToArray(const Tuple);
+
+char *tupleToString(const Tuple);
+
+int count(const Tuple, int);

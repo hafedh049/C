@@ -99,7 +99,7 @@ Tuple *copy(const Tuple tuple)
         return newTuple;
     newTuple->head = createNode(getFromTuple(tuple, 0));
     Node *current = newTuple->head;
-    for (int index = 1; index < size(tuple) ; index++)
+    for (int index = 1; index < size(tuple); index++)
     {
         Node *newNode = createNode(getFromTuple(tuple, index));
         current->next = newNode;
@@ -107,22 +107,26 @@ Tuple *copy(const Tuple tuple)
     }
 }
 
-int* tupleToArray(const Tuple tuple){
-    int *array = (int*)malloc(size(tuple) * sizeof(int)); 
+int *tupleToArray(const Tuple tuple)
+{
+    int *array = (int *)malloc(size(tuple) * sizeof(int));
     int *ptr = array;
-    for(int index = 0 ; index < size(tuple) ; index++)
+    for (int index = 0; index < size(tuple); index++)
         *(ptr + index) = getFromTuple(tuple, index);
     return array;
 }
 
-int countDigits(int number) {
+int countDigits(int number)
+{
     int count = 0;
 
-    if (abs(number) < 10) {
+    if (abs(number) < 10)
+    {
         return 1;
     }
 
-    while (number != 0) {
+    while (number != 0)
+    {
         number /= 10;
         count++;
     }
@@ -130,25 +134,29 @@ int countDigits(int number) {
     return count;
 }
 
-int calcStringSize(const Tuple tuple){
+int calcStringSize(const Tuple tuple)
+{
     int counter = 1 + 1 + 1 + 2 * (size(tuple) - 1);
     for (int index = 0; index < size(tuple); index++)
-        counter += countDigits(getFromTuple(tuple,index));
+        counter += countDigits(getFromTuple(tuple, index));
 };
 
-char* tupleToString(const Tuple tuple) {
-    char* str = (char*)malloc(calcStringSize(tuple) * sizeof(char));
-    char* temp = str;
+char *tupleToString(const Tuple tuple)
+{
+    char *str = (char *)malloc(calcStringSize(tuple) * sizeof(char));
+    char *temp = str;
 
     *temp = '(';
     temp++;
 
-    for (int index = 0; index < size(tuple); index++) {
-        int num = getFromTuple(tuple,index);
+    for (int index = 0; index < size(tuple); index++)
+    {
+        int num = getFromTuple(tuple, index);
         int charsWritten = sprintf(temp, "%d", num);
         temp += charsWritten;
 
-        if (index < size - 1) {
+        if (index < size - 1)
+        {
             *temp = ',';
             temp++;
             *temp = ' ';
@@ -161,4 +169,15 @@ char* tupleToString(const Tuple tuple) {
     *temp = '\0';
 
     return str;
+}
+
+int count(const Tuple tuple, int target)
+{
+    int count = 0;
+
+    for (int index = 0; index < size; index++)
+        if (getFromTuple(tuple, index) == target)
+            count++;
+
+    return count;
 }
