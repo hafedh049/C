@@ -123,19 +123,32 @@ void deleteNode(TreeNode **root, int key)
 void printTree(TreeNode* root, int space) {
     if (root == NULL) return;
 
-    // Increase distance between levels
     space += 5;
 
-    // Process the right child first
     printTree(root->right, space);
 
-    // Print current node with edges
     printf("\n");
-    for (int i = 5; i < space; i++) {
+    for (int i = 5; i < space; i++)
         printf(" ");
-    }
     printf("\e[1;32m%d\e[0m", root->data);
 
-    // Process the left child
     printTree(root->left, space);
+}
+
+int countElements(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    return 1 + countElements(root->left) + countElements(root->right);
+}
+
+int countLeftSubtreeElements(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    return 1 + countLeftSubtreeElements(root->left);
+}
+
+int countRightSubtreeElements(TreeNode* root) {
+    if (root == NULL)
+        return 0;
+    return 1 + countRightSubtreeElements(root->right);
 }
