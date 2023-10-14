@@ -1,8 +1,10 @@
-<font color="purple"> _#include </font> <font color="green">"stack.h"_</font><break>
-<font color="purple"> _#include</font> <font color="green"><assert.h>_</font>
-<font color="purple"> _#include</font> <font color="green"><stdlib.h>_</font>
-<font color="purple"> _#include</font> <font color="green"><stdio.h>_</font>
-<font color="purple"> _#include</font> <font color="green"><stdarg.h>_</font>
+```c
+#include "stack.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdarg.h>
+```
 
 <font color="blue"> **_1. Create stack:_** </font>
 
