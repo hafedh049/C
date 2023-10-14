@@ -64,6 +64,7 @@
     "string.h": "c",
     "ctype.h": "c",
     "stdarg.h": "c",
-    "set.h": "c"
+    "set.h": "c",
+    "limits.h": "c"
   }
 }
