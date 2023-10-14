@@ -1,40 +1,26 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct KeyValuePair{
+const NUM_BUCKETS = 100;
+
+typedef struct KV
+{
     char *key;
     int value;
-    KeyValuePair *next;
-}KeyValuePair;
+    struct KV *next;
+} KV;
 
-typedef struct HashMap
+typedef struct HashTable
 {
-    KeyValuePair* head;
-}Hashmap;
+    KV *buckets[NUM_BUCKETS];
+} HashTable;
 
-HashMap* createHashMap() {
-    HashMap* hashMap = (HashMap*)malloc(sizeof(HashMap));
-    hashMap->head = NULL;
-    return hashMap;
-}
+void initialize(struct HashTable *hashtable);
 
-void addItem(HashMap* map, const char* key,const int value) {
-    unsigned int index = hash(key);
-    KeyValuePair* newPair = (KeyValuePair*)malloc(sizeof(KeyValuePair));
-    newPair->key = strdup(key);
-    newPair->value = value;
-    newPair->next = NULL;
+void insert(struct HashTable *hashtable, const char *key, int value);
 
-    // Check if the bucket is empty
-    if (map->buckets[index] == NULL) {
-        map->buckets[index] = newPair;
-    } else {
-        // Handle collision by chaining
-        KeyValue* current = map->buckets[index];
-        while (current->next != NULL) {
-            current = current->next;
-        }
-        current->next = newPair;
-    }
-}
+int get(struct HashTable *hashtable, const char *key);
+
+//void resize(struct HashTable *hashtable);
+
+void cleanup(struct HashTable *hashtable);
