@@ -236,3 +236,6 @@ Stack merge(Stack firstStack, Stack secondStack)
 ```
 
 _The merge function combines two input stacks into a single stack (mergingStack) by popping elements from both input stacks and pushing them onto the merged stack. The result is a new stack containing all the elements from both input stacks in the order they were originally in their respective stacks._
+
+# QUEUE
+
