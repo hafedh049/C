@@ -132,26 +132,27 @@ _The peek function is used to retrieve the data of the top element of a stack wi
 <font color="blue"> **_9. Search an item in a stack:_** </font>
 
 ```c
-int search(Stack stack, int  key)
+int search(Stack stack, int key)
 {
 	assert(!isEmpty(stack));
-	int  index  =  -1;
-	int  counter  =  0;
+	int index = -1;
+	int counter = 0;
 	while (stack.head)
 	{
 		counter++;
-		if (stack.head->data  ==  key)
+		if (stack.head->data == key)
 		{
-			index  =  counter;
+			index = counter;
 			break;
 		}
-		stack.head  =  stack.head->next;
+		stack.head = stack.head->next;
 	}
-	return  index;
+	return index;
 }
 ```
 
 _The search function searches for a specific element in a stack, keeps track of the position of the elements as it iterates through the stack, and returns the index of the first occurrence of the element or `-1` if the element is not found. It includes a safety check to ensure that the stack is not empty before performing the search._
+
 <font color="blue"> **_10. Sort a stack:_** </font>
 
 ```c
