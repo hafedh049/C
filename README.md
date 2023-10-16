@@ -128,6 +128,7 @@ int peek(Stack stack)
 ```
 
 _The peek function is used to retrieve the data of the top element of a stack without removing it. It includes a safety check to ensure that the stack is not empty before attempting to peek, preventing potential errors caused by peeking at an empty stack._
+
 <font color="blue"> **_9. Search an item in a stack:_** </font>
 
 ```c
