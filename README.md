@@ -1,10 +1,4 @@
-```c
-#include "stack.h"
-#include <assert.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdarg.h>
-```
+#STACK
 
 <font color="blue"> **_1. Create stack:_** </font>
 
