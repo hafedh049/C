@@ -1,4 +1,4 @@
-#STACK
+# STACK
 
 <font color="blue"> **_1. Create stack:_** </font>
 
