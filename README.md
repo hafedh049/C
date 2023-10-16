@@ -6,8 +6,8 @@
 Stack createStack()
 {
 	Stack stack;
-	stack.head  =  NULL;
-	return  stack;
+	stack.head = NULL;
+	return stack;
 }
 ```
 
@@ -19,9 +19,9 @@ _This createStack function creates and initializes an empty stack using a Stack 
 void push(Stack *stack, int item)
 {
 	Node *newNode = (Node *)malloc(sizeof(Node));
-	newNode->data  =  item;
-	newNode->next  = (*stack).head;
-	(*stack).head  = newNode;
+	newNode->data = item;
+	newNode->next = (*stack).head;
+	(*stack).head = newNode;
 }
 ```
 
@@ -32,7 +32,7 @@ _The push function takes a pointer to a Stack and an integer item. It dynamicall
 ```c
 int isEmpty(Stack stack)
 {
-	return stack.head  ==  NULL;
+	return stack.head == NULL;
 }
 ```
 
@@ -45,10 +45,10 @@ Node *pop(Stack *stack)
 {
 	assert(!isEmpty(*stack));
 	Node *headReference = (*stack).head;
-	(*stack).head  = (*stack).head->next;
+	(*stack).head = (*stack).head->next;
 	Node *popedNode = (Node *)malloc(sizeof(Node));
-	popedNode->data  =  headReference->data;
-	popedNode->next  =  NULL;
+	popedNode->data = headReference->data;
+	popedNode->next = NULL;
 	free(headReference);
 	return popedNode;
 }
@@ -61,14 +61,14 @@ _The pop function removes the top element from the stack, returns its data, and 
 ```c
 int size(Stack stack)
 {
-	int  size  =  0;
-	Node *head =  stack.head;
+	int size = 0;
+	Node *head = stack.head;
 	while (head)
 	{
 		++size;
-		head =  head->next;
+		head = head->next;
 	}
-	return  size;
+	return size;
 }
 ```
 
@@ -87,11 +87,11 @@ printf("\033[1;33m\n\n---------------------------\n\n");
 printf("\033[1;37m");
 return;
 }
-const Node *head  =  stack.head;
+const Node *head = stack.head;
 while (head)
 {
 printf("\033[1;32m| %d |\n__\n", head->data);
-head  =  head->next;
+head = head->next;
 }
 printf("\033[1;33m\n\n---------------------------\n\n");
 printf("\033[1;37m");
@@ -109,7 +109,7 @@ void clear(Stack *stack)
 	while ((*stack).head)
 	{
 		head = (*stack).head;
-		(*stack).head  = (*stack).head->next;
+		(*stack).head = (*stack).head->next;
 		free(head);
 	}
 }
@@ -123,7 +123,7 @@ _The clear function is used to clear a stack by iteratively removing all element
 int peek(Stack stack)
 {
 	assert(!isEmpty(stack));
-	return  stack.head->data;
+	return stack.head->data;
 }
 ```
 
@@ -156,19 +156,19 @@ _The search function searches for a specific element in a stack, keeps track of 
 <font color="blue"> **_10. Sort a stack:_** </font>
 
 ```c
-void sort(Stack *stack, int  key)
+void sort(Stack *stack, int key)
 {
 	/* 1 : ASC ; -1 : DESC */
 	assert(!isEmpty(*stack));
-	Stack auxilaryStack  =  createStack();
+	Stack auxilaryStack = createStack();
 	while ((*stack).head)
 	{
-		int  stackItem  =  pop(stack)->data;
-		while (!isEmpty(auxilaryStack) && (key  ==  1  ?  peek(auxilaryStack) >  stackItem  :  peek(auxilaryStack) <  stackItem))
+		int stackItem = pop(stack)->data;
+		while (!isEmpty(auxilaryStack) && (key == 1 ? peek(auxilaryStack) > stackItem : peek(auxilaryStack) < stackItem))
 			push(stack, pop(&auxilaryStack)->data);
 		push(&auxilaryStack, stackItem);
 	}
-	*stack  =  auxilaryStack;
+	*stack = auxilaryStack;
 }
 ```
 
@@ -177,11 +177,11 @@ _The sort function sorts the elements of a stack in either ascending or descendi
 <font color="blue"> **_11. Add many items in a stack:_** </font>
 
 ```c
-void pushMany(Stack *stack, int  numberOfItems, ...)
+void pushMany(Stack *stack, int numberOfItems, ...)
 {
 	va_list args;
 	va_start(args, numberOfItems);
-	for (int  index  =  0; index  <  numberOfItems; index++)
+	for (int index = 0; index < numberOfItems; index++)
 		push(stack, va_arg(args, int));
 }
 ```
@@ -194,10 +194,10 @@ _The pushMany function is a convenient way to push multiple integer values onto 
 void reverse(Stack *stack)
 {
 	assert(!isEmpty(*stack));
-	Stack auxilaryStack  =  createStack();
+	Stack auxilaryStack = createStack();
 	while ((*stack).head)
 		push(&auxilaryStack, pop(stack)->data);
-	*stack  =  auxilaryStack;
+	*stack = auxilaryStack;
 }
 ```
 
@@ -209,13 +209,13 @@ _The reverse function reverses the order of elements in a stack by using an auxi
 tack copy(Stack stack)
 {
 	assert(!isEmpty(stack));
-	Stack auxilaryStack  =  createStack();
-	Stack copyStack  =  createStack();
+	Stack auxilaryStack = createStack();
+	Stack copyStack = createStack();
 	while (stack.head)
 		push(&auxilaryStack, pop(&stack)->data);
 	while (auxilaryStack.head)
 		push(&copyStack, pop(&auxilaryStack)->data);
-	return  copyStack;
+	return copyStack;
 }
 ```
 
@@ -226,12 +226,12 @@ _The copy function creates a copy of a given stack by first reversing the origin
 ```c
 Stack merge(Stack firstStack, Stack secondStack)
 {
-	Stack mergingStack  =  createStack();
+	Stack mergingStack = createStack();
 	while (firstStack.head)
 		push(&mergingStack, pop(&firstStack)->data);
 	while (secondStack.head)
 		push(&mergingStack, pop(&secondStack)->data);
-	return  mergingStack;
+	return mergingStack;
 }
 ```
 
