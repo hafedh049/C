@@ -1,14 +1,4 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <stdbool.h>
-
-typedef struct String
-{
-    char *str;
-    int length;
-} String;
+#include "string.h"
 
 const String *createString(const char *str)
 {
