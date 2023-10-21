@@ -321,47 +321,56 @@ String **split(const String *str, char separator, int *numSplits)
     return splits;
 }
 
-String* title(const String* str) {
+String *title(const String *str)
+{
     int length = str->length;
-    char* titleStr = (char*)malloc((length + 1) * sizeof(char));
-    
+    char *titleStr = (char *)malloc((length + 1) * sizeof(char));
+
     int capitalizeNext = 1;
-    for (int i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++)
+    {
         char c = str->str[i];
-        if (isalpha(c)) {
-            if (capitalizeNext) {
+        if (isalpha(c))
+        {
+            if (capitalizeNext)
+            {
                 titleStr[i] = toupper(c);
                 capitalizeNext = 0;
-            } else
+            }
+            else
                 titleStr[i] = tolower(c);
-        } else {
+        }
+        else
+        {
             titleStr[i] = c;
             capitalizeNext = 1;
         }
     }
-    
+
     titleStr[length] = '\0';
-    
+
     return createString(titleStr);
 }
 
-String* zfill(const String* str, int width) {
+String *zfill(const String *str, int width)
+{
     if (width <= str->length)
         return createString(str->str);
-    
+
     int numZeros = width - str->length;
-    char* zfilledStr = (char*)malloc((width + 1) * sizeof(char));
+    char *zfilledStr = (char *)malloc((width + 1) * sizeof(char));
     memset(zfilledStr, '0', numZeros);
     strcpy(zfilledStr + numZeros, str->str);
     zfilledStr[width] = '\0';
-    
+
     return createString(zfilledStr);
 }
 
-String* createSubstring(const String* str, int start, int end) {
+String *createSubstring(const String *str, int start, int end)
+{
     if (start < 0)
         start = 0;
-    
+
     if (end > str->length)
         end = str->length;
 
@@ -369,77 +378,115 @@ String* createSubstring(const String* str, int start, int end) {
         return createString("");
 
     int length = end - start;
-    char* substring = (char*)malloc((length + 1) * sizeof(char));
+    char *substring = (char *)malloc((length + 1) * sizeof(char));
 
     for (int i = start; i < end; i++)
         substring[i - start] = str->str[i];
-    
+
     substring[length] = '\0';
 
     return createString(substring);
 }
 
-String** partition(const String* str, char separator) {
+String **partition(const String *str, char separator)
+{
     int separatorIndex = -1;
-    for (int i = 0; i < str->length; i++) {
-        if (str->str[i] == separator) {
+    for (int i = 0; i < str->length; i++)
+    {
+        if (str->str[i] == separator)
+        {
             separatorIndex = i;
             break;
         }
     }
-    
-    String** parts = (String**)malloc(3 * sizeof(String*));
-    
-    if (separatorIndex >= 0) {
+
+    String **parts = (String **)malloc(3 * sizeof(String *));
+
+    if (separatorIndex >= 0)
+    {
         parts[0] = createSubstring(str, 0, separatorIndex);
         parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
         parts[2] = createSubstring(str, separatorIndex + 1, str->length);
-    } else {
+    }
+    else
+    {
         parts[0] = createString(str->str);
         parts[1] = createString("");
         parts[2] = createString("");
     }
-    
+
     return parts;
 }
 
-String** rpartition(const String* str, char separator) {
+String **rpartition(const String *str, char separator)
+{
     int separatorIndex = -1;
-    for (int i = str->length - 1; i >= 0; i--) {
-        if (str->str[i] == separator) {
+    for (int i = str->length - 1; i >= 0; i--)
+    {
+        if (str->str[i] == separator)
+        {
             separatorIndex = i;
             break;
         }
     }
-    
-    String** parts = (String**)malloc(3 * sizeof(String*));
-    
-    if (separatorIndex >= 0) {
+
+    String **parts = (String **)malloc(3 * sizeof(String *));
+
+    if (separatorIndex >= 0)
+    {
         parts[0] = createSubstring(str, 0, separatorIndex);
         parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
         parts[2] = createSubstring(str, separatorIndex + 1, str->length);
-    } else {
+    }
+    else
+    {
         parts[0] = createString("");
         parts[1] = createString("");
         parts[2] = createString(str->str);
     }
-    
+
     return parts;
 }
 
-String* slice(const String* str, int start, int end) {
-    // Check for valid slice range
-    if (start < 0 || start >= str->length || end < start || end >= str->length) {
+String *slice(const String *str, int start, int end)
+{
+    if (start < 0 || start >= str->length || end < start || end >= str->length)
         return createString("");
-    }
-    
-    char* slicedStr = (char*)malloc((end - start + 1) * sizeof(char));
-    for (int i = start, j = 0; i <= end; i++, j++) {
+
+    char *slicedStr = (char *)malloc((end - start + 1) * sizeof(char));
+    for (int i = start, j = 0; i <= end; i++, j++)
         slicedStr[j] = str->str[i];
-    }
     slicedStr[end - start + 1] = '\0';
-    
-    String* result = createString(slicedStr);
+
+    String *result = createString(slicedStr);
     free(slicedStr);
+    return result;
+}
+
+char getCharAtIndex(const String *str, int index)
+{
+    if (index < 0 || index >= str->length)
+        return '\0';
+    return str->str[index];
+}
+
+String *swapcase(const String *str)
+{
+    char *swappedStr = (char *)malloc((str->length + 1) * sizeof(char));
+
+    for (int i = 0; i < str->length; i++)
+    {
+        char c = str->str[i];
+        if (c >= 'a' && c <= 'z')
+            swappedStr[i] = c - 'a' + 'A';
+        else if (c >= 'A' && c <= 'Z')
+            swappedStr[i] = c - 'A' + 'a';
+        else
+            swappedStr[i] = c;
+    }
+    swappedStr[str->length] = '\0';
+
+    String *result = createString(swappedStr);
+    free(swappedStr);
     return result;
 }
