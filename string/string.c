@@ -50,9 +50,10 @@ const String *capitalize(const String *str)
     return result;
 }
 
-const String* casefold(const String* str) {
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((str->length + 1) * sizeof(char));
+const String *casefold(const String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
 
     for (int i = 0; i <= str->length; i++)
         result->str[i] = tolower(str->str[i]);
@@ -62,7 +63,8 @@ const String* casefold(const String* str) {
     return result;
 }
 
-const String* center(const String* str, int width, char fillchar) {
+const String *center(const String *str, int width, char fillchar)
+{
     if (width <= str->length)
         return str;
 
@@ -70,8 +72,8 @@ const String* center(const String* str, int width, char fillchar) {
     const int left_padding = padding / 2;
     const int right_padding = padding - left_padding;
 
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((width + 1) * sizeof(char));
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((width + 1) * sizeof(char));
 
     for (int i = 0; i < left_padding; i++)
         result->str[i] = fillchar;
@@ -88,103 +90,118 @@ const String* center(const String* str, int width, char fillchar) {
     return result;
 }
 
-int count(const String* str, const String* substring) {
+int count(const String *str, const String *substring)
+{
     int count = 0;
-    char* position = str->str;
-    while ((position = strstr(position, substring->str)) != NULL) {
+    char *position = str->str;
+    while ((position = strstr(position, substring->str)) != NULL)
+    {
         count++;
         position += substring->length;
     }
     return count;
 }
 
-bool endswith(const String* str, const String* suffix) {
+bool endswith(const String *str, const String *suffix)
+{
     int str_len = str->length;
     int suffix_len = suffix->length;
 
     if (str_len < suffix_len)
         return false;
 
-    const char* str_end = str->str + str_len - suffix_len;
+    const char *str_end = str->str + str_len - suffix_len;
     return strcmp(str_end, suffix->str) == 0;
 }
 
-bool startswith(const String* str, const String* prefix) {
+bool startswith(const String *str, const String *prefix)
+{
     if (str->length < prefix->length)
         return false;
 
     return strncmp(str->str, prefix->str, prefix->length) == 0;
 }
 
-int find(const String* str, const String* substring) {
-    const char* position = strstr(str->str, substring->str);
+int find(const String *str, const String *substring)
+{
+    const char *position = strstr(str->str, substring->str);
     if (position == NULL)
         return -1;
     return position - str->str;
 }
 
-int index(const String* str, const String* substring) {
+int index(const String *str, const String *substring)
+{
     int position = find(str, substring);
-    if (position == -1) {
+    if (position == -1)
+    {
         printf("Substring not found\n");
         exit(1);
     }
     return position;
 }
 
-bool isalnum(const String* str) {
+bool isalnum(const String *str)
+{
     for (int i = 0; i < str->length; i++)
         if (!isalnum(str->str[i]))
             return false;
     return true;
 }
 
-bool isalpha(const String* str) {
+bool isalpha(const String *str)
+{
     for (int i = 0; i < str->length; i++)
         if (!isalpha(str->str[i]))
             return false;
     return true;
 }
 
-bool isnumeric(const String* str) {
+bool isnumeric(const String *str)
+{
     for (int i = 0; i < str->length; i++)
         if (!isdigit(str->str[i]))
             return false;
     return true;
 }
 
-bool islower(const String* str) {
-    for (int i = 0; i < str->length; i++) 
-        if (!islower(str->str[i])) 
+bool islower(const String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!islower(str->str[i]))
             return false;
     return true;
 }
 
-bool isupper(const String* str) {
+bool isupper(const String *str)
+{
     for (int i = 0; i < str->length; i++)
         if (!isupper(str->str[i]))
             return false;
     return true;
 }
 
-const String* join(const String* separator, const String** strings, int num_strings) {
+const String *join(const String *separator, const String **strings, int num_strings)
+{
     int total_length = 0;
     for (int i = 0; i < num_strings; i++)
         total_length += strings[i]->length;
 
     total_length += (num_strings - 1) * separator->length;
 
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((total_length + 1) * sizeof(char));
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((total_length + 1) * sizeof(char));
 
-    char* result_position = result->str;
+    char *result_position = result->str;
 
-    for (int i = 0; i < num_strings; i++) {
+    for (int i = 0; i < num_strings; i++)
+    {
         const int str_length = strings[i]->length;
         memcpy(result_position, strings[i]->str, str_length);
         result_position += str_length;
 
-        if (i < num_strings - 1) {
+        if (i < num_strings - 1)
+        {
             memcpy(result_position, separator->str, separator->length);
             result_position += separator->length;
         }
@@ -196,11 +213,13 @@ const String* join(const String* separator, const String** strings, int num_stri
     return result;
 }
 
-const String* lower(const String* str) {
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((str->length + 1) * sizeof(char));
+const String *lower(const String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
 
-    for (int i = 0; i < str->length; i++) {
+    for (int i = 0; i < str->length; i++)
+    {
         result->str[i] = tolower(str->str[i]);
     }
 
@@ -210,11 +229,13 @@ const String* lower(const String* str) {
     return result;
 }
 
-const String* upper(const String* str) {
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((str->length + 1) * sizeof(char));
+const String *upper(const String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
 
-    for (int i = 0; i < str->length; i++) {
+    for (int i = 0; i < str->length; i++)
+    {
         result->str[i] = toupper(str->str[i]);
     }
 
@@ -224,7 +245,8 @@ const String* upper(const String* str) {
     return result;
 }
 
-const String* strip(const String* str, const char* chars) {
+const String *strip(const String *str, const char *chars)
+{
     int left = 0;
     int right = str->length - 1;
 
@@ -236,8 +258,8 @@ const String* strip(const String* str, const char* chars) {
 
     const int new_length = right - left + 1;
 
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((new_length + 1) * sizeof(char));
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((new_length + 1) * sizeof(char));
     memcpy(result->str, str->str + left, new_length);
     result->str[new_length] = '\0';
     result->length = new_length;
@@ -245,18 +267,20 @@ const String* strip(const String* str, const char* chars) {
     return result;
 }
 
-const String* replace(const String* str, const String* old, const String* new_str, int count) {
+const String *replace(const String *str, const String *old, const String *new_str, int count)
+{
     if (count <= 0)
         return str;
 
-    String* result = (String*)malloc(sizeof(String));
-    result->str = (char*)malloc((str->length + 1) * sizeof(char));
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
 
-    const char* input_str = str->str;
-    char* output_str = result->str;
+    const char *input_str = str->str;
+    char *output_str = result->str;
 
-    while (count > 0) {
-        const char* found = strstr(input_str, old->str);
+    while (count > 0)
+    {
+        const char *found = strstr(input_str, old->str);
         if (found == NULL)
             break;
 
