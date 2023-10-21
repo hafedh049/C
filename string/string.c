@@ -270,12 +270,10 @@ const String* replace(const String* str, const String* old, const String* new_st
         count--;
     }
 
-    // Copy the remaining part of the input
     int remaining_length = str->length - (input_str - str->str);
     memcpy(output_str, input_str, remaining_length);
     output_str += remaining_length;
 
-    // Null-terminate the result
     *output_str = '\0';
 
     result->length = output_str - result->str;
