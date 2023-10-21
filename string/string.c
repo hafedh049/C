@@ -303,3 +303,16 @@ const String *replace(const String *str, const String *old, const String *new_st
     result->length = output_str - result->str;
     return result;
 }
+
+char** split(const String* str, char separator, int* numSplits) {
+    *numSplits = 0;
+    char** splits = NULL;
+    char* token = strtok(str->str, &separator);
+    while (token != NULL) {
+        (*numSplits)++;
+        splits = (char**)realloc(splits, sizeof(char*) * (*numSplits));
+        splits[(*numSplits) - 1] = createString(token);
+        token = strtok(NULL, &separator);
+    }
+    return splits;
+}
