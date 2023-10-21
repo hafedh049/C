@@ -358,6 +358,27 @@ String* zfill(const String* str, int width) {
     return createString(zfilledStr);
 }
 
+String* createSubstring(const String* str, int start, int end) {
+    if (start < 0)
+        start = 0;
+    
+    if (end > str->length)
+        end = str->length;
+
+    if (start >= end)
+        return createString("");
+
+    int length = end - start;
+    char* substring = (char*)malloc((length + 1) * sizeof(char));
+
+    for (int i = start; i < end; i++)
+        substring[i - start] = str->str[i];
+    
+    substring[length] = '\0';
+
+    return createString(substring);
+}
+
 String** partition(const String* str, char separator) {
     int separatorIndex = -1;
     for (int i = 0; i < str->length; i++) {
@@ -370,13 +391,37 @@ String** partition(const String* str, char separator) {
     String** parts = (String**)malloc(3 * sizeof(String*));
     
     if (separatorIndex >= 0) {
-        parts[0] = createStringN(str->str, separatorIndex);
-        parts[1] = createString(&str->str[separatorIndex]);
-        parts[2] = createString(&str->str[separatorIndex + 1]);
+        parts[0] = createSubstring(str, 0, separatorIndex);
+        parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
+        parts[2] = createSubstring(str, separatorIndex + 1, str->length);
     } else {
         parts[0] = createString(str->str);
         parts[1] = createString("");
         parts[2] = createString("");
+    }
+    
+    return parts;
+}
+
+String** rpartition(const String* str, char separator) {
+    int separatorIndex = -1;
+    for (int i = str->length - 1; i >= 0; i--) {
+        if (str->str[i] == separator) {
+            separatorIndex = i;
+            break;
+        }
+    }
+    
+    String** parts = (String**)malloc(3 * sizeof(String*));
+    
+    if (separatorIndex >= 0) {
+        parts[0] = createSubstring(str, 0, separatorIndex);
+        parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
+        parts[2] = createSubstring(str, separatorIndex + 1, str->length);
+    } else {
+        parts[0] = createString("");
+        parts[1] = createString("");
+        parts[2] = createString(str->str);
     }
     
     return parts;
