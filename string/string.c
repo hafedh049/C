@@ -320,3 +320,64 @@ String **split(const String *str, char separator, int *numSplits)
 
     return splits;
 }
+
+String* title(const String* str) {
+    int length = str->length;
+    char* titleStr = (char*)malloc((length + 1) * sizeof(char));
+    
+    int capitalizeNext = 1;
+    for (int i = 0; i < length; i++) {
+        char c = str->str[i];
+        if (isalpha(c)) {
+            if (capitalizeNext) {
+                titleStr[i] = toupper(c);
+                capitalizeNext = 0;
+            } else
+                titleStr[i] = tolower(c);
+        } else {
+            titleStr[i] = c;
+            capitalizeNext = 1;
+        }
+    }
+    
+    titleStr[length] = '\0';
+    
+    return createString(titleStr);
+}
+
+String* zfill(const String* str, int width) {
+    if (width <= str->length)
+        return createString(str->str);
+    
+    int numZeros = width - str->length;
+    char* zfilledStr = (char*)malloc((width + 1) * sizeof(char));
+    memset(zfilledStr, '0', numZeros);
+    strcpy(zfilledStr + numZeros, str->str);
+    zfilledStr[width] = '\0';
+    
+    return createString(zfilledStr);
+}
+
+String** partition(const String* str, char separator) {
+    int separatorIndex = -1;
+    for (int i = 0; i < str->length; i++) {
+        if (str->str[i] == separator) {
+            separatorIndex = i;
+            break;
+        }
+    }
+    
+    String** parts = (String**)malloc(3 * sizeof(String*));
+    
+    if (separatorIndex >= 0) {
+        parts[0] = createStringN(str->str, separatorIndex);
+        parts[1] = createString(&str->str[separatorIndex]);
+        parts[2] = createString(&str->str[separatorIndex + 1]);
+    } else {
+        parts[0] = createString(str->str);
+        parts[1] = createString("");
+        parts[2] = createString("");
+    }
+    
+    return parts;
+}
