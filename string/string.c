@@ -480,3 +480,10 @@ String *swapcase(String *str)
     free(swappedStr);
     return result;
 }
+
+char* toString(const String str) {
+    int resultLength = str.length + 2;
+    char* result = (char*)malloc(resultLength + 1);
+    snprintf(result, resultLength + 1, "\"%s\"", str.str);
+    return result;
+}

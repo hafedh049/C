@@ -69,3 +69,5 @@ String *slice(String *, int, int);
 char getCharAtIndex(String *, int);
 
 String *swapcase(String *);
+
+char* toString(const String);
