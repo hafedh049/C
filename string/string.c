@@ -246,9 +246,8 @@ const String* strip(const String* str, const char* chars) {
 }
 
 const String* replace(const String* str, const String* old, const String* new_str, int count) {
-    if (count <= 0) {
-        return str;  // No replacements needed
-    }
+    if (count <= 0)
+        return str;
 
     String* result = (String*)malloc(sizeof(String));
     result->str = (char*)malloc((str->length + 1) * sizeof(char));
