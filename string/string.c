@@ -426,3 +426,20 @@ String** rpartition(const String* str, char separator) {
     
     return parts;
 }
+
+String* slice(const String* str, int start, int end) {
+    // Check for valid slice range
+    if (start < 0 || start >= str->length || end < start || end >= str->length) {
+        return createString("");
+    }
+    
+    char* slicedStr = (char*)malloc((end - start + 1) * sizeof(char));
+    for (int i = start, j = 0; i <= end; i++, j++) {
+        slicedStr[j] = str->str[i];
+    }
+    slicedStr[end - start + 1] = '\0';
+    
+    String* result = createString(slicedStr);
+    free(slicedStr);
+    return result;
+}
