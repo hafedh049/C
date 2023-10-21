@@ -131,7 +131,7 @@ int index(const String *str, const String *substring)
     return position;
 }
 
-bool isalnum(const String *str)
+bool isalnums(const String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isalnum(str->str[i]))
@@ -139,7 +139,7 @@ bool isalnum(const String *str)
     return true;
 }
 
-bool isalpha(const String *str)
+bool isalphas(const String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isalpha(str->str[i]))
@@ -147,7 +147,7 @@ bool isalpha(const String *str)
     return true;
 }
 
-bool isnumeric(const String *str)
+bool isnumerics(const String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isdigit(str->str[i]))
@@ -155,7 +155,7 @@ bool isnumeric(const String *str)
     return true;
 }
 
-bool islower(const String *str)
+bool islowers(const String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!islower(str->str[i]))
@@ -163,7 +163,7 @@ bool islower(const String *str)
     return true;
 }
 
-bool isupper(const String *str)
+bool isuppers(const String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isupper(str->str[i]))

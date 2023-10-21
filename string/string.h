@@ -32,15 +32,15 @@ int find(const String *, const String *);
 
 int index(const String *, const String *);
 
-bool isalnum(const String *);
+bool isalnums(const String *);
 
-bool isalpha(const String *);
+bool isalphas(const String *);
 
-bool isnumeric(const String *);
+bool isnumerics(const String *);
 
-bool islower(const String *);
+bool islowers(const String *);
 
-bool isupper(const String *);
+bool isuppers(const String *);
 
 const String *join(const String *, const String **, int);
 
