@@ -7,13 +7,24 @@ typedef struct String{
     int length;
 }String;
 
-String* createString(char* str){
+const String* createString(const char* str){
     String* createdStr = (String*)malloc(sizeof(String));
+    int len = strlen(str);
+    createdStr->str = (char*)malloc(len*sizeof(char));
     createdStr->str = str;
     createdStr->length = strlen(str);
     return createdStr;
 }
 
-String *clearString(String* str){
+void clearString(const String* str){
+    free(str->str);
+    free(str);
+}
 
+int length(const String str){
+    return str.length;
+}
+
+const String* capitalize(const String str){
+    
 }
