@@ -257,9 +257,8 @@ const String* replace(const String* str, const String* old, const String* new_st
 
     while (count > 0) {
         const char* found = strstr(input_str, old->str);
-        if (found == NULL) {
+        if (found == NULL)
             break;
-        }
 
         int before_length = found - input_str;
         memcpy(output_str, input_str, before_length);
@@ -269,10 +268,6 @@ const String* replace(const String* str, const String* old, const String* new_st
         memcpy(output_str, new_str->str, new_str->length);
         output_str += new_str->length;
         count--;
-
-        if (count == 0) {
-            break;
-        }
     }
 
     // Copy the remaining part of the input
