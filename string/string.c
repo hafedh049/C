@@ -304,15 +304,19 @@ const String *replace(const String *str, const String *old, const String *new_st
     return result;
 }
 
-char** split(const String* str, char separator, int* numSplits) {
+String **split(const String *str, char separator, int *numSplits)
+{
     *numSplits = 0;
-    char** splits = NULL;
-    char* token = strtok(str->str, &separator);
-    while (token != NULL) {
+    String **splits = NULL;
+    char *token = strtok(str->str, separator);
+
+    while (token != NULL)
+    {
         (*numSplits)++;
-        splits = (char**)realloc(splits, sizeof(char*) * (*numSplits));
+        splits = (String **)realloc(splits, sizeof(String *) * (*numSplits));
         splits[(*numSplits) - 1] = createString(token);
-        token = strtok(NULL, &separator);
+        token = strtok(NULL, separator);
     }
+
     return splits;
 }
