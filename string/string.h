@@ -10,62 +10,62 @@ typedef struct String
     int length;
 } String;
 
-const String *createString(const char *);
+String *createString(char *);
 
-void clearString(const String *);
+void clearString(String *);
 
-int length(const String);
+int length(String);
 
-const String *capitalize(const String *);
+String *capitalize(String *);
 
-const String *casefold(const String *);
+String *casefold(String *);
 
-const String *center(const String *, int, char);
+String *center(String *, int, char);
 
-int count(const String *, const String *);
+int count(String *, String *);
 
-bool endswith(const String *, const String *);
+bool endswith(String *, String *);
 
-bool startswith(const String *, const String *);
+bool startswith(String *, String *);
 
-int find(const String *, const String *);
+int find(String *, String *);
 
-int index(const String *, const String *);
+int index(String *, String *);
 
-bool isalnums(const String *);
+bool isalnums(String *);
 
-bool isalphas(const String *);
+bool isalphas(String *);
 
-bool isnumerics(const String *);
+bool isnumerics(String *);
 
-bool islowers(const String *);
+bool islowers(String *);
 
-bool isuppers(const String *);
+bool isuppers(String *);
 
-const String *join(const String *, const String **, int);
+String *join(String *, String **, int);
 
-const String *lower(const String *);
+String *lower(String *);
 
-const String *upper(const String *);
+String *upper(String *);
 
-const String *ip(const String *, const char *);
+String *ip(String *, char *);
 
-const String *replace(const String *, const String *, const String *, int);
+String *replace(String *, String *, String *, int);
 
-String **split(const String *, char, int *);
+String **split(String *, char *, int *);
 
-String *title(const String *);
+String *title(String *);
 
-String *zfill(const String *, int);
+String *zfill(String *, int);
 
-String *createSubstring(const String *, int, int);
+String *createSubstring(String *, int, int);
 
-String **partition(const String *, char);
+String **partition(String *, char);
 
-String **rpartition(const String *, char);
+String **rpartition(String *, char);
 
-String *slice(const String *, int, int);
+String *slice(String *, int, int);
 
-char getCharAtIndex(const String *, int);
+char getCharAtIndex(String *, int);
 
-String *swapcase(const String *);
+String *swapcase(String *);

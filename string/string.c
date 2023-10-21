@@ -1,6 +1,6 @@
 #include "string.h"
 
-const String *createString(const char *str)
+String *createString(char *str)
 {
     String *createdStr = (String *)malloc(sizeof(String));
     int len = strlen(str);
@@ -10,7 +10,7 @@ const String *createString(const char *str)
     return createdStr;
 }
 
-void clearString(const String *str)
+void clearString(String *str)
 {
     if (str != NULL)
     {
@@ -19,12 +19,12 @@ void clearString(const String *str)
     }
 }
 
-int length(const String str)
+int length(String str)
 {
     return str.length;
 }
 
-const String *capitalize(const String *str)
+String *capitalize(String *str)
 {
     String *result = (String *)malloc(sizeof(String));
     result->str = (char *)malloc((str->length + 1) * sizeof(char));
@@ -40,7 +40,7 @@ const String *capitalize(const String *str)
     return result;
 }
 
-const String *casefold(const String *str)
+String *casefold(String *str)
 {
     String *result = (String *)malloc(sizeof(String));
     result->str = (char *)malloc((str->length + 1) * sizeof(char));
@@ -53,7 +53,7 @@ const String *casefold(const String *str)
     return result;
 }
 
-const String *center(const String *str, int width, char fillchar)
+String *center(String *str, int width, char fillchar)
 {
     if (width <= str->length)
         return str;
@@ -80,7 +80,7 @@ const String *center(const String *str, int width, char fillchar)
     return result;
 }
 
-int count(const String *str, const String *substring)
+int count(String *str, String *substring)
 {
     int count = 0;
     char *position = str->str;
@@ -92,7 +92,7 @@ int count(const String *str, const String *substring)
     return count;
 }
 
-bool endswith(const String *str, const String *suffix)
+bool endswith(String *str, String *suffix)
 {
     int str_len = str->length;
     int suffix_len = suffix->length;
@@ -104,7 +104,7 @@ bool endswith(const String *str, const String *suffix)
     return strcmp(str_end, suffix->str) == 0;
 }
 
-bool startswith(const String *str, const String *prefix)
+bool startswith(String *str, String *prefix)
 {
     if (str->length < prefix->length)
         return false;
@@ -112,7 +112,7 @@ bool startswith(const String *str, const String *prefix)
     return strncmp(str->str, prefix->str, prefix->length) == 0;
 }
 
-int find(const String *str, const String *substring)
+int find(String *str, String *substring)
 {
     const char *position = strstr(str->str, substring->str);
     if (position == NULL)
@@ -120,7 +120,7 @@ int find(const String *str, const String *substring)
     return position - str->str;
 }
 
-int index(const String *str, const String *substring)
+int index(String *str, String *substring)
 {
     int position = find(str, substring);
     if (position == -1)
@@ -131,7 +131,7 @@ int index(const String *str, const String *substring)
     return position;
 }
 
-bool isalnums(const String *str)
+bool isalnums(String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isalnum(str->str[i]))
@@ -139,7 +139,7 @@ bool isalnums(const String *str)
     return true;
 }
 
-bool isalphas(const String *str)
+bool isalphas(String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isalpha(str->str[i]))
@@ -147,7 +147,7 @@ bool isalphas(const String *str)
     return true;
 }
 
-bool isnumerics(const String *str)
+bool isnumerics(String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isdigit(str->str[i]))
@@ -155,7 +155,7 @@ bool isnumerics(const String *str)
     return true;
 }
 
-bool islowers(const String *str)
+bool islowers(String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!islower(str->str[i]))
@@ -163,7 +163,7 @@ bool islowers(const String *str)
     return true;
 }
 
-bool isuppers(const String *str)
+bool isuppers(String *str)
 {
     for (int i = 0; i < str->length; i++)
         if (!isupper(str->str[i]))
@@ -171,7 +171,7 @@ bool isuppers(const String *str)
     return true;
 }
 
-const String *join(const String *separator, const String **strings, int num_strings)
+String *join(String *separator, String **strings, int num_strings)
 {
     int total_length = 0;
     for (int i = 0; i < num_strings; i++)
@@ -203,7 +203,7 @@ const String *join(const String *separator, const String **strings, int num_stri
     return result;
 }
 
-const String *lower(const String *str)
+String *lower(String *str)
 {
     String *result = (String *)malloc(sizeof(String));
     result->str = (char *)malloc((str->length + 1) * sizeof(char));
@@ -219,7 +219,7 @@ const String *lower(const String *str)
     return result;
 }
 
-const String *upper(const String *str)
+String *upper(String *str)
 {
     String *result = (String *)malloc(sizeof(String));
     result->str = (char *)malloc((str->length + 1) * sizeof(char));
@@ -235,7 +235,7 @@ const String *upper(const String *str)
     return result;
 }
 
-const String *strip(const String *str, const char *chars)
+String *strip(String *str, const char *chars)
 {
     int left = 0;
     int right = str->length - 1;
@@ -257,7 +257,7 @@ const String *strip(const String *str, const char *chars)
     return result;
 }
 
-const String *replace(const String *str, const String *old, const String *new_str, int count)
+String *replace(String *str, String *old, String *new_str, int count)
 {
     if (count <= 0)
         return str;
@@ -294,7 +294,7 @@ const String *replace(const String *str, const String *old, const String *new_st
     return result;
 }
 
-String **split(const String *str, char separator, int *numSplits)
+String **split(String *str, char *separator, int *numSplits)
 {
     *numSplits = 0;
     String **splits = NULL;
@@ -311,7 +311,7 @@ String **split(const String *str, char separator, int *numSplits)
     return splits;
 }
 
-String *title(const String *str)
+String *title(String *str)
 {
     int length = str->length;
     char *titleStr = (char *)malloc((length + 1) * sizeof(char));
@@ -342,7 +342,7 @@ String *title(const String *str)
     return createString(titleStr);
 }
 
-String *zfill(const String *str, int width)
+String *zfill(String *str, int width)
 {
     if (width <= str->length)
         return createString(str->str);
@@ -356,7 +356,7 @@ String *zfill(const String *str, int width)
     return createString(zfilledStr);
 }
 
-String *createSubstring(const String *str, int start, int end)
+String *createSubstring(String *str, int start, int end)
 {
     if (start < 0)
         start = 0;
@@ -378,7 +378,7 @@ String *createSubstring(const String *str, int start, int end)
     return createString(substring);
 }
 
-String **partition(const String *str, char separator)
+String **partition(String *str, char separator)
 {
     int separatorIndex = -1;
     for (int i = 0; i < str->length; i++)
@@ -408,7 +408,7 @@ String **partition(const String *str, char separator)
     return parts;
 }
 
-String **rpartition(const String *str, char separator)
+String **rpartition(String *str, char separator)
 {
     int separatorIndex = -1;
     for (int i = str->length - 1; i >= 0; i--)
@@ -438,7 +438,7 @@ String **rpartition(const String *str, char separator)
     return parts;
 }
 
-String *slice(const String *str, int start, int end)
+String *slice(String *str, int start, int end)
 {
     if (start < 0 || start >= str->length || end < start || end >= str->length)
         return createString("");
@@ -453,14 +453,14 @@ String *slice(const String *str, int start, int end)
     return result;
 }
 
-char getCharAtIndex(const String *str, int index)
+char getCharAtIndex(String *str, int index)
 {
     if (index < 0 || index >= str->length)
         return '\0';
     return str->str[index];
 }
 
-String *swapcase(const String *str)
+String *swapcase(String *str)
 {
     char *swappedStr = (char *)malloc((str->length + 1) * sizeof(char));
 
