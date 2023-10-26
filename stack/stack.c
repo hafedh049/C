@@ -163,12 +163,14 @@ Stack* copy(Stack stack)
     return copyStack;
 }
 
-Stack* merge(Stack firstStack, Stack secondStack)
-{
-    Stack* mergingStack = createStack();
-    while (firstStack.head)
-        push(&mergingStack, pop(&firstStack)->data);
-    while (secondStack.head)
-        push(&mergingStack, pop(&secondStack)->data);
-    return mergingStack;
+Stack* merge(Stack firstStack, Stack secondStack) {
+  Stack* mergingStack = createStack();
+
+  for (const Node* node = secondStack.head; node; node = node->next)
+    push(&mergingStack, node->data);
+
+  while (firstStack.head)
+    push(&mergingStack, pop(&firstStack)->data);
+
+  return mergingStack;
 }
