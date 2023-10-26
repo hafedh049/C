@@ -21,13 +21,11 @@ void insertAtHead(CircularLinkedList *list, int data)
   else
   {
     newNode->next = list->head;
-    list->head = newNode;
-
     Node *temp = list->head;
     while (temp->next != list->head)
       temp = temp->next;
-
     temp->next = newNode;
+    list->head = newNode;
   }
 }
 
