@@ -339,14 +339,16 @@ int hasCycle(CircularLinkedList *list)
   return 0;
 }
 
-CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list) {
+CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
+{
   CircularLinkedList *firstHalf = createCircularLinkedList();
   CircularLinkedList *secondHalf = createCircularLinkedList();
 
   Node *middleNode = findMiddleElement(list);
 
   Node *current = list->head;
-  while (current != middleNode) {
+  while (current != middleNode)
+  {
     insertAtTail(firstHalf, current->data);
     current = current->next;
   }
@@ -364,11 +366,13 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list) {
   return halves;
 }
 
-int findMaximumElement(CircularLinkedList *list) {
+int findMaximumElement(CircularLinkedList *list)
+{
   int maximumElement = list->head->data;
   Node *current = list->head->next;
 
-  while (current != list->head) {
+  while (current != list->head)
+  {
     if (current->data > maximumElement)
       maximumElement = current->data;
 
@@ -378,11 +382,13 @@ int findMaximumElement(CircularLinkedList *list) {
   return maximumElement;
 }
 
-int findMinimumElement(CircularLinkedList *list) {
+int findMinimumElement(CircularLinkedList *list)
+{
   int minimumElement = list->head->data;
   Node *current = list->head->next;
 
-  while (current != list->head) {
+  while (current != list->head)
+  {
     if (current->data < minimumElement)
       minimumElement = current->data;
 
