@@ -233,24 +233,25 @@ CircularLinkedList *mergeCircularLinkedLists(CircularLinkedList *list1, Circular
 {
   CircularLinkedList *mergedList = createCircularLinkedList();
 
-  if (list1->head == NULL && list2->head == NULL)
-    return mergedList;
-  else if (list1->head == NULL)
-    insertAtHead(mergedList, list2->head->data);
+  if (list1->head == NULL)
+    mergedList->head = list2->head;
   else if (list2->head == NULL)
-    insertAtHead(mergedList, list1->head->data);
+    mergedList->head = list1->head;
   else
   {
-    if (list1->head->data < list2->head->data)
-    {
-      insertHead(mergedList, list1->head->data);
-      insertHead(mergedList, list2->head->data);
-    }
-    else
-    {
-      insertHead(mergedList, list2->head->data);
-      insertHead(mergedList, list1->head->data);
-    }
+    Node *endList1 = list1->head;
+    while (endList1->next != list1->head)
+      endList1 = endList1->next;
+
+    endList1->next = list2->head;
+
+    Node *endList2 = list2->head;
+    while (endList2->next != list2->head)
+      endList2 = endList2->next;
+
+    endList2->next = list1->head;
+
+    mergedList->head = list1->head;
   }
 
   return mergedList;
