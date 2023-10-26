@@ -7,6 +7,8 @@ int main() {
     insertAtHead(cl,3);
     insertAtHead(cl,4);
     insertAtHead(cl,5);
-    printCircularLinkedList(cl);
+    
+    printf("%d\n",search(cl,5));
+    printf("%d\n",getLength(cl));
     return 0;
 }

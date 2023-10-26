@@ -54,4 +54,6 @@ int findMaximumElement(CircularLinkedList *);
 
 int findMinimumElement(CircularLinkedList *);
 
-void printCircularLinkedList(CircularLinkedList *);
+void showAllItems(CircularLinkedList);
+
+int isEmpty(CircularLinkedList *);
