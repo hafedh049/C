@@ -1,11 +1,13 @@
 #include <stdlib.h>
 
-typedef struct Node {
+typedef struct Node
+{
   int data;
   struct Node *next;
 } Node;
 
-typedef struct {
+typedef struct
+{
   Node *head;
 } CircularLinkedList;
 
@@ -26,3 +28,21 @@ int getLength(CircularLinkedList *);
 void reverse(CircularLinkedList *);
 
 void rotate(CircularLinkedList *, int);
+
+Node *findMiddleElement(CircularLinkedList *);
+
+Node *findKthElement(CircularLinkedList *, int);
+
+CircularLinkedList *mergeCircularLinkedLists(CircularLinkedList *, CircularLinkedList *);
+
+int isPalindrome(CircularLinkedList *);
+
+void deleteNodeAtPosition(CircularLinkedList *, int);
+
+void insertNodeAfterNode(CircularLinkedList *, Node *, int);
+
+int findFirstOccurrence(CircularLinkedList *, int);
+
+int findLastOccurrence(CircularLinkedList *, int);
+
+int hasCycle(CircularLinkedList *);

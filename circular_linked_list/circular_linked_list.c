@@ -319,7 +319,6 @@ int findLastOccurrence(CircularLinkedList *list, int element)
 }
 
 int hasCycle(CircularLinkedList *list)
-
 {
   Node *fast = list->head;
   Node *slow = list->head;
