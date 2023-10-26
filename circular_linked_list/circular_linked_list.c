@@ -1,4 +1,10 @@
-#include "circular_linked_list.h";
+#include "circular_linked_list.h"
+
+CircularLinkedList *createCircularLinkedList() {
+  CircularLinkedList *list = malloc(sizeof(CircularLinkedList));
+  list->head = NULL;
+  return list;
+}
 
 void insertAtHead(CircularLinkedList *list, int data)
 {

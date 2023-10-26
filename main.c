@@ -1,4 +1,4 @@
-#include "circular_linked_list/circular_linked_list.h"
+#include "circular_linked_list/circular_linked_list.c"
 
 int main() {
     CircularLinkedList *cl = createCircularLinkedList();
@@ -7,6 +7,6 @@ int main() {
     insertAtHead(cl,3);
     insertAtHead(cl,4);
     insertAtHead(cl,5);
-    
+    printCircularLinkedList(cl);
     return 0;
 }
