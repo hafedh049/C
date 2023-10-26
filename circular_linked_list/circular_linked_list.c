@@ -1,6 +1,7 @@
 #include "circular_linked_list.h"
 
-CircularLinkedList *createCircularLinkedList() {
+CircularLinkedList *createCircularLinkedList()
+{
   CircularLinkedList *list = malloc(sizeof(CircularLinkedList));
   list->head = NULL;
   return list;
@@ -21,6 +22,12 @@ void insertAtHead(CircularLinkedList *list, int data)
   {
     newNode->next = list->head;
     list->head = newNode;
+
+    Node *temp = list->head;
+    while (temp->next != list->head)
+      temp = temp->next;
+
+    temp->next = newNode;
   }
 }
 

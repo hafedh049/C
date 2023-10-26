@@ -2,11 +2,11 @@
 
 int main() {
     CircularLinkedList *cl = createCircularLinkedList();
-    insertAtHead(cl,1);
-    insertAtHead(cl,2);
-    insertAtHead(cl,3);
-    insertAtHead(cl,4);
-    insertAtHead(cl,5);
+    insertAtTail(cl,1);
+    insertAtTail(cl,2);
+    insertAtTail(cl,3);
+    insertAtTail(cl,4);
+    insertAtTail(cl,5);
     printCircularLinkedList(cl);
     return 0;
 }
