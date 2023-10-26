@@ -7,8 +7,8 @@ int main() {
     insertAtHead(cl,3);
     insertAtHead(cl,4);
     insertAtHead(cl,5);
-    
-    printf("%d\n",search(cl,5));
-    printf("%d\n",getLength(cl));
+    showAllItems(*cl);
+    rotate(cl,3);
+    showAllItems(*cl);
     return 0;
 }

@@ -160,34 +160,38 @@ void reverse(CircularLinkedList *list)
   Node *prev = NULL;
   Node *next = NULL;
 
-  while (current != list->head)
+  if (current == NULL)
+    return;
+
+  do
   {
     next = current->next;
     current->next = prev;
     prev = current;
     current = next;
-  }
+  } while (current != list->head);
 
   list->head = prev;
 }
 
 void rotate(CircularLinkedList *list, int k)
 {
+  if (list->head == NULL || k <= 0)
+    return;
+
   Node *current = list->head;
   int i = 0;
 
-  while (i < k && current != list->head)
+  while (i < k - 1 && current->next != list->head)
   {
     current = current->next;
     i++;
   }
 
-  if (current == list->head)
-    return;
+  if (current->next == list->head)
+    return; 
 
   list->head = current->next;
-  current->next = list->head->next;
-  list->head->next = current;
 }
 
 Node *findMiddleElement(CircularLinkedList *list)
