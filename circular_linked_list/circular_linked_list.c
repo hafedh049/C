@@ -33,9 +33,7 @@ void insertAtTail(CircularLinkedList *list, int data)
   {
     Node *current = list->head;
     while (current->next != list->head)
-    {
       current = current->next;
-    }
 
     current->next = newNode;
     newNode->next = list->head;
