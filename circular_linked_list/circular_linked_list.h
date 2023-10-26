@@ -52,3 +52,5 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *);
 int findMaximumElement(CircularLinkedList *);
 
 int findMinimumElement(CircularLinkedList *);
+
+void printCircularLinkedList(CircularLinkedList *);
