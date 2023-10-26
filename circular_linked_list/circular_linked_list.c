@@ -289,44 +289,34 @@ int isPalindrome(CircularLinkedList *list) {
 
 void deleteNodeAtPosition(CircularLinkedList *list, int position)
 {
-  if (list->head == NULL || position < 0)
-    return;  // Invalid position or empty list
-
-  if (position == 0) {
-    Node *temp = list->head;
-    if (list->head->next == list->head) {
-      list->head = NULL;  // The list has only one element
-    } else {
-      list->head = list->head->next;
-      // Update the last node's next pointer
-      Node *last = list->head;
-      while (last->next != temp) {
-        last = last->next;
-      }
-      last->next = list->head;
-    }
-    free(temp);
+  if (list->head == NULL || position < 0 || position >= getLength(list))
     return;
-  }
 
-  int currentPosition = 0;
   Node *current = list->head;
   Node *previous = NULL;
+  int currentPosition = 0;
 
-  while (current != list->head)
-  {
-    if (currentPosition == position)
-    {
-      previous->next = current->next;
-      free(current);
-      return;
-    }
-
-    currentPosition++;
+  while (currentPosition != position) {
     previous = current;
     current = current->next;
+    currentPosition++;
+
+    if (current == list->head)
+      break;
   }
+
+  if (position == 0) {
+    Node *tail = list->head;
+    while (tail->next != list->head) 
+      tail = tail->next;
+    list->head = current->next;
+    tail->next = list->head;
+  } else
+    previous->next = current->next;
+
+  free(current);
 }
+
 
 
 void insertNodeAfterNode(CircularLinkedList *list, Node *node, int data)
@@ -343,14 +333,14 @@ int findFirstOccurrence(CircularLinkedList *list, int element)
   int position = 0;
   Node *current = list->head;
 
-  while (current != list->head)
+  do
   {
     if (current->data == element)
       return position;
 
     position++;
     current = current->next;
-  }
+  } while (current != list->head);
 
   return -1;
 }
