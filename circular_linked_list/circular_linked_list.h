@@ -46,3 +46,9 @@ int findFirstOccurrence(CircularLinkedList *, int);
 int findLastOccurrence(CircularLinkedList *, int);
 
 int hasCycle(CircularLinkedList *);
+
+CircularLinkedList **splitCircularLinkedList(CircularLinkedList *);
+
+int findMaximumElement(CircularLinkedList *);
+
+int findMinimumElement(CircularLinkedList *);
