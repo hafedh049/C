@@ -18,3 +18,11 @@ void insertAtTail(CircularLinkedList *, int);
 int deleteAtHead(CircularLinkedList *);
 
 int deleteAtTail(CircularLinkedList *);
+
+int search(CircularLinkedList *, int);
+
+int getLength(CircularLinkedList *);
+
+void reverse(CircularLinkedList *);
+
+void rotate(CircularLinkedList *, int);

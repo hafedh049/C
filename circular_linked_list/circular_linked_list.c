@@ -112,3 +112,47 @@ int search(CircularLinkedList *list, int element)
   }
   return -1;
 }
+
+int getLength(CircularLinkedList *list) {
+  int length = 0;
+  const Node *current = list->head;
+
+  while (current != list->head) {
+    length++;
+    current = current->next;
+  }
+
+  return length;
+}
+
+void reverse(CircularLinkedList *list) {
+  Node *current = list->head;
+  Node *prev = NULL;
+  Node *next = NULL;
+
+  while (current != list->head) {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+  }
+
+  list->head = prev;
+}
+
+void rotate(CircularLinkedList *list, int k) {
+  Node *current = list->head;
+  int i = 0;
+
+  while (i < k && current != list->head) {
+    current = current->next;
+    i++;
+  }
+
+  if (current == list->head)
+    return;
+
+  list->head = current->next;
+  current->next = list->head->next;
+  list->head->next = current;
+}
