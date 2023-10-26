@@ -8,7 +8,6 @@ int main() {
     insertAtHead(cl,4);
     insertAtHead(cl,5);
     showAllItems(*cl);
-    rotate(cl,3);
-    showAllItems(*cl);
+    printf("%d\n",findKthElement(cl,3)->data);
     return 0;
 }

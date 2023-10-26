@@ -53,28 +53,29 @@ void insertAtTail(CircularLinkedList *list, int data)
 
 void showAllItems(CircularLinkedList list)
 {
-    printf("\033[1;33m\n");
+  printf("\033[1;33m\n");
 
-    if (isEmpty(&list))
-    {
-        printf("This list is empty x(");
-        printf("\033[1;0m");
-        return;
-    }
-    Node *head = list.head;
-    do
-    {
-        if (head->next != list.head)
-            printf("\033[1;32m| %d | -> ", head->data);
-        else
-            printf("\033[1;32m| %d |", head->data);
-        head = head->next;
-    }while (head != list.head);
-    printf("\n\033[1;0m");
+  if (isEmpty(&list))
+  {
+    printf("This list is empty x(");
+    printf("\033[1;0m");
+    return;
+  }
+  Node *head = list.head;
+  do
+  {
+    if (head->next != list.head)
+      printf("\033[1;32m| %d | -> ", head->data);
+    else
+      printf("\033[1;32m| %d |", head->data);
+    head = head->next;
+  } while (head != list.head);
+  printf("\n\033[1;0m");
 }
 
-int isEmpty(CircularLinkedList* cl) {
-    return cl->head == NULL;
+int isEmpty(CircularLinkedList *cl)
+{
+  return cl->head == NULL;
 }
 
 int deleteAtHead(CircularLinkedList *list)
@@ -126,7 +127,7 @@ int search(CircularLinkedList *list, int element)
   Node *current = list->head;
   if (current == NULL)
     return -1;
-  
+
   do
   {
     if (current->data == element)
@@ -139,12 +140,12 @@ int search(CircularLinkedList *list, int element)
 
 int getLength(CircularLinkedList *list)
 {
-   int length = 0;
+  int length = 0;
   const Node *current = list->head;
 
   if (current == NULL)
-    return 0; 
-  
+    return 0;
+
   do
   {
     length++;
@@ -189,23 +190,26 @@ void rotate(CircularLinkedList *list, int k)
   }
 
   if (current->next == list->head)
-    return; 
+    return;
 
   list->head = current->next;
 }
 
 Node *findMiddleElement(CircularLinkedList *list)
 {
-  Node *current = list->head;
-  Node *previous = NULL;
+  if (list->head == NULL)
+    return NULL;
 
-  while (current->next != list->head)
+  Node *tortoise = list->head;
+  Node *hare = list->head;
+
+  while (hare->next != list->head && hare->next != list->head)
   {
-    previous = current;
-    current = current->next;
+    tortoise = tortoise->next;
+    hare = hare->next->next;
   }
 
-  return previous;
+  return tortoise;
 }
 
 Node *findKthElement(CircularLinkedList *list, int k)
@@ -213,7 +217,7 @@ Node *findKthElement(CircularLinkedList *list, int k)
   int i = 0;
   Node *current = list->head;
 
-  while (i < k && current != list->head)
+  while (i < k && current->next != list->head)
   {
     current = current->next;
     i++;
