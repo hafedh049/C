@@ -257,27 +257,57 @@ CircularLinkedList *mergeCircularLinkedLists(CircularLinkedList *list1, Circular
   return mergedList;
 }
 
-int isPalindrome(CircularLinkedList *list)
-{
-  Node *current = list->head;
-  Node *opposite = findMiddleElement(list);
-
-  while (current != opposite)
-  {
-    if (current->data != opposite->data)
-      return 0;
-
-    current = current->next;
-    opposite = opposite->next->next;
+int isPalindrome(CircularLinkedList *list) {
+  if (list->head == NULL) {
+    return 1; // An empty list is considered a palindrome
   }
+
+  CircularLinkedList reversedList;
+  reversedList.head = NULL;
+  Node *current = list->head;
+
+  do {
+    insertAtHead(&reversedList, current->data);
+    current = current->next;
+  } while (current != list->head);
+
+  current = list->head;
+  Node *reversedCurrent = reversedList.head;
+
+  do {
+    if (current->data != reversedCurrent->data) {
+      return 0;
+    }
+    current = current->next;
+    reversedCurrent = reversedCurrent->next;
+  } while (current != list->head);
 
   return 1;
 }
 
+
+
 void deleteNodeAtPosition(CircularLinkedList *list, int position)
 {
-  if (position < 0 || position >= getLength(list))
+  if (list->head == NULL || position < 0)
+    return;  // Invalid position or empty list
+
+  if (position == 0) {
+    Node *temp = list->head;
+    if (list->head->next == list->head) {
+      list->head = NULL;  // The list has only one element
+    } else {
+      list->head = list->head->next;
+      // Update the last node's next pointer
+      Node *last = list->head;
+      while (last->next != temp) {
+        last = last->next;
+      }
+      last->next = list->head;
+    }
+    free(temp);
     return;
+  }
 
   int currentPosition = 0;
   Node *current = list->head;
@@ -287,19 +317,17 @@ void deleteNodeAtPosition(CircularLinkedList *list, int position)
   {
     if (currentPosition == position)
     {
-      if (previous == NULL)
-        list->head = current->next;
-      else
-        previous->next = current->next;
-
+      previous->next = current->next;
       free(current);
-      break;
+      return;
     }
 
     currentPosition++;
+    previous = current;
     current = current->next;
   }
 }
+
 
 void insertNodeAfterNode(CircularLinkedList *list, Node *node, int data)
 {

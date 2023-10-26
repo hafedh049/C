@@ -2,12 +2,14 @@
 
 int main() {
     CircularLinkedList *cl = createCircularLinkedList();
-    insertAtHead(cl,1);
-    insertAtHead(cl,2);
+    CircularLinkedList *c2 = createCircularLinkedList();
     insertAtHead(cl,3);
-    insertAtHead(cl,4);
-    insertAtHead(cl,5);
+    insertAtHead(cl,1);
+    insertAtHead(cl,3);
+    /*insertAtHead(cl,4);
+    insertAtHead(cl,5);*/
     showAllItems(*cl);
-    printf("%d\n",findKthElement(cl,3)->data);
+    deleteNodeAtPosition(cl,1);
+    showAllItems(*cl);
     return 0;
 }
