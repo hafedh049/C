@@ -1,18 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct MinHeap {
-    int* arr;
+typedef struct MinHeap
+{
+    int *arr;
     int capacity;
     int size;
 } MinHeap;
 
-MinHeap* createMinHeap(int);
+MinHeap *createMinHeap(int);
 
-void heapifyUp(MinHeap*, int);
+void heapifyUp(MinHeap *, int);
 
-void insert(MinHeap*, int);
+void insert(MinHeap *, int);
 
-void heapifyDown(MinHeap*, int);
+void heapifyDown(MinHeap *, int);
 
-int extractMin(MinHeap*);
+int extractMin(MinHeap *);
+
+void buildHeap(MinHeap *, int *, int);
+
+int delete(MinHeap *, int);
+
+void decreaseKey(MinHeap *, int, int);
+
+void heapSort(int *, int);
