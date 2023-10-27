@@ -362,9 +362,8 @@ int findLastOccurrence(CircularLinkedList *list, int element)
     current = current->next;
   }
 
-  if (lastPosition != -1) {
+  if (lastPosition != -1)
     lastPosition = length - 1 - lastPosition;
-  }
 
   return lastPosition;
 }
@@ -380,11 +379,7 @@ int hasCycle(CircularLinkedList *list)
     slow = slow->next;
 
     if (fast == slow)
-    {
-      return
-
-          1;
-    }
+      return 1;
   }
 
   return 0;
@@ -397,18 +392,16 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
 
   Node *middleNode = findMiddleElement(list);
 
-  Node *current = list->head;
-  while (current != middleNode)
-  {
-    insertAtTail(firstHalf, current->data);
-    current = current->next;
+  if (middleNode == NULL || middleNode->next == list->head) {
+    CircularLinkedList **halves = malloc(sizeof(CircularLinkedList *) * 2);
+    halves[0] = firstHalf;
+    halves[1] = secondHalf;
+    return halves;
   }
 
+  firstHalf->head = list->head;
   secondHalf->head = middleNode->next;
-
-  firstHalf->head->next = secondHalf->head;
-
-  secondHalf->head->next = firstHalf->head;
+  middleNode->next = list->head;
 
   CircularLinkedList **halves = malloc(sizeof(CircularLinkedList *) * 2);
   halves[0] = firstHalf;
@@ -416,6 +409,7 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
 
   return halves;
 }
+
 
 int findMaximumElement(CircularLinkedList *list)
 {
