@@ -328,21 +328,16 @@ void update(DoublyLinkedList *list, int oldValue, int newValue)
 void concatenate(DoublyLinkedList *list1, DoublyLinkedList list2)
 {
     if (list1->head == NULL)
-    {
         list1->head = list2.head;
-    }
     else
     {
         Node *current = list1->head;
         while (current->next != NULL)
-        {
             current = current->next;
-        }
+
         current->next = list2.head;
         if (list2.head != NULL)
-        {
             list2.head->previous = current;
-        }
     }
 }
 

@@ -2324,3 +2324,801 @@ _The `findMinimumElement` function finds and returns the minimum element in the 
 # DOUBLY LINKED LIST
 
 _A doubly linked list is a type of linked list in which each node contains a pointer to the previous node in the list, in addition to the pointer to the next node. This makes it possible to traverse the list in both the forward and backward directions._
+
+**_1. Create Doubly Linked List:_**
+
+```c
+DoublyLinkedList* createDoublyLinkedList()
+{
+    DoublyLinkedList* linkedList = (DoublyLinkedList *)malloc(sizeof(DoublyLinkedList));
+    linkedList->head = NULL;
+    return linkedList;
+}
+```
+
+_This function creates an empty doubly linked list and returns a pointer to the newly created list. A doubly linked list is a data structure where each element, known as a node, contains a 'data' field and two pointers: 'next' and 'previous'. The 'head' of the list initially points to NULL, indicating an empty list. This function allocates memory for the list, initializes the 'head' to NULL, and returns the list for further use._
+
+
+**_2. Check If List Is Empty:_**
+
+```c
+int isEmpty(DoublyLinkedList list)
+{
+    return list.head == NULL;
+}
+```
+
+_This function checks whether the given doubly linked list is empty or not. An empty list has its 'head' pointer set to NULL. It returns 1 if the list is empty and 0 if it contains one or more nodes. The function helps in determining if any elements are present in the linked list, which is a crucial operation for list management._
+
+
+**_3. Append Item:_**
+
+```c
+void append(DoublyLinkedList* list, int item)
+{
+    Node* node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+    node->next = NULL;
+    if (isEmpty(*list))
+    {
+        node->previous = NULL;
+        list->head = node;
+    }
+    else
+    {
+        Node* last = list->head;
+        while (last->next)
+            last = last->next;
+        node->previous = last;
+        last->next = node;
+    }
+}
+```
+
+_The 'append' function adds a new item to the end of a given doubly linked list. It allocates memory for a new node, assigns the provided 'item' as the data for that node, and adjusts the pointers to connect it as the last node in the list. If the list is empty, the newly added node becomes the first node, and its 'previous' pointer is set to NULL. If the list is not empty, the 'previous' pointer of the new node is set to the previous last node, and the 'next' pointer of the previous last node is updated to point to the new node._
+
+
+**_4. Append Multiple Items:_**
+
+```c
+void appendAll(DoublyLinkedList* list, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        append(list, va_arg(args, int));
+}
+```
+
+_The 'appendAll' function allows you to append multiple items to the end of a doubly linked list. It takes the list and the number of items to be appended as input. You can pass a variable number of arguments representing the items to be added. It uses a variable argument list (va_list) to process the items. The function appends each item to the end of the list one by one, effectively extending the list with the new elements._
+
+
+**_5. Insert Item at Beginning:_**
+
+```c
+void shift(DoublyLinkedList* list, int item)
+{
+    Node* node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+    if (isEmpty(*list))
+    {
+        node->next = NULL;
+        node->previous = NULL;
+        list->head = node;
+    }
+    else
+    {
+        node->next = list->head;
+        list->head->previous = node;
+        list->head = node;
+    }
+}
+```
+
+_The 'shift' function inserts an item at the beginning of the given doubly linked list. It allocates memory for a new node, assigns the provided 'item' as the data for that node, and adjusts the pointers to connect it as the new first node in the list. If the list is empty, the newly added node becomes the first node, and its 'previous' and 'next' pointers are set to NULL. If the list is not empty, the 'next' pointer of the new node is set to the previous first node, and the 'previous' pointer of the previous first node is updated to point to the new node. The 'head' pointer of the list is updated to point to the new first node._
+
+
+**_6. Insert After Node:_**
+
+```c
+
+void insertAfter(DoublyLinkedList *list, Node *node, int item)
+{
+	if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != node)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        headNode->next = node;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function allows you to insert a new node with a specified item after an existing node in a doubly linked list. If the list is empty, it appends the item as the first node. An error message is displayed if the specified node is not found in the list._
+
+
+**_7. Insert Multiple After:_**
+
+```c
+
+void insertAllAfter(DoublyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertAfter(list, node, va_arg(args, int));
+}
+
+```
+
+_This function enables the insertion of multiple new nodes with specified items after a particular node in a doubly linked list. It calls the 'insertAfter' function for each item to be inserted after the specified node._
+
+
+**_8. Insert Before Node:_**
+
+```c
+
+void insertBefore(DoublyLinkedList *list, Node *searchnode, int item)
+{
+    if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != searchnode)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        node->previous = headNode;
+        headNode->next = node;
+        node->data = headNode->data;
+        headNode->data = item;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function allows you to insert a new node with a specified item before an existing node in a doubly linked list. If the list is empty, it appends the item as the first node. An error message is displayed if the specified node is not found in the list._
+
+
+**_9. Insert Multiple Before:_**
+
+```c
+
+void insertAllBefore(DoublyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertBefore(list, node, va_arg(args, int));
+}
+
+```
+
+_This function facilitates the insertion of multiple new nodes with specified items before a particular node in a doubly linked list. It calls the 'insertBefore' function for each item to be inserted before the specified node._
+
+
+**_10. Display All Items:_**
+
+```c
+
+void showAllItems(DoublyLinkedList list)
+{
+    printf("\033[1;33m\n\n---------------------------\n\n");
+
+    if (isEmpty(list))
+    {
+        printf("This list is empty x(");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+        return;
+    }
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->next)
+            printf("\033[1;32m| %d | <-> ", head->data);
+        else
+            printf("\033[1;32m| %d |", head->data);
+        head = head->next;
+    }
+    printf("\033[1;33m\n\n---------------------------\n\n");
+    printf("\033[1;0m");
+}
+
+```
+
+_This function displays all the items in the doubly linked list, along with their relationships with adjacent nodes (next and previous). If the list is empty, it prints a message to indicate that the list is empty._
+
+
+**_11. Search Item:_**
+
+```c
+
+int search(DoublyLinkedList l, int item)
+{
+    assert(!isEmpty(l));
+    Node *head = l.head;
+    while (head)
+    {
+        if (head->data == item)
+            return 1;
+        head = head->next;
+    }
+    return 0;
+}
+
+```
+
+_This function is used to search for a specific item within the doubly linked list. It returns 1 if the item is found and 0 if it is not found. It assumes that the list is not empty._
+
+
+**_12. Pop First Node:_**
+
+```c
+
+int popFirst(DoublyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result = head->data;
+    list->head = list->head->next;
+    if (list->head)
+        list->head->previous = NULL;
+    free(head);
+    return result;
+}
+
+```
+
+_This function removes and returns the data of the first node in the doubly linked list. It assumes that the list is not empty._
+
+
+**_13. Pop Last Node:_**
+
+```c
+
+int popLast(DoublyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result;
+    if (!head->next)
+    {
+        result = head->data;
+        list->head = NULL;
+        free(head);
+        return result;
+    }
+    while (head->next->next)
+        head = head->next;
+    result = head->next->data;
+    free(head->next);
+    head->next = NULL;
+    return result;
+}
+
+```
+
+_This function removes and returns the data of the last node in the doubly linked list. It assumes that the list is not empty._
+
+
+**_14. Pop Node with Data:_**
+
+```c
+
+int pop(DoublyLinkedList *list, int item)
+{
+    assert(!isEmpty(*list));
+    if (list->head->data == item)
+        return popFirst(list);
+    Node *head = list->head;
+    while (head->next && head->next->data != item)
+        head = head->next;
+    if (head->next)
+    {
+        Node *aux = head->next;
+        int value = aux->data;
+        head->next = aux->next;
+        free(aux);
+        return value;
+    }
+    else
+        return -1;
+}
+
+```
+
+_This function removes the first node with the specified data from the doubly linked list. If the node with the given data is found, it returns the data of the removed node; otherwise, it returns -1. It assumes that the list is not empty._
+
+
+**_15. Get First Node Data:_**
+
+```c
+
+int getFirst(DoublyLinkedList list)
+{
+    assert(!isEmpty(list));
+    return list.head->data;
+}
+
+```
+
+_This function returns the data of the first node in the doubly linked list. It assumes that the list is not empty._
+
+
+**_16. Get Last Node Data:_**
+
+```c
+
+int getLast(DoublyLinkedList list)
+{
+    assert(!isEmpty(list));
+    Node *node = list.head;
+    while (node->next)
+        node = node->next;
+    return node->data;
+}
+
+```
+
+_This function returns the data of the last node in the doubly linked list. It assumes that the list is not empty._
+
+
+**_17. Get Size of List:_**
+
+```c
+
+int getSize(DoublyLinkedList list, Node *head)
+{
+    if (isEmpty(list))
+        return 0;
+    if (head)
+        return 1 + getSize(list, head->next);
+}
+
+```
+
+_This function returns the size of the doubly linked list. It assumes that the list is not empty._
+
+
+**_18. Get Item by Index:_**
+
+```c
+
+int getItemByIndex(DoublyLinkedList list, int index)
+{
+    assert(!isEmpty(list));
+    int counter = -1;
+    Node *head = list.head;
+    while (head)
+    {
+        counter++;
+        if (counter == index)
+            break;
+        head = head->next;
+    }
+    assert(counter == index);
+    return head->data;
+}
+
+```
+
+_This function returns the data of the node at the specified index in the doubly linked list. It assumes that the list is not empty._
+
+
+**_19. Sort List:_**
+
+```c
+
+void sort(DoublyLinkedList *list, int key)
+{
+    Node *primaryPointer, *secondaryPointer;
+    for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
+        for (secondaryPointer = primaryPointer->next; secondaryPointer; secondaryPointer = secondaryPointer->next)
+            if (key == 1 && primaryPointer->data > secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+            else if (key == -1 && primaryPointer->data < secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+}
+
+```
+
+_This function sorts the doubly linked list based on the specified key. If the key is 1, the list is sorted in ascending order, and if the key is -1, the list is sorted in descending order. The function uses a bubble sort algorithm for sorting._
+
+
+**_20. Reverse List:_**
+
+```c
+
+void reverse(DoublyLinkedList *list)
+{
+    Node *temp = NULL;
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
+        temp = current->previous;
+        current->previous = current->next;
+        current->next = temp;
+        current = current->previous;
+    }
+
+    if (temp != NULL)
+        list->head = temp->previous;
+}
+
+```
+
+_This function reverses the order of nodes in the doubly linked list, effectively reversing the list. It uses an iterative approach to perform the reversal._
+
+
+**_21. Get Node by Data:_**
+
+```c
+
+Node *getNode(DoublyLinkedList list, int item)
+{
+    assert(!isEmpty(list));
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->data == item)
+            return head;
+        head = head->next;
+    }
+    return NULL;
+}
+
+```
+
+_This function retrieves the node with the specified data from the doubly linked list. If the node with the given data is found, it returns a pointer to that node; otherwise, it returns NULL. The function assumes that the list is not empty._
+
+
+**_22. Update Node Data:_**
+
+```c
+
+void update(DoublyLinkedList *list, int oldValue, int newValue)
+{
+    Node *element = getNode(*list, oldValue);
+    if (element)
+        element->data = newValue;
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function updates the data of a node in the doubly linked list. It searches for a node with the specified old value and updates it with the new value. If the old value is not found in the list, the function displays a message to indicate that the item does not exist._
+
+
+**_23. Concatenate Lists:_**
+
+```c
+
+void concatenate(DoublyLinkedList *list1, DoublyLinkedList list2)
+{
+    if (list1->head == NULL)
+        list1->head = list2.head;
+    else
+    {
+        Node *current = list1->head;
+        while (current->next != NULL)
+            current = current->next;
+
+        current->next = list2.head;
+        if (list2.head != NULL)
+            list2.head->previous = current;
+    }
+}
+
+```
+
+_This function concatenates the second linked list to the end of the first linked list. If the first list is empty, it simply points to the second list. The function preserves the double-linked relationships between nodes._
+
+
+**_24. Split List by Position:_**
+
+```c
+
+void splitByPosition(DoublyLinkedList list, int position, DoublyLinkedList *firstHalf, DoublyLinkedList *secondHalf)
+{
+    firstHalf->head = NULL;
+    secondHalf->head = NULL;
+
+    Node *current = list.head;
+    int currentPosition = 0;
+    while (current != NULL && currentPosition < position)
+    {
+        current = current->next;
+        currentPosition++;
+    }
+    if (current != NULL)
+    {
+        firstHalf->head = list.head;
+        secondHalf->head = current->next;
+
+        if (secondHalf->head != NULL)
+            secondHalf->head->previous = NULL;
+
+        current->next = NULL;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function splits the linked list into two parts at the specified position. The 'firstHalf' and 'secondHalf' linked lists are used to store the resulting parts. The function preserves the double-linked relationships between nodes. It also displays a message if the specified position does not exist._
+
+
+**_25. Merge Sorted Lists:_**
+
+```c
+
+DoublyLinkedList *mergeSorted(DoublyLinkedList firstSortedList, DoublyLinkedList secondSortedList, int key)
+{
+    DoublyLinkedList *thirdSortedList = createDoublyLinkedList();
+    Node *secondListPointer = secondSortedList.head;
+    Node *firstListPointer = firstSortedList.head;
+    while (firstListPointer && secondListPointer)
+        if ((key == 1 && firstListPointer->data < secondListPointer->data) ||
+            (key != 1 && firstListPointer->data > secondListPointer->data))
+        {
+            append(thirdSortedList, firstListPointer->data);
+            firstListPointer = firstListPointer->next;
+        }
+        else
+        {
+            if (firstListPointer->data == secondListPointer->data)
+                firstListPointer = firstListPointer->next;
+            append(thirdSortedList, secondListPointer->data);
+            secondListPointer = secondListPointer->next;
+        }
+    while (firstListPointer)
+    {
+        append(thirdSortedList, firstListPointer->data);
+        firstListPointer = firstListPointer->next;
+    }
+
+    while (secondListPointer)
+    {
+        append(thirdSortedList, secondListPointer->data);
+        secondListPointer = secondListPointer->next;
+    }
+
+    return thirdSortedList;
+}
+
+```
+
+_This function merges two sorted linked lists into a new sorted list based on the specified key. If the key is 1, the list is merged in ascending order, and if the key is -1, the list is merged in descending order. The function returns a new sorted linked list._
+
+
+**_26. Detect Cycle (Floyd's Algorithm):_**
+
+```c
+
+bool FloydTurtoisHareCycle(DoublyLinkedList list)
+{
+    if (!list.head || !list.head->next)
+        return false;
+
+    Node *tortoise = list.head;
+    Node *hare = list.head;
+
+    while (hare != NULL && hare->next != NULL)
+    {
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+
+        if (tortoise == hare)
+            return true;
+    }
+
+    return false;
+}
+
+```
+
+_This function detects the presence of a cycle in the linked list using Floyd's Tortoise and Hare Algorithm. It returns true if a cycle is detected, and false otherwise._
+
+
+**_27. Find Intersection Node:_**
+
+```c
+
+Node *findIntersectionNode(DoublyLinkedList list1, DoublyLinkedList list2)
+{
+    if (list1.head == NULL || list2.head == NULL)
+        return NULL;
+
+    Node *ptr1 = list1.head;
+    Node *ptr2 = list2.head;
+
+    bool switchPtr1 = false;
+    bool switchPtr2 = false;
+
+    while (ptr1 != ptr2)
+    {
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+
+        if (ptr1 == NULL && !switchPtr1)
+        {
+            ptr1 = list2.head;
+            switchPtr1 = true;
+        }
+
+        if (ptr2 == NULL && !switchPtr2)
+        {
+            ptr2 = list1.head;
+            switchPtr2 = true;
+        }
+
+        if (switchPtr1 && switchPtr2 && ptr1 != ptr2)
+        {
+            return NULL;
+        }
+    }
+
+    return ptr1;
+}
+
+```
+
+_This function finds the intersection node between two linked lists 'list1' and 'list2'. It returns the node where the lists intersect or NULL if there's no intersection._
+
+
+**_28. Remove Duplicates:_**
+
+```c
+
+void removeDuplicates(DoublyLinkedList *list)
+{
+    if (list->head == NULL || list->head->next == NULL)
+        return;
+
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
+        Node *runner = current;
+
+        while (runner->next != NULL)
+            if (runner->next->data == current->data)
+            {
+                Node *duplicate = runner->next;
+                runner->next = runner->next->next;
+
+                if (runner->next != NULL)
+                    runner->next->previous = runner;
+
+                free(duplicate);
+            }
+            else
+                runner = runner->next;
+        current = current->next;
+    }
+}
+
+```
+
+_This function removes duplicates from a linked list 'list' while preserving the original order. It modifies the list in place._
+
+
+**_29. Check Ascending Sorted:_**
+
+```c
+
+bool isSortedAsc(DoublyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data > current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if a linked list 'list' is sorted in ascending order. It returns true if the list is sorted and false otherwise._
+
+
+**_30. Check Descending Sorted:_**
+
+```c
+
+bool isSortedDesc(DoublyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data < current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if a linked list 'list' is sorted in descending order. It returns true if the list is sorted and false otherwise._
+
+
+**_31. Search with Criteria:_**
+
+```c
+
+Node *searchWithCriteria(DoublyLinkedList list, CriteriaFunction criteria)
+{
+    Node *current = list.head;
+
+    while (current != NULL)
+    {
+        if (criteria(current->data))
+            return current;
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+```
+
+_This function searches for a node in the linked list 'list' based on a custom criteria function 'criteria.' It returns the first node that meets the criteria or NULL if no nodes match the criteria._
