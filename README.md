@@ -2,6 +2,10 @@
 
 _I. A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation._
 
+<p align="center">
+  <img src="pictures/Stack-Data-Structure.png.jpg" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Create stack:_**
 
 ```c
@@ -6082,7 +6086,3 @@ int count(const Tuple tuple, int target)
 ```
 
 _This function counts the occurrences of a target integer within a Tuple. It returns the count of occurrences._
-
-<p align="center">
-  <img src="your-image-source.jpg" alt="Image Description" style="display: block; margin: 0 auto;">
-</p>
