@@ -3516,7 +3516,7 @@ int get(HashTable *hashtable, const char *key)
     {
         if (strcmp(current->key, key) == 0)
             return current->value;
-			
+
         current = current->next;
     }
 
@@ -3551,3 +3551,164 @@ void clear(HashTable *hashtable)
 
 _This function clears the hash table and deallocates memory. It frees all key-value pairs and linked list nodes, making the hash table ready for cleanup._
 
+# HEAPS (MIN-MAX)
+
+_A heap is a data structure that organizes elements in a tree-based structure such that the elements at any given level are greater than or equal to (or less than or equal to, depending on the type of heap) their child elements. This property is called the heap property. Heaps are often used to implement priority queues, which are abstract data types that provide efficient methods for inserting and removing the element with the highest (or lowest) priority._
+
+**_1. Create Max Heap:_**
+
+```c
+
+MaxHeap* createMaxHeap(int initialCapacity)
+{
+    // Creates a new Max Heap with the specified initial capacity.
+    // Initializes the heap size and allocates memory for the heap array.
+    // Returns a pointer to the created Max Heap.
+}
+
+```
+
+_This function creates a new Max Heap with the specified initial capacity. It initializes the heap size and allocates memory for the heap array. It returns a pointer to the created Max Heap._
+
+
+**_2. Swap:_**
+
+```c
+
+void swap(int* a, int* b)
+{
+    // Swaps the values of two integers by reference.
+}
+
+```
+
+_This function swaps the values of two integers by reference, using pointers to the integers._
+
+
+**_3. Heapify Up:_**
+
+```c
+
+void heapifyUp(MaxHeap* heap, int index)
+{
+    // Restores the Max Heap property by moving the element up the heap.
+}
+
+```
+
+_This function restores the Max Heap property by moving the element up the heap as needed, to maintain the heap structure._
+
+
+**_4. Insert into Max Heap:_**
+
+```c
+
+void insert(MaxHeap* heap, int value)
+{
+    // Inserts a value into the Max Heap while maintaining the Max Heap property.
+    // Dynamically resizes the heap if it exceeds its capacity.
+}
+
+```
+
+_This function inserts a value into the Max Heap while maintaining the Max Heap property. It dynamically resizes the heap if it exceeds its capacity._
+
+
+**_5. Heapify Down:_**
+
+```c
+
+void heapifyDown(MaxHeap* heap, int index)
+{
+    // Restores the Max Heap property by moving the element down the heap.
+}
+
+```
+
+_This function restores the Max Heap property by moving the element down the heap as needed, to maintain the heap structure._
+
+
+**_6. Extract Max:_**
+
+```c
+
+int extractMax(MaxHeap* heap)
+{
+    // Removes and returns the maximum element from the Max Heap.
+    // Restores the Max Heap property after extraction.
+}
+
+```
+
+_This function removes and returns the maximum element from the Max Heap. It restores the Max Heap property after extraction. If the heap is empty, it prints an error message and returns -1._
+
+
+**_7. Build Max Heap:_**
+
+```c
+
+void buildMaxHeap(MaxHeap* heap, int* arr, int n)
+{
+    // Builds a Max Heap from an array of elements.
+}
+
+```
+
+_This function builds a Max Heap from an array of elements. It inserts the elements into the heap to create a valid Max Heap structure._
+
+
+**_8. Delete:_**
+
+```c
+
+int delete(MaxHeap* heap, int value)
+{
+    // Deletes an element with the specified value from the Max Heap.
+    // Restores the Max Heap property after deletion.
+}
+
+```
+
+_This function deletes an element with the specified value from the Max Heap. It restores the Max Heap property after deletion. If the element is not found, it prints an error message and returns -1._
+
+
+**_9. Decrease Key:_**
+
+```c
+
+void decreaseKey(MaxHeap* heap, int index, int newValue)
+{
+    // Decreases the value of an element at the specified index in the Max Heap.
+}
+
+```
+
+_This function decreases the value of an element at the specified index in the Max Heap. It checks for valid indices and ensures that the new value is smaller than the current value._
+
+
+**_10. Heap Sort:_**
+
+```c
+
+void heapSort(MaxHeap* heap)
+{
+    // Sorts the Max Heap in ascending order.
+}
+
+```
+
+_This function sorts the Max Heap in ascending order using the heap sort algorithm._
+
+
+**_11. Convert to String:_**
+
+```c
+
+void toString(MaxHeap* heap)
+{
+    // Converts the Max Heap to a string for display.
+}
+
+```
+
+_This function converts the Max Heap into a string format for display, including its elements and structure._

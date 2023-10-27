@@ -1,39 +1,46 @@
 #include "maxHeap.h"
 
-MaxHeap* createMaxHeap(int initialCapacity) {
-    MaxHeap* heap = (MaxHeap*)malloc(sizeof(MaxHeap));
+MaxHeap *createMaxHeap(int initialCapacity)
+{
+    MaxHeap *heap = (MaxHeap *)malloc(sizeof(MaxHeap));
     heap->capacity = initialCapacity;
     heap->size = 0;
-    heap->arr = (int*)malloc(sizeof(int) * initialCapacity);
+    heap->arr = (int *)malloc(sizeof(int) * initialCapacity);
     return heap;
 }
 
-void swap(int* a, int* b) {
+void swap(int *a, int *b)
+{
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-void heapifyUp(MaxHeap* heap, int index) {
+void heapifyUp(MaxHeap *heap, int index)
+{
     int parent = (index - 1) / 2;
-    while (index > 0 && heap->arr[index] > heap->arr[parent]) {
+    while (index > 0 && heap->arr[index] > heap->arr[parent])
+    {
         swap(&heap->arr[index], &heap->arr[parent]);
         index = parent;
         parent = (index - 1) / 2;
     }
 }
 
-void insert(MaxHeap* heap, int value) {
-    if (heap->size >= heap->capacity) {
+void insert(MaxHeap *heap, int value)
+{
+    if (heap->size >= heap->capacity)
+    {
         heap->capacity *= 2;
-        heap->arr = (int*)realloc(heap->arr, sizeof(int) * heap->capacity);
+        heap->arr = (int *)realloc(heap->arr, sizeof(int) * heap->capacity);
     }
     heap->arr[heap->size] = value;
     heapifyUp(heap, heap->size);
     heap->size++;
 }
 
-void heapifyDown(MaxHeap* heap, int index) {
+void heapifyDown(MaxHeap *heap, int index)
+{
     int left = 2 * index + 1;
     int right = 2 * index + 2;
     int largest = index;
@@ -43,14 +50,17 @@ void heapifyDown(MaxHeap* heap, int index) {
     if (right < heap->size && heap->arr[right] > heap->arr[largest])
         largest = right;
 
-    if (largest != index) {
+    if (largest != index)
+    {
         swap(&heap->arr[index], &heap->arr[largest]);
         heapifyDown(heap, largest);
     }
 }
 
-int extractMax(MaxHeap* heap) {
-    if (heap->size <= 0) {
+int extractMax(MaxHeap *heap)
+{
+    if (heap->size <= 0)
+    {
         printf("Heap is empty.\n");
         return -1;
     }
@@ -61,20 +71,24 @@ int extractMax(MaxHeap* heap) {
     return max;
 }
 
-void buildMaxHeap(MaxHeap* heap, int* arr, int n) {
+void buildMaxHeap(MaxHeap *heap, int *arr, int n)
+{
     for (int i = 0; i < n; i++)
         insert(heap, arr[i]);
 }
 
-int delete(MaxHeap* heap, int value) {
+int delete(MaxHeap *heap, int value)
+{
     int index = -1;
     for (int i = 0; i < heap->size; i++)
-        if (heap->arr[i] == value) {
+        if (heap->arr[i] == value)
+        {
             index = i;
             break;
         }
 
-    if (index == -1) {
+    if (index == -1)
+    {
         printf("Element not found in the heap.\n");
         return -1;
     }
@@ -85,12 +99,15 @@ int delete(MaxHeap* heap, int value) {
     return deletedValue;
 }
 
-void decreaseKey(MaxHeap* heap, int index, int newValue) {
-    if (index < 0 || index >= heap->size) {
+void decreaseKey(MaxHeap *heap, int index, int newValue)
+{
+    if (index < 0 || index >= heap->size)
+    {
         printf("Invalid index.\n");
         return;
     }
-    if (newValue < heap->arr[index]) {
+    if (newValue < heap->arr[index])
+    {
         printf("New value is smaller than the current value.\n");
         return;
     }
@@ -98,17 +115,20 @@ void decreaseKey(MaxHeap* heap, int index, int newValue) {
     heapifyUp(heap, index);
 }
 
-void heapSort(MaxHeap* heap) {
+void heapSort(MaxHeap *heap)
+{
     int n = heap->size;
     for (int i = n - 1; i >= 0; i--)
         heap->arr[i] = extractMax(heap);
 }
 
-void toString(MaxHeap* heap) {
+void toString(MaxHeap *heap)
+{
     printf("[");
-    for (int i = 0; i < heap->size; i++) {
+    for (int i = 0; i < heap->size; i++)
+    {
         printf("%d", heap->arr[i]);
-        if (i != heap->size - 1) 
+        if (i != heap->size - 1)
             printf(", ");
     }
     printf("]\n");
