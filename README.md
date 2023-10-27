@@ -1,5 +1,7 @@
 # STACK
 
+_A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation._
+
 <font color="blue"> **_1. Create stack:_** </font>
 
 ```c
@@ -239,3 +241,18 @@ _The merge function combines two input stacks into a single stack (mergingStack)
 
 # QUEUE
 
+_A queue is a first-in-first-out (FIFO) data structure. Elements are added to the end of the queue and removed from the front. Queues are often used to implement tasks that must be processed in order, such as printing jobs or tasks in a production line._
+
+<font color="blue"> **_1. Create queue:_** </font>
+
+```c
+Queue createQueue()
+{
+    Queue queue;
+    queue.head = NULL;
+    queue.tail = NULL;
+    return queue;
+}
+```
+
+_The function```c Queue createQueue()``` creates and initializes a new queue data structure. It allocates memory for a new Queue struct and initializes its head and tail pointers to```c NULL```. This indicates that the queue is empty. The function then returns the new queue struct._
