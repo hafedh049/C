@@ -3561,9 +3561,11 @@ _A heap is a data structure that organizes elements in a tree-based structure su
 
 MaxHeap* createMaxHeap(int initialCapacity)
 {
-    // Creates a new Max Heap with the specified initial capacity.
-    // Initializes the heap size and allocates memory for the heap array.
-    // Returns a pointer to the created Max Heap.
+    MaxHeap *heap = (MaxHeap *)malloc(sizeof(MaxHeap));
+    heap->capacity = initialCapacity;
+    heap->size = 0;
+    heap->arr = (int *)malloc(sizeof(int) * initialCapacity);
+    return heap;
 }
 
 ```
@@ -3577,7 +3579,9 @@ _This function creates a new Max Heap with the specified initial capacity. It in
 
 void swap(int* a, int* b)
 {
-    // Swaps the values of two integers by reference.
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
 
 ```
@@ -3591,7 +3595,13 @@ _This function swaps the values of two integers by reference, using pointers to 
 
 void heapifyUp(MaxHeap* heap, int index)
 {
-    // Restores the Max Heap property by moving the element up the heap.
+    int parent = (index - 1) / 2;
+    while (index > 0 && heap->arr[index] > heap->arr[parent])
+    {
+        swap(&heap->arr[index], &heap->arr[parent]);
+        index = parent;
+        parent = (index - 1) / 2;
+    }
 }
 
 ```
@@ -3605,8 +3615,14 @@ _This function restores the Max Heap property by moving the element up the heap 
 
 void insert(MaxHeap* heap, int value)
 {
-    // Inserts a value into the Max Heap while maintaining the Max Heap property.
-    // Dynamically resizes the heap if it exceeds its capacity.
+    if (heap->size >= heap->capacity)
+    {
+        heap->capacity *= 2;
+        heap->arr = (int *)realloc(heap->arr, sizeof(int) * heap->capacity);
+    }
+    heap->arr[heap->size] = value;
+    heapifyUp(heap, heap->size);
+    heap->size++;
 }
 
 ```
@@ -3620,7 +3636,20 @@ _This function inserts a value into the Max Heap while maintaining the Max Heap 
 
 void heapifyDown(MaxHeap* heap, int index)
 {
-    // Restores the Max Heap property by moving the element down the heap.
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+    int largest = index;
+
+    if (left < heap->size && heap->arr[left] > heap->arr[largest])
+        largest = left;
+    if (right < heap->size && heap->arr[right] > heap->arr[largest])
+        largest = right;
+
+    if (largest != index)
+    {
+        swap(&heap->arr[index], &heap->arr[largest]);
+        heapifyDown(heap, largest);
+    }
 }
 
 ```
@@ -3634,8 +3663,16 @@ _This function restores the Max Heap property by moving the element down the hea
 
 int extractMax(MaxHeap* heap)
 {
-    // Removes and returns the maximum element from the Max Heap.
-    // Restores the Max Heap property after extraction.
+    if (heap->size <= 0)
+    {
+        printf("Heap is empty.\n");
+        return -1;
+    }
+    int max = heap->arr[0];
+    heap->arr[0] = heap->arr[heap->size - 1];
+    heap->size--;
+    heapifyDown(heap, 0);
+    return max;
 }
 
 ```
@@ -3649,7 +3686,8 @@ _This function removes and returns the maximum element from the Max Heap. It res
 
 void buildMaxHeap(MaxHeap* heap, int* arr, int n)
 {
-    // Builds a Max Heap from an array of elements.
+    for (int i = 0; i < n; i++)
+        insert(heap, arr[i]);
 }
 
 ```
@@ -3663,8 +3701,24 @@ _This function builds a Max Heap from an array of elements. It inserts the eleme
 
 int delete(MaxHeap* heap, int value)
 {
-    // Deletes an element with the specified value from the Max Heap.
-    // Restores the Max Heap property after deletion.
+    int index = -1;
+    for (int i = 0; i < heap->size; i++)
+        if (heap->arr[i] == value)
+        {
+            index = i;
+            break;
+        }
+
+    if (index == -1)
+    {
+        printf("Element not found in the heap.\n");
+        return -1;
+    }
+    int deletedValue = heap->arr[index];
+    heap->arr[index] = heap->arr[heap->size - 1];
+    heap->size--;
+    heapifyDown(heap, index);
+    return deletedValue;
 }
 
 ```
@@ -3678,7 +3732,18 @@ _This function deletes an element with the specified value from the Max Heap. It
 
 void decreaseKey(MaxHeap* heap, int index, int newValue)
 {
-    // Decreases the value of an element at the specified index in the Max Heap.
+    if (index < 0 || index >= heap->size)
+    {
+        printf("Invalid index.\n");
+        return;
+    }
+    if (newValue < heap->arr[index])
+    {
+        printf("New value is smaller than the current value.\n");
+        return;
+    }
+    heap->arr[index] = newValue;
+    heapifyUp(heap, index);
 }
 
 ```
@@ -3692,7 +3757,9 @@ _This function decreases the value of an element at the specified index in the M
 
 void heapSort(MaxHeap* heap)
 {
-    // Sorts the Max Heap in ascending order.
+    int n = heap->size;
+    for (int i = n - 1; i >= 0; i--)
+        heap->arr[i] = extractMax(heap);
 }
 
 ```
@@ -3706,9 +3773,1339 @@ _This function sorts the Max Heap in ascending order using the heap sort algorit
 
 void toString(MaxHeap* heap)
 {
-    // Converts the Max Heap to a string for display.
+    printf("[");
+    for (int i = 0; i < heap->size; i++)
+    {
+        printf("%d", heap->arr[i]);
+        if (i != heap->size - 1)
+            printf(", ");
+    }
+    printf("]\n");
 }
 
 ```
 
 _This function converts the Max Heap into a string format for display, including its elements and structure._
+
+# SET
+
+_A set is an abstract data type that can store unique values, without any particular order. It is a computer implementation of the mathematical concept of a finite set. Unlike most other collection types, rather than retrieving a specific element from a set, one typically tests a value for membership in a set_
+
+**_1. Create Set:_**
+
+```c
+
+Set *createSet()
+{
+    Set *set = (Set *)malloc(sizeof(Set));
+    set->head = NULL;
+    return set;
+}
+
+```
+
+_This function creates an empty Set. It initializes the head of the Set as NULL and returns a pointer to the created Set._
+
+
+**_2. Contains:_**
+
+```c
+
+bool contains(Set set, int element)
+{
+    Node *current = set.head;
+    while (current)
+    {
+        if (current->data == element)
+            return true;
+        current = current->next;
+    }
+    return false;
+}
+
+```
+
+_This function checks if the Set contains a specified element. It returns true if the element is found; otherwise, it returns false._
+
+
+**_3. Add to Set:_**
+
+```c
+
+void add(Set *set, int element)
+{
+    if (!contains(*set, element))
+    {
+        Node *newNode = (Node *)malloc(sizeof(Node));
+        newNode->data = element;
+        newNode->next = set->head;
+        set->head = newNode;
+    }
+}
+
+```
+
+_This function adds an element to the Set if it is not already present. It ensures that there are no duplicate elements in the Set._
+
+
+**_4. Remove Item:_**
+
+```c
+
+void removeItem(Set *set, int element)
+{
+    Node *current = set->head;
+    Node *prev = NULL;
+
+    while (current)
+    {
+        if (current->data == element)
+        {
+            if (prev)
+                prev->next = current->next;
+            else
+                set->head = current->next;
+            free(current);
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
+
+```
+
+_This function removes an element from the Set if it exists. It maintains the integrity of the Set and deallocates memory for the removed element._
+
+
+**_5. Show All:_**
+
+```c
+
+void showAll(Set *set)
+{
+    printf("Set: { ");
+    Node *current = set->head;
+    while (current)
+    {
+        printf(current->next ? "%d, " : "%d ", current->data);
+        current = current->next;
+    }
+    printf("}\n");
+}
+
+```
+
+_This function displays all elements in the Set for visualization. It presents the elements as a list enclosed in curly braces._
+
+
+**_6. Clear Set:_**
+
+```c
+
+void clearSet(Set *set)
+{
+    Node *current = set->head;
+    while (current != NULL)
+    {
+        Node *next = current->next;
+        free(current);
+        current = next;
+    }
+    set->head = NULL;
+}
+
+```
+
+_This function clears all elements from the Set and deallocates memory associated with each element. After this operation, the Set is empty._
+
+
+**_7. Union of Sets:_**
+
+```c
+
+Set *unions(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current1 = firstSet.head;
+    while (current1 != NULL)
+    {
+        add(result, current1->data);
+        current1 = current1->next;
+    }
+
+    current1 = secondSet.head;
+    while (current1 != NULL)
+    {
+        add(result, current1->data);
+        current1 = current1->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the union of two Sets. It returns a new Set containing all unique elements from both Sets._
+
+
+**_8. Intersection of Sets:_**
+
+```c
+
+Set *intersects(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (contains(secondSet, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the intersection of two Sets. It returns a new Set containing elements that are present in both Sets._
+
+
+**_9. Differences of Sets:_**
+
+```c
+
+Set *differences(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(secondSet, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the differences between two Sets. It returns a new Set containing elements from the first Set that are not present in the second Set._
+
+
+**_10. Is Subset:_**
+
+```c
+
+bool isSubset(Set firstSet, Set secondSet)
+{
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(secondSet, current->data))
+            return false;
+        current = current->next;
+    }
+    return true;
+}
+
+```
+
+_This function checks if the first Set is a subset of the second Set. It returns true if it is a subset; otherwise, it returns false._
+
+
+**_11. Cardinality of Set:_**
+
+```c
+
+int cardinal(Set set)
+{
+    int count = 0;
+    Node *current = set.head;
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+    return count;
+}
+
+```
+
+_This function computes the cardinality, which is the number of elements in the Set. It returns the count of elements in the Set._
+
+
+**_12. Is Empty:_**
+
+```c
+
+bool isEmpty(Set set)
+{
+    return set.head == NULL;
+}
+
+```
+
+_This function checks if the Set is empty. It returns true if the Set is empty; otherwise, it returns false._
+
+
+**_13. Get Element at Index:_**
+
+```c
+
+int getElementAtIndex(const Set set, int index)
+{
+    if (isEmpty(set))
+        return -1;
+
+    int count = 0;
+    Node *current = set.head;
+
+    while (current != NULL)
+    {
+        if (count == index)
+            return current->data;
+
+        current = current->next;
+        count++;
+    }
+
+    return -1;
+}
+
+```
+
+_This function retrieves the element at the specified index in the Set. It returns the element at the index, or -1 if the Set is empty or the index is out of bounds._
+
+
+**_14. Power Set:_**
+
+```c
+
+void powerSet(Set set, int setSize)
+{
+    int totalSubsets = (int)pow(2, setSize);
+    printf("{\n");
+    for (int i = 0; i < totalSubsets; i++)
+    {
+        printf(" {");
+        for (int j = 0; j < setSize; j++)
+            if (i & (1 << j))
+                printf("%d,", getElementAtIndex(set, j));
+        printf(i == totalSubsets - 1 ? "}\n" : "},\n");
+    }
+    printf("}\n");
+}
+
+```
+
+_This function computes and displays the power set of the Set, which consists of all possible subsets of the Set, including the empty set._
+
+
+**_15. Are Sets Equal:_**
+
+```c
+
+bool areSetsEqual(Set firstSet, Set secondSet)
+{
+    if (cardinal(firstSet) != cardinal(secondSet))
+        return false;
+
+    for (int j = 0; j < cardinal(firstSet); j++)
+        if (getElementAtIndex(firstSet, j) != getElementAtIndex(secondSet, j))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if two Sets are equal. It returns true if they have the same elements in the same order; otherwise, it returns false._
+
+
+**_16. Are Disjoint Sets:_**
+
+```c
+
+bool areDisjoints(Set firstSet, Set secondSet)
+{
+    return intersects(firstSet, secondSet)->head ? false : true;
+}
+
+```
+
+_This function checks if two Sets are disjoint, which means they have no common elements. It returns true if they are disjoint; otherwise, it returns false._
+
+
+**_17. Symmetric Differences of Sets:_**
+
+```c
+
+Set *symmetricDifferences(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+    Set *intersection = intersects(firstSet, secondSet);
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(*intersection, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+    current = secondSet.head;
+    while (current != NULL)
+    {
+        if (!contains(*intersection, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the symmetric differences between two Sets. It returns a new Set containing elements that are present in either of the Sets but not in both._
+
+
+**_18. Cartesian Product of Sets:_**
+
+```c
+
+bool cartisianProduct(Set firstSet, Set secondSet)
+{
+    printf("Cartesian Product of the Sets: { ");
+    for (int i = 0; i < cardinal(firstSet); i++)
+    {
+        for (int j = 0; j < cardinal(secondSet); j++)
+        {
+            printf("(%d, %d),\n", getElementAtIndex(firstSet, i), getElementAtIndex(secondSet, j));
+        }
+    }
+    printf("}\n");
+}
+
+```
+
+_This function computes and displays the Cartesian product of two Sets. It pairs each element of the first Set with each element of the second Set and displays all possible combinations._
+
+
+**_19. Is Superset:_**
+
+```c
+
+bool isSuperset(Set firstSet, Set secondSet)
+{
+    return isSubset(secondSet, firstSet);
+}
+
+```
+
+_This function checks if the first Set is a superset of the second Set. It returns true if it is a superset; otherwise, it returns false._
+
+
+**_20. Complement of Set:_**
+
+```c
+
+Set *complementSet(Set setB, Set setA)
+{
+    Set *result = createSet();
+    printf("Complement Set: { ");
+    for (int i = 0; i < cardinal(setB); i++)
+    {
+        bool found = false;
+
+        for (int j = 0; j < cardinal(setA); j++)
+            if (contains(setA, getElementAtIndex(setB, i)))
+            {
+                found = true;
+                break;
+            }
+
+        if (!found)
+            get(result, getElementAtIndex(setB, i));
+    }
+
+    return result;
+}
+
+```
+
+_This function computes and returns the complement of setB with respect to setA. It finds the elements that are in setB but not in setA and returns them as a new Set._
+
+
+**_21. Is Symmetric Set:_**
+
+```c
+
+bool isSymmetric(Set universalSet, Set set)
+{
+    return areSetsEqual(set, *complementSet(universalSet, set));
+}
+
+
+```
+
+_This function checks if the set is symmetric with respect to the universal set. It returns true if the set is symmetric; otherwise, it returns false._
+
+
+**_22. Inversion of Set:_**
+
+```c
+
+Set *inversionSet(Set universalSet, Set setA)
+{
+    return complementSet(universalSet, setA);
+}
+
+```
+
+_This function computes and returns the inversion of setA with respect to the universal set. It finds the elements that are in the universal set but not in setA and returns them as a new Set._
+
+
+**_23. Add All to Set:_**
+
+```c
+
+void addAll(Set *set, int numArgs, ...)
+{
+    va_list args;
+    va_start(args, numArgs);
+
+    for (int i = 0; i < numArgs; i++)
+        add(set, va_arg(args, int));
+
+    va_end(args);
+}
+
+```
+
+_This function adds a variable number of elements to the Set. It takes a variable number of arguments and adds each element to the Set._
+
+# SINGLY LINKED LIST
+
+_A singly linked list is a linear data structure that consists of a sequence of nodes where each node contains a data field and a reference (link) to the next node in the list. The last node in the list has a reference to null. Singly linked lists are relatively simple to implement and efficient for certain operations, such as insertion and deletion._
+
+**_1. Create Singly Linked List:_**
+
+```c
+
+SinglyLinkedList *createSinglyLinkedList()
+{
+    SinglyLinkedList *linkedList = (SinglyLinkedList *)malloc(sizeof(SinglyLinkedList));
+    linkedList->head = NULL;
+    return linkedList;
+}
+
+```
+
+_This function creates an empty Singly Linked List. It initializes the head as NULL and returns a pointer to the created Singly Linked List._
+
+
+**_2. Is Empty:_**
+
+```c
+
+int isEmpty(SinglyLinkedList list)
+{
+    return list.head == NULL;
+}
+
+```
+
+_This function checks if the Singly Linked List is empty. It returns 1 if the list is empty; otherwise, it returns 0._
+
+
+**_3. Append:_**
+
+```c
+
+void append(SinglyLinkedList *list, int item)
+{
+    Node *node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+    node->next = NULL;
+    if (isEmpty(*list))
+    {
+        list->head = node;
+    }
+    else
+    {
+        Node *last = list->head;
+        while (last->next)
+            last = last->next;
+        last->next = node;
+    }
+}
+
+```
+
+_This function appends an item to the end of the Singly Linked List, maintaining the list's structure._
+
+
+**_4. Append All:_**
+
+```c
+
+void appendAll(SinglyLinkedList *list, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        append(list, va_arg(args, int));
+}
+
+```
+
+_This function appends a variable number of items to the end of the Singly Linked List. It takes a variable number of arguments and appends each item to the list._
+
+
+**_5. Shift All:_**
+
+```c
+
+void shiftAll(SinglyLinkedList *list, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        shift(list, va_arg(args, int));
+}
+
+```
+
+_This function shifts (prepends) a variable number of items to the beginning of the Singly Linked List. It takes a variable number of arguments and adds each item to the list's front._
+
+
+**_6. Shift:_**
+
+```c
+
+void shift(SinglyLinkedList *list, int item)
+{
+    Node *node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+
+    if (isEmpty(*list))
+    {
+        node->next = NULL;
+        list->head = node;
+    }
+    else
+    {
+        node->next = list->head;
+        list->head = node;
+    }
+}
+
+```
+
+_This function shifts (prepends) an item to the beginning of the Singly Linked List, making it the new head of the list._
+
+
+**_7. Insert After:_**
+
+```c
+
+void insertAfter(SinglyLinkedList *list, Node *node, int item)
+{
+    if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != node)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        headNode->next = node;
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Element added Successfully");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function inserts an item after a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_8. Insert All After:_**
+
+```c
+
+void insertAllAfter(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertAfter(list, node, va_arg(args, int));
+}
+
+```
+
+_This function inserts a variable number of items after a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_9. Insert Before:_**
+
+```c
+
+void insertBefore(SinglyLinkedList *list, Node *searchnode, int item)
+{
+    if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != searchnode)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        headNode->next = node;
+        node->data = headNode->data;
+        headNode->data = item;
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Element added Successfully");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function inserts an item before a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_10. Insert All Before:_**
+
+```c
+
+void insertAllBefore(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertBefore(list, node, va_arg(args, int));
+}
+
+```
+
+_This function inserts a variable number of items before a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_11. Show All Items:_**
+
+```c
+
+void showAllItems(SinglyLinkedList SinglyLinkedList)
+{
+    printf("\033[1;33m\n\n---------------------------\n\n");
+
+    if (isEmpty(SinglyLinkedList))
+    {
+        printf("This list is empty x(");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+        return;
+    }
+    Node *head = SinglyLinkedList.head;
+    while (head)
+    {
+        if (head->next)
+            printf("\033[1;32m| %d | -> ", head->data);
+        else
+            printf("\033[1;32m| %d |", head->data);
+        head = head->next;
+    }
+    printf("\033[1;33m\n\n---------------------------\n\n");
+    printf("\033[1;0m");
+}
+
+```
+
+_This function displays all items in the Singly Linked List for visualization, with special formatting._
+
+
+**_12. Search:_**
+
+```c
+
+int search(SinglyLinkedList list, int item)
+{
+    assert(!isEmpty(list));
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->data == item)
+            return 1;
+        head = head->next;
+    }
+    return 0;
+}
+
+```
+
+_This function searches for an item in the Singly Linked List. It returns 1 if the item is found; otherwise, it returns 0._
+
+
+**_13. Pop First:_**
+
+```c
+
+int popFirst(SinglyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result = head->data;
+    list->head = list->head->next;
+    free(head);
+    return result;
+}
+
+```
+
+_This function removes and returns the first item in the Singly Linked List. It ensures that the list structure is maintained._
+
+
+**_14. Pop Last:_**
+
+```c
+
+int popLast(SinglyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result;
+    if (!head->next)
+    {
+        result = head->data;
+        list->head = NULL;
+        free(head);
+        return result;
+    }
+    while (head->next->next)
+        head = head->next;
+    result = head->next->data;
+    free(head->next);
+    head->next = NULL;
+    return result;
+}
+
+```
+
+_This function removes and returns the last item in the Singly Linked List. It ensures that the list structure is maintained._
+
+
+**_15. Pop:_**
+
+```c
+
+int pop(SinglyLinkedList *list, int item)
+{
+    assert(!isEmpty(*list));
+    if (!list->head->next && list->head->data == item)
+        return popFirst(list);
+    Node *head = list->head;
+    while (head->next && head->next->data != item)
+        head = head->next;
+    if (head->next)
+    {
+        Node *aux = head->next;
+        int value = aux->data;
+        head->next = aux->next;
+        free(aux);
+        return value;
+    }
+    else
+    {
+        return 2147483647;
+    }
+}
+
+```
+
+_This function removes and returns the specified item in the Singly Linked List. If the item is not found, it returns a large positive value._
+
+
+**_16. Get First:_**
+
+```c
+
+int getFirst(SinglyLinkedList list)
+{
+    assert(!isEmpty(list));
+    return list.head->data;
+}
+
+```
+
+_This function gets the first item in the Singly Linked List and returns its value._
+
+
+**_17. Get Last:_**
+
+```c
+
+int getLast(SinglyLinkedList list)
+{
+    assert(!isEmpty(list));
+    Node *node = list.head;
+    while (node->next)
+        node = node->next;
+    return node->data;
+}
+
+```
+
+_This function gets the last item in the Singly Linked List and returns its value._
+
+
+**_18. Get Size:_**
+
+```c
+
+int getSize(SinglyLinkedList list, Node *head)
+{
+    if (isEmpty(list))
+        return 0;
+    if (head)
+        return 1 + getSize(list, head->next);
+}
+
+```
+
+_This function calculates and returns the size (number of items) of the Singly Linked List. It traverses the list using recursion to count the items._
+
+
+**_19. Get Item By Index:_**
+
+```c
+
+int getItemByIndex(SinglyLinkedList list, int index)
+{
+    assert(!isEmpty(list));
+    int counter = -1;
+    Node *head = list.head;
+    while (head)
+    {
+        counter++;
+        if (counter == index)
+            break;
+        head = head->next;
+    }
+    assert(counter == index);
+    return head->data;
+}
+
+```
+
+_This function gets the item at a specified index in the Singly Linked List and returns its value. It ensures that the index is valid._
+
+
+**_20. Sort:_**
+
+```c
+
+void sort(SinglyLinkedList *list, int key)
+{
+    Node *primaryPointer, *secondaryPointer;
+    for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
+        for (secondaryPointer = primaryPointer->next; secondaryPointer; secondaryPointer = secondaryPointer->next)
+            if (key == 1 && primaryPointer->data > secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+            else if (key == -1 && primaryPointer->data < secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+}
+
+```
+
+_This function sorts the Singly Linked List in ascending or descending order based on the provided key (1 for ascending, -1 for descending). It uses a bubble sort algorithm for sorting._
+
+
+**_21. Reverse:_**
+
+```c
+
+void reverse(SinglyLinkedList *list)
+{
+    Node *prev = NULL;
+    Node *current = list->head;
+    Node *next;
+    while (current)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    list->head = prev;
+}
+
+```
+
+_This function reverses the order of items in the Singly Linked List while maintaining the list structure._
+
+
+**_22. Get Node:_**
+
+```c
+
+Node *getNode(SinglyLinkedList list, int item)
+{
+    assert(!isEmpty(list));
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->data == item)
+            return head;
+        head = head->next;
+    }
+    return NULL;
+}
+
+```
+
+_This function gets the node containing a specific item in the Singly Linked List and returns a pointer to the node if found, otherwise, it returns NULL._
+
+
+**_23. Update:_**
+
+```c
+
+void update(SinglyLinkedList *list, int oldValue, int newValue)
+{
+    Node *element = getNode(*list, oldValue);
+    if (element)
+        element->data = newValue;
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function updates an item's value in the Singly Linked List from `oldValue` to `newValue`. If the `oldValue` is not found, it provides an error message._
+
+
+**_24. Concatenate:_**
+
+```c
+
+void concatenate(SinglyLinkedList *list1, SinglyLinkedList list2)
+{
+    if (list1->head == NULL)
+        list1->head = list2.head;
+    else
+    {
+        Node *current = list1->head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = list2.head;
+    }
+}
+
+```
+
+_This function concatenates two Singly Linked Lists. If the first list is empty, it assigns the second list to it. Otherwise, it appends the second list to the end of the first list._
+
+
+**_25. Split By Position:_**
+
+```c
+
+void splitByPosition(SinglyLinkedList list, int posiiton, SinglyLinkedList *firstHalf, SinglyLinkedList *secondHalf)
+{
+    Node *element = getNode(list, getItemByIndex(list, posiiton));
+    if (element)
+    {
+        Node *listHelper = list.head;
+        Node *firstHalfHelper = (firstHalf->head = listHelper);
+        while (listHelper && listHelper->next->data != element->data) /*should not reach the element or the link will be destroyed after referencing the second half*/
+        {
+            listHelper = listHelper->next;
+            firstHalfHelper->next = listHelper;
+            firstHalfHelper = firstHalfHelper->next;
+        }
+        firstHalfHelper->next = NULL;
+        secondHalf->head = element;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function splits the list into two parts at the position of a specified element. It creates `firstHalf` and `secondHalf` lists and assigns elements based on the specified position._
+
+
+**_26. Merge Sorted:_**
+
+```c
+
+SinglyLinkedList *mergeSorted(SinglyLinkedList firstSortedList, SinglyLinkedList secondSortedList, int key)
+{
+    SinglyLinkedList *thirdSortedList = createSinglyLinkedList();
+    Node *secondListPointer = secondSortedList.head;
+    Node *firstListPointer = firstSortedList.head;
+    while (firstListPointer && secondListPointer)
+        if ((key == 1 && firstListPointer->data < secondListPointer->data) ||
+            (key != 1 && firstListPointer->data > secondListPointer->data))
+        {
+            append(thirdSortedList, firstListPointer->data);
+            firstListPointer = firstListPointer->next;
+        }
+        else
+        {
+            if (firstListPointer->data == secondListPointer->data)
+                firstListPointer = firstListPointer->next;
+            append(thirdSortedList, secondListPointer->data);
+            secondListPointer = secondListPointer->next;
+        }
+    while (firstListPointer)
+    {
+        append(thirdSortedList, firstListPointer->data);
+        firstListPointer = firstListPointer->next;
+    }
+
+    while (secondListPointer)
+    {
+        append(thirdSortedList, secondListPointer->data);
+        secondListPointer = secondListPointer->next;
+    }
+
+    return thirdSortedList;
+}
+
+```
+
+_This function merges two sorted Singly Linked Lists into a new sorted list, based on the specified key (1 for ascending, -1 for descending). It returns a pointer to the merged sorted list._
+
+
+**_27. Floyd's Tortoise and Hare Cycle Detection:_**
+
+```c
+
+bool FloydTurtoisHareCycle(SinglyLinkedList list)
+{
+    if (!list.head || !list.head->next)
+        return false;
+
+    Node *tortoise = list.head;
+    Node *hare = list.head;
+
+    while (hare != NULL && hare->next != NULL)
+    {
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+
+        if (tortoise == hare)
+            return true;
+    }
+
+    return false;
+}
+
+```
+
+_This function detects a cycle in the Singly Linked List using Floyd's Tortoise and Hare algorithm. It returns true if a cycle is detected, otherwise, it returns false._
+
+
+**_28. Find Intersection Node:_**
+
+```c
+
+Node *findIntersectionNode(SinglyLinkedList list1, SinglyLinkedList list2)
+{
+    if (list1.head == NULL || list2.head == NULL)
+        return NULL;
+
+    Node *ptr1 = list1.head;
+    Node *ptr2 = list2.head;
+
+    bool switchPtr1 = false;
+    bool switchPtr2 = false;
+
+    while (ptr1 != ptr2)
+    {
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+
+        if (ptr1 == NULL && !switchPtr1)
+        {
+            ptr1 = list2.head;
+            switchPtr1 = true;
+        }
+
+        if (ptr2 == NULL && !switchPtr2)
+        {
+            ptr2 = list1.head;
+            switchPtr2 = true;
+        }
+
+        if (switchPtr1 && switchPtr2 && ptr1 != ptr2)
+        {
+            return NULL;
+        }
+    }
+
+    return ptr1;
+}
+
+```
+
+_This function finds the intersection node of two Singly Linked Lists. It returns a pointer to the intersection node if found, otherwise, it returns NULL._
+
+
+**_29. Remove Duplicates:_**
+
+```c
+
+void removeDuplicates(SinglyLinkedList *list)
+{
+    if (list->head == NULL || list->head->next == NULL)
+        return;
+
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
+        Node *runner = current;
+
+        while (runner->next != NULL)
+        {
+            if (runner->next->data == current->data)
+            {
+                Node *duplicate = runner->next;
+                runner->next = runner->next->next;
+                free(duplicate);
+            }
+            else
+                runner = runner->next;
+        }
+        current = current->next;
+    }
+}
+
+```
+
+_This function removes duplicate items from the Singly Linked List, leaving only distinct values in the list._
+
+
+**_30. Is Sorted Ascending:_**
+
+```c
+
+bool isSortedAsc(SinglyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data > current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if the Singly Linked List is sorted in ascending order. It returns true if the list is sorted in ascending order, otherwise, it returns false._
+
+
+**_31. Is Sorted Descending:_**
+
+```c
+
+bool isSortedDesc(SinglyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data < current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if the Singly Linked List is sorted in descending order. It returns true if the list is sorted in descending order, otherwise, it returns false._
+
+
+**_32. Search With Criteria:_**
+
+```c
+
+Node *searchWithCriteria(SinglyLinkedList list, CriteriaFunction criteria)
+{
+    Node *current = list.head;
+
+    while (current != NULL)
+    {
+        if (criteria(current->data))
+            return current;
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+```
+
+_This function searches for an item in the Singly Linked List based on custom criteria provided by the `criteria` function. It returns a pointer to the node that satisfies the criteria or NULL if not found._
+
