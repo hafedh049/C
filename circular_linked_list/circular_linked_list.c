@@ -413,32 +413,40 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
 
 int findMaximumElement(CircularLinkedList *list)
 {
+  if (list->head == NULL)
+    return -1;
+
   int maximumElement = list->head->data;
   Node *current = list->head->next;
 
-  while (current != list->head)
-  {
-    if (current->data > maximumElement)
-      maximumElement = current->data;
+  if (list->head != current)
+    while (current != list->head)
+    {
+      if (current->data > maximumElement)
+        maximumElement = current->data;
 
-    current = current->next;
-  }
+      current = current->next;
+    }
 
   return maximumElement;
 }
 
 int findMinimumElement(CircularLinkedList *list)
 {
+  if (list->head == NULL)
+    return -1;
+
   int minimumElement = list->head->data;
   Node *current = list->head->next;
 
-  while (current != list->head)
-  {
-    if (current->data < minimumElement)
-      minimumElement = current->data;
+  if (list->head != current)
+    while (current != list->head)
+    {
+      if (current->data < minimumElement)
+        minimumElement = current->data;
 
-    current = current->next;
-  }
+      current = current->next;
+    }
 
   return minimumElement;
 }
