@@ -2,6 +2,10 @@
 
 _I. A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation._
 
+<p align="center">
+  <img src="pictures/Stack-Data-Structure.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Create stack:_**
 
 ```c
@@ -245,6 +249,10 @@ _The merge function combines two input stacks into a single stack (mergingStack)
 # QUEUE
 
 _A queue is a first-in-first-out (FIFO) data structure. Elements are added to the end of the queue and removed from the front. Queues are often used to implement tasks that must be processed in order, such as printing jobs or tasks in a production line._
+
+<p align="center">
+  <img src="pictures/Queue-Data-Structures.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create queue:_**
 
@@ -542,6 +550,10 @@ _The `merge` function combines two queues, 'firstQueue' and 'secondQueue,' into 
 # ARRAY
 
 _An array is a data structure that stores a collection of elements of the same type. The elements are stored in contiguous memory locations, and each element is identified by a unique index. Arrays are one of the most fundamental and widely used data structures in computer programming._
+
+<p align="center">
+  <img src="pictures/array.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create an Array:_**
 
@@ -1464,6 +1476,10 @@ _The `removeAllMany` function removes all occurrences of multiple elements based
 
 _A binary tree is a tree data structure in which each node has at most two children, referred to as the left child and the right child. That is, it is a k-ary tree with k = 2. A recursive definition using set theory is that a binary tree is a tuple (L, S, R), where L and R are binary trees or the empty set and S is a singleton set containing the root._
 
+<p align="center">
+  <img src="pictures/Diagram-of-Binary-Tree.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Inorder Traversal:_**
 
 ```c
@@ -1705,6 +1721,10 @@ _The `countRightSubtreeElements` function counts the number of elements in the r
 # CIRCULAR LINKED LIST
 
 _A circular linked list is a type of linked list in which the last node points to the first node, forming a loop. This makes it different from traditional linked lists, which have a beginning and an end._
+
+<p align="center">
+  <img src="pictures/Circulardoublylinkedlist-660x155.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create Circular Linked List:_**
 
@@ -2324,6 +2344,10 @@ _The `findMinimumElement` function finds and returns the minimum element in the 
 # DOUBLY LINKED LIST
 
 _A doubly linked list is a type of linked list in which each node contains a pointer to the previous node in the list, in addition to the pointer to the next node. This makes it possible to traverse the list in both the forward and backward directions._
+
+<p align="center">
+  <img src="pictures/DLL1.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create Doubly Linked List:_**
 
@@ -3127,6 +3151,10 @@ _This function searches for a node in the linked list 'list' based on a custom c
 
 _A graph is a non-linear data structure that consists of a set of vertices (also called nodes) and a set of edges. The edges connect the vertices in pairs, and can be either directed or undirected. A directed edge has a direction, meaning that it can only be traversed in one direction. An undirected edge does not have a direction, meaning that it can be traversed in either direction._
 
+<p align="center">
+  <img src="pictures/4.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Create Node:_**
 
 ```c
@@ -3442,6 +3470,10 @@ _This function prints an adjacency matrix, displaying the connectivity between v
 
 _A hash map, also known as a hash table, is a data structure that maps keys to values. It uses a hash function to convert each key into a unique index into an array. This allows the hash map to efficiently retrieve the value associated with a given key._
 
+<p align="center">
+  <img src="pictures/ComponentsofHashing.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Initialize Hash Table:_**
 
 ```c
@@ -3554,6 +3586,10 @@ _This function clears the hash table and deallocates memory. It frees all key-va
 # HEAPS (MIN-MAX)
 
 _A heap is a data structure that organizes elements in a tree-based structure such that the elements at any given level are greater than or equal to (or less than or equal to, depending on the type of heap) their child elements. This property is called the heap property. Heaps are often used to implement priority queues, which are abstract data types that provide efficient methods for inserting and removing the element with the highest (or lowest) priority._
+
+<p align="center">
+  <img src="pictures/MinHeapAndMaxHeap1.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create Max Heap:_**
 
@@ -3790,6 +3826,10 @@ _This function converts the Max Heap into a string format for display, including
 # SET
 
 _A set is an abstract data type that can store unique values, without any particular order. It is a computer implementation of the mathematical concept of a finite set. Unlike most other collection types, rather than retrieving a specific element from a set, one typically tests a value for membership in a set_
+
+<p align="center">
+  <img src="pictures/s6.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create Set:_**
 
@@ -4272,6 +4312,10 @@ _This function computes and returns the inversion of setA with respect to the un
 
 _A singly linked list is a linear data structure that consists of a sequence of nodes where each node contains a data field and a reference (link) to the next node in the list. The last node in the list has a reference to null. Singly linked lists are relatively simple to implement and efficient for certain operations, such as insertion and deletion._
 
+<p align="center">
+  <img src="pictures/LLdrawio.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Create Singly Linked List:_**
 
 ```c
@@ -4642,6 +4686,10 @@ int pop(SinglyLinkedList *list, int item)
 
 _A string is a sequence of characters. It can be used to represent text, code, or any other data that can be expressed as a sequence of characters. Strings are one of the most fundamental data types in computer programming._
 
+<p align="center">
+  <img src="pictures/String-Data-Structure.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
+
 **_1. Create String:_**
 
 ```c
@@ -4828,6 +4876,10 @@ _This function finds the position of the first occurrence of a substring in a st
 # TUPLE
 
 _A tuple is a data structure that is similar to a list, but it is immutable, which means that its elements cannot be changed after the tuple is created. Tuples are created using parentheses, and they can contain any type of data, including numbers, strings, and other tuples._
+
+<p align="center">
+  <img src="pictures/tuples.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
 
 **_1. Create Tuple:_**
 
@@ -5046,8 +5098,3 @@ char *tupleToString(const Tuple tuple)
 ```
 
 _This function converts a Tuple to a string representation. It allocates memory for the string and returns the string._
-
-
-<p align="center">
-  <img src="pictures/Circulardoublylinkedlist-660x155.png" alt="Image Description" style="display: block; margin: 0 auto;">
-</p>
