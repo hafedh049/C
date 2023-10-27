@@ -28,7 +28,7 @@ int pop(Array *arr)
     int element = arr->data[arr->size - 1];
     arr->size--;
 
-    free(arr->data[arr->size]);
+    free(&arr->data[arr->size]);
 
     if (arr->size < arr->capacity - 1)
     {
@@ -69,7 +69,7 @@ void removeAt(Array *arr, int index)
     if (index < 0 || index >= arr->size)
         return;
 
-    free(arr->data[index]);
+    free(&arr->data[index]);
 
     for (int i = index; i < arr->size - 1; i++)
         arr->data[i] = arr->data[i + 1];
@@ -166,7 +166,7 @@ void reverse(Array *arr)
 void clear(Array *arr)
 {
     for (int i = 0; i < arr->size; i++)
-        free(arr->data[i]);
+        free(&arr->data[i]);
     arr->size = 0;
     arr->capacity = 0;
 }
@@ -189,9 +189,8 @@ Array *copy(Array *arr)
 {
     Array *copyArr = createArray(arr->size);
     for (int i = 0; i < arr->size; i++)
-    {
         push(copyArr, arr->data[i]);
-    }
+    
     return copyArr;
 }
 
@@ -223,9 +222,8 @@ Array *reversedArray(Array *arr)
 {
     Array *reversedArr = createArray(arr->size);
     for (int i = arr->size - 1; i >= 0; i--)
-    {
         push(reversedArr, arr->data[i]);
-    }
+
     return reversedArr;
 }
 
@@ -233,30 +231,24 @@ Array *concatenate(Array *arr1, Array *arr2)
 {
     Array *concatenatedArr = createArray(arr1->size + arr2->size);
     for (int i = 0; i < arr1->size; i++)
-    {
         push(concatenatedArr, arr1->data[i]);
-    }
     for (int i = 0; i < arr2->size; i++)
-    {
         push(concatenatedArr, arr2->data[i]);
-    }
+
     return concatenatedArr;
 }
 
 void bubbleSort(Array *arr)
 {
     for (int i = 0; i < arr->size - 1; i++)
-    {
         for (int j = 0; j < arr->size - i - 1; j++)
-        {
             if (arr->data[j] > arr->data[j + 1])
             {
                 int temp = arr->data[j];
                 arr->data[j] = arr->data[j + 1];
                 arr->data[j + 1] = temp;
             }
-        }
-    }
+    
 }
 
 int binarySearch(Array *arr, int target)
@@ -351,6 +343,7 @@ int every(Array *arr, int (*condition)(int))
     for (int i = 0; i < arr->size; i++)
         if (!condition(arr->data[i]))
             return 0;
+
     return 1;
 }
 
@@ -390,7 +383,7 @@ void rotateLeft(Array *arr, int positions)
     for (int i = 0; i < arr->size; i++)
         arr->data[i] = tempArr->data[i];
 
-    destroyArray(tempArr);
+    freeArray(tempArr);
 }
 
 void rotateRight(Array *arr, int positions)
@@ -409,7 +402,7 @@ void rotateRight(Array *arr, int positions)
     for (int i = 0; i < arr->size; i++)
         arr->data[i] = tempArr->data[i];
 
-    destroyArray(tempArr);
+    freeArray(tempArr);
 }
 
 void shuffle(Array* arr) {
@@ -492,9 +485,9 @@ void unshift(Array* arr, int element) {
         arr->capacity++;
         arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
     }
-    for (int i = arr->size; i > 0; i--) {
+    for (int i = arr->size; i > 0; i--)
         arr->data[i] = arr->data[i - 1];
-    }
+    
     arr->data[0] = element;
     arr->size++;
 
@@ -521,9 +514,9 @@ int sum(Array* arr) {
 
 int searchWithCriteria(Array* arr, int (*criteria)(int)) {
     for (int i = 0; i < arr->size; i++) {
-        if (criteria(arr->data[i])) {
+        if (criteria(arr->data[i]))
             return arr->data[i];
-        }
+    
     }
     return -1;
 }
