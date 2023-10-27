@@ -1,10 +1,8 @@
 # STACK
 
-<span style="color:blue">
-*_I. A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation._*
-</span>
+_I. A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation._
 
-<font color="blue"> **_1. Create stack:_** </font>
+**_1. Create stack:_**
 
 ```c
 Stack createStack()
@@ -17,7 +15,7 @@ Stack createStack()
 
 _This createStack function creates and initializes an empty stack using a Stack structure and returns that empty stack. It is useful for initializing a stack before adding elements to it. After calling this function, you would have a stack ready for use._
 
-<font color="blue">**_2. Push item:_** </font>
+**_2. Push item:_**
 
 ```c
 void push(Stack *stack, int item)
@@ -31,7 +29,7 @@ void push(Stack *stack, int item)
 
 _The push function takes a pointer to a Stack and an integer item. It dynamically allocates memory for a new Node, assigns the data value (item) to the new node, and updates the pointers to maintain the order of elements in the stack. After calling this function, the item will be added to the top of the stack represented by the Stack pointer provided as an argument._
 
-<font color="blue"> **_3. Verify if the list is empty or not:_** </font>
+**_3. Verify if the list is empty or not:_**
 
 ```c
 int isEmpty(Stack stack)
@@ -42,7 +40,7 @@ int isEmpty(Stack stack)
 
 _The isEmpty function takes a Stack as an argument and checks if the head pointer of the stack is NULL. If it's NULL, the function returns 1 to indicate that the stack is empty; otherwise, it returns 0 to indicate that the stack is not empty._
 
-<font color="blue"> **_4. Delete an item:_** </font>
+**_4. Delete an item:_**
 
 ```c
 Node *pop(Stack *stack)
@@ -60,7 +58,7 @@ Node *pop(Stack *stack)
 
 _The pop function removes the top element from the stack, returns its data, and deallocates the memory occupied by the removed element. It also includes a safety check to ensure that the stack is not empty before attempting to pop an element._
 
-<font color="blue"> **_5. Size of a stack:_** </font>
+**_5. Size of a stack:_**
 
 ```c
 int size(Stack stack)
@@ -78,33 +76,33 @@ int size(Stack stack)
 
 _The size function calculates the size of a stack by iterating through the linked list of nodes (where each node represents an element in the stack) starting from the top (head) and counting each element until it reaches the end of the stack. The final count is returned as the size of the stack._
 
-<font color="blue"> **_6. Show all items of a stack:_** </font>
+**_6. Show all items of a stack:_**
 
 ```c
 void showAllItems(Stack stack)
 {
-printf("\033[1;33m\n\n---------------------------\n\n");
-if (isEmpty(stack))
-{
-printf("This stack is empty x(\n");
-printf("\033[1;33m\n\n---------------------------\n\n");
-printf("\033[1;37m");
-return;
-}
-const Node *head = stack.head;
-while (head)
-{
-printf("\033[1;32m| %d |\n__\n", head->data);
-head = head->next;
-}
-printf("\033[1;33m\n\n---------------------------\n\n");
-printf("\033[1;37m");
+	printf("\033[1;33m\n\n---------------------------\n\n");
+	if (isEmpty(stack))
+	{
+		printf("This stack is empty x(\n");
+		printf("\033[1;33m\n\n---------------------------\n\n");
+		printf("\033[1;37m");
+		return;
+	}
+	const Node *head = stack.head;
+	while (head)
+	{
+		printf("\033[1;32m| %d |\n__\n", head->data);
+		head = head->next;
+	}
+	printf("\033[1;33m\n\n---------------------------\n\n");
+	printf("\033[1;37m");
 }
 ```
 
 _The showAllItems function displays the elements of a stack one by one, with each element's data enclosed in green bars and underscores for visual distinction. It uses ANSI escape codes to set text colors for various parts of the output and includes separators to visually separate sections of the output. If the stack is empty, it displays a message indicating that the stack is empty._
 
-<font color="blue"> **_7. Clear a stack:_** </font>
+**_7. Clear a stack:_**
 
 ```c
 void clear(Stack *stack)
@@ -121,7 +119,7 @@ void clear(Stack *stack)
 
 _The clear function is used to clear a stack by iteratively removing all elements from the top of the stack and freeing the memory associated with each element. This ensures that the stack is empty and that there are no memory leaks caused by the removed elements._
 
-<font color="blue"> **_8. Peek a stack:_** </font>
+**_8. Peek a stack:_**
 
 ```c
 int peek(Stack stack)
@@ -133,7 +131,7 @@ int peek(Stack stack)
 
 _The peek function is used to retrieve the data of the top element of a stack without removing it. It includes a safety check to ensure that the stack is not empty before attempting to peek, preventing potential errors caused by peeking at an empty stack._
 
-<font color="blue"> **_9. Search an item in a stack:_** </font>
+**_9. Search an item in a stack:_**
 
 ```c
 int search(Stack stack, int key)
@@ -157,7 +155,7 @@ int search(Stack stack, int key)
 
 _The search function searches for a specific element in a stack, keeps track of the position of the elements as it iterates through the stack, and returns the index of the first occurrence of the element or `-1` if the element is not found. It includes a safety check to ensure that the stack is not empty before performing the search._
 
-<font color="blue"> **_10. Sort a stack:_** </font>
+**_10. Sort a stack:_**
 
 ```c
 void sort(Stack *stack, int key)
@@ -178,7 +176,7 @@ void sort(Stack *stack, int key)
 
 _The sort function sorts the elements of a stack in either ascending or descending order based on the key parameter using an auxiliary stack. It maintains the desired order while transferring elements between the input stack and the auxiliary stack. After sorting is complete, the input stack is updated to contain the sorted elements._
 
-<font color="blue"> **_11. Add many items in a stack:_** </font>
+**_11. Add many items in a stack:_**
 
 ```c
 void pushMany(Stack *stack, int numberOfItems, ...)
@@ -192,7 +190,7 @@ void pushMany(Stack *stack, int numberOfItems, ...)
 
 _The pushMany function is a convenient way to push multiple integer values onto a stack in one function call. It uses variadic functions to accept a variable number of integer arguments and pushes each of them onto the specified stack. This can be useful when you need to add several values to the stack in a concise manner._
 
-<font color="blue"> **_12. Reverse a stack:_** </font>
+**_12. Reverse a stack:_**
 
 ```c
 void reverse(Stack *stack)
@@ -207,7 +205,7 @@ void reverse(Stack *stack)
 
 _The reverse function reverses the order of elements in a stack by using an auxiliary stack to temporarily store the elements in reverse order. After the reversal, the original stack is updated to contain the reversed elements. This can be useful when you need to change the order of elements in a stack for various purposes._
 
-<font color="blue"> **_13. Copy a stack:_** </font>
+**_13. Copy a stack:_**
 
 ```c
 tack copy(Stack stack)
@@ -225,16 +223,19 @@ tack copy(Stack stack)
 
 _The copy function creates a copy of a given stack by first reversing the original stack into an auxiliary stack and then reversing it back into a new stack, ensuring that the copied stack retains the same order as the original. This can be useful when you need to work with a copy of the stack without modifying the original stack._
 
-<font color="blue"> **_14. Merge two stacks into a single stack:_** </font>
+**_14. Merge two stacks into a single stack:_**
 
 ```c
 Stack merge(Stack firstStack, Stack secondStack)
 {
-	Stack mergingStack = createStack();
+	Stack* mergingStack = createStack();
+
+	for (const Node* node = secondStack.head; node; node = node->next)
+	push(&mergingStack, node->data);
+
 	while (firstStack.head)
-		push(&mergingStack, pop(&firstStack)->data);
-	while (secondStack.head)
-		push(&mergingStack, pop(&secondStack)->data);
+	push(&mergingStack, pop(&firstStack)->data);
+
 	return mergingStack;
 }
 ```
@@ -245,15 +246,15 @@ _The merge function combines two input stacks into a single stack (mergingStack)
 
 _A queue is a first-in-first-out (FIFO) data structure. Elements are added to the end of the queue and removed from the front. Queues are often used to implement tasks that must be processed in order, such as printing jobs or tasks in a production line._
 
-<font color="blue"> **_1. Create queue:_** </font>
+**_1. Create queue:_**
 
 ```c
 Queue createQueue()
 {
-    Queue queue;
-    queue.head = NULL;
-    queue.tail = NULL;
-    return queue;
+   Queue queue;
+   queue.head = NULL;
+   queue.tail = NULL;
+   return queue;
 }
 ```
 
