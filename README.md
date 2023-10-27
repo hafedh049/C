@@ -1459,3 +1459,868 @@ void removeAllMany(Array* arr, int numIndices, ...) {
 ```
 
 _The `removeAllMany` function removes all occurrences of multiple elements based on their indices from the array, compacting the array in the process._
+
+# BINARY TREE
+
+_A binary tree is a tree data structure in which each node has at most two children, referred to as the left child and the right child. That is, it is a k-ary tree with k = 2. A recursive definition using set theory is that a binary tree is a tuple (L, S, R), where L and R are binary trees or the empty set and S is a singleton set containing the root._
+
+**_1. Inorder Traversal:_**
+
+```c
+void inorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    inorderTraversal(root->left);
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+    inorderTraversal(root->right);
+}
+```
+
+_The `inorderTraversal` function performs an inorder traversal of a binary tree and prints the elements in ascending order._
+
+
+**_2. Preorder Traversal:_**
+
+```c
+void preorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+    preorderTraversal(root->left);
+    preorderTraversal(root->right);
+}
+```
+
+_The `preorderTraversal` function performs a preorder traversal of a binary tree and prints the elements as it encounters them._
+
+
+**_3. Postorder Traversal:_**
+
+```c
+void postorderTraversal(TreeNode *root)
+{
+    if (root == NULL)
+        return;
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    printf("\e[1;32m%d \e[1;33m-> \e[0m", root->data);
+}
+```
+
+_The `postorderTraversal` function performs a postorder traversal of a binary tree and prints the elements after visiting all child nodes._
+
+
+**_4. Create Node:_**
+
+```c
+TreeNode *createNode(int value)
+{
+    struct TreeNode *newNode = (TreeNode *)malloc(sizeof(TreeNode));
+    newNode->data = value;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+```
+
+_The `createNode` function creates a new tree node with the specified value._
+
+
+**_5. Insert Node:_**
+
+```c
+void insert(TreeNode **root, int value)
+{
+    if (!(*root))
+    {
+        TreeNode *tmp = NULL;
+        tmp = (TreeNode *)malloc(sizeof(TreeNode));
+        tmp->left = tmp->right = NULL;
+        tmp->data = value;
+        *root = tmp;
+        return;
+    }
+    if (value < (*root)->data)
+        insert(&((*root)->left), value);
+    else if (value > (*root)->data)
+        insert(&((*root)->right), value);
+}
+```
+
+_The `insert` function inserts a new node with the specified value into the binary tree._
+
+
+**_6. Search Node:_**
+
+```c
+TreeNode *search(TreeNode *root, int value)
+{
+    if (!(root))
+        return NULL;
+    if (value == root->data)
+        return root;
+    else if (value < root->data)
+        search(root->left, value);
+    else if (value > root->data)
+        search(root->right, value);
+}
+```
+
+_The `search` function searches for a node with the specified value in the binary tree and returns the node if found._
+
+
+**_7. Delete Tree:_**
+
+```c
+void delete_tree(TreeNode **root)
+{
+    if (*root)
+    {
+        delete_tree(&(*root)->left);
+        delete_tree(&(*root)->right);
+        free((*root));
+    }
+}
+```
+
+_The `delete_tree` function recursively deletes all nodes in the binary tree, freeing memory._
+
+
+**_8. Find Minimum Value Node:_**
+
+```c
+TreeNode *findMinValueNode(TreeNode *node)
+{
+    if (node == NULL)
+        return NULL;
+    while (node->left != NULL)
+        node = node->left;
+    return node;
+}
+```
+
+_The `findMinValueNode` function finds the node with the minimum value in the binary tree._
+
+
+**_9. Delete Node:_**
+
+```c
+void deleteNode(TreeNode **root, int key)
+{
+    if (*root == NULL)
+        return;
+    if (key < (*root)->data)
+        deleteNode(&((*root)->left), key);
+    else if (key > (*root)->data)
+        deleteNode(&((*root)->right), key);
+    else
+    {
+        if ((*root)->left == NULL)
+        {
+            TreeNode *temp = (*root)->right;
+            free(*root);
+            *root = temp;
+        }
+        else if ((*root)->right == NULL)
+        {
+            TreeNode *temp = (*root)->left;
+            free(*root);
+            *root = temp;
+        }
+        else
+        {
+            TreeNode *temp = findMinValueNode((*root)->right);
+            (*root)->data = temp->data;
+            deleteNode(&((*root)->right), temp->data);
+        }
+    }
+}
+```
+
+_The `deleteNode` function deletes a node with the specified key from the binary tree._
+
+
+**_10. Print Tree:_**
+
+```c
+void printTree(TreeNode* root, int space)
+{
+    if (root == NULL) return;
+    space += 5;
+    printTree(root->right, space);
+    printf("\n");
+    for (int i = 5; i < space; i++)
+        printf(" ");
+    printf("\e[1;32m%d\e[0m", root->data);
+    printTree(root->left, space);
+}
+```
+
+_The `printTree` function prints the binary tree with proper indentation._
+
+
+**_11. Count Elements:_**
+
+```c
+int countElements(TreeNode* root)
+{
+    if (root == NULL)
+        return 0;
+    return 1 + countElements(root->left) + countElements(root->right);
+}
+```
+
+_The `countElements` function counts the total number of elements in the binary tree._
+
+
+**_12. Count Left Subtree Elements:_**
+
+```c
+int countLeftSubtreeElements(TreeNode* root)
+{
+    if (root == NULL)
+        return 0;
+    return 1 + countLeftSubtreeElements(root->left);
+}
+```
+
+_The `countLeftSubtreeElements` function counts the number of elements in the left subtree of the binary tree._
+
+
+**_13. Count Right Subtree Elements:_**
+
+```c
+int countRightSubtreeElements(TreeNode* root)
+{
+    if (root == NULL)
+        return 0;
+    return 1 + countRightSubtreeElements(root->right);
+}
+```
+
+_The `countRightSubtreeElements` function counts the number of elements in the right subtree of the binary tree._
+
+# CIRCULAR LINKED LIST
+
+_A circular linked list is a type of linked list in which the last node points to the first node, forming a loop. This makes it different from traditional linked lists, which have a beginning and an end._
+
+**_1. Create Circular Linked List:_**
+
+```c
+CircularLinkedList *createCircularLinkedList()
+{
+  CircularLinkedList *list = malloc(sizeof(CircularLinkedList));
+  list->head = NULL;
+  return list;
+}
+```
+
+_The `createCircularLinkedList` function initializes and returns an empty Circular Linked List._
+
+
+**_2. Insert Node at Head:_**
+
+```c
+void insertAtHead(CircularLinkedList *list, int data)
+{
+  Node *newNode = malloc(sizeof(Node));
+  newNode->data = data;
+  newNode->next = NULL;
+
+  if (list->head == NULL)
+  {
+    list->head = newNode;
+    newNode->next = newNode;
+  }
+  else
+  {
+    newNode->next = list->head;
+    Node *temp = list->head;
+    while (temp->next != list->head)
+      temp = temp->next;
+    temp->next = newNode;
+    list->head = newNode;
+  }
+}
+```
+
+_The `insertAtHead` function inserts a new node with the specified data at the beginning of the Circular Linked List._
+
+
+**_3. Insert Node at Tail:_**
+
+```c
+void insertAtTail(CircularLinkedList *list, int data)
+{
+  Node *newNode = malloc(sizeof(Node));
+  newNode->data = data;
+  newNode->next = NULL;
+
+  if (list->head == NULL)
+  {
+    list->head = newNode;
+    newNode->next = newNode;
+  }
+  else
+  {
+    Node *current = list->head;
+    while (current->next != list->head)
+      current = current->next;
+
+    current->next = newNode;
+    newNode->next = list->head;
+  }
+}
+```
+
+_The `insertAtTail` function inserts a new node with the specified data at the end of the Circular Linked List._
+
+
+**_4. Show All Items:_**
+
+```c
+void showAllItems(CircularLinkedList list)
+{
+  printf("\033[1;33m\n");
+
+  if (isEmpty(&list))
+  {
+    printf("This list is empty x(");
+    printf("\033[1;0m");
+    return;
+  }
+  Node *head = list.head;
+  do
+  {
+    if (head->next != list.head)
+      printf("\033[1;32m| %d | -> ", head->data);
+    else
+      printf("\033[1;32m| %d |", head->data);
+    head = head->next;
+  } while (head != list.head);
+  printf("\n\033[1;0m");
+}
+```
+
+_The `showAllItems` function displays all items in the Circular Linked List._
+
+
+**_5. Is Empty:_**
+
+```c
+int isEmpty(CircularLinkedList *cl)
+{
+  return cl->head == NULL;
+}
+```
+
+_The `isEmpty` function checks if the Circular Linked List is empty and returns 1 if it is, 0 otherwise._
+
+
+**_6. Delete Node at Head:_**
+
+```c
+int deleteAtHead(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+    return -1;
+
+  int data = list->head->data;
+  Node *temp = list->head;
+
+  if (list->head == list->head->next)
+    list->head = NULL;
+  else
+  {
+    list->head = list->head->next;
+    Node *last = list->head;
+    while (last->next != temp)
+      last = last->next;
+    last->next = list->head;
+  }
+
+  free(temp);
+  return data;
+}
+```
+
+_The `deleteAtHead` function removes and returns the node at the head of the Circular Linked List._
+
+
+**_7. Delete Node at Tail:_**
+
+```c
+int deleteAtTail(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+  {
+    return -1;
+  }
+
+  int data = list->head->data;
+  Node *current = list->head;
+  Node *prev = NULL;
+  while (current->next != list->head)
+  {
+    prev = current;
+    current = current->next;
+  }
+
+  prev->next = list->head;
+  free(current);
+  return data;
+}
+```
+
+_The `deleteAtTail` function removes and returns the node at the tail of the Circular Linked List._
+
+
+**_8. Search:_**
+
+```c
+int search(CircularLinkedList *list, int element)
+{
+  Node *current = list->head;
+  if (current == NULL)
+    return -1;
+
+  do
+  {
+    if (current->data == element)
+      return element;
+    current = current->next;
+  } while (current != list->head);
+
+  return -1;
+}
+```
+
+_The `search` function searches for a specified element in the Circular Linked List and returns it if found._
+
+
+**_9. Get Length:_**
+
+```c
+int getLength(CircularLinkedList *list)
+{
+  int length = 0;
+  const Node *current = list->head;
+
+  if (current == NULL)
+    return 0;
+
+  do
+  {
+    length++;
+    current = current->next;
+  } while (current != list->head);
+
+  return length - 1;
+}
+```
+
+_The `getLength` function returns the length (number of nodes) of the Circular Linked List._
+
+
+**_10. Reverse:_**
+
+```c
+void reverse(CircularLinkedList *list)
+{
+  Node *current = list->head;
+  Node *prev = NULL;
+  Node *next = NULL;
+
+  if (current == NULL)
+    return;
+
+  do
+  {
+    next = current->next;
+    current->next = prev;
+    prev = current;
+    current = next;
+  } while (current != list->head);
+
+  list->head = prev;
+}
+```
+
+_The `reverse` function reverses the order of nodes in the Circular Linked List._
+
+
+**_11. Rotate:_**
+
+```c
+void rotate(CircularLinkedList *list, int k)
+{
+  if (list->head == NULL || k <= 0)
+    return;
+
+  Node *current = list->head;
+  int i = 0;
+
+  while (i < k - 1 && current->next != list->head)
+  {
+    current = current->next;
+    i++;
+  }
+
+  if (current->next == list->head)
+    return;
+
+  list->head = current->next;
+}
+```
+
+_The `rotate` function rotates the Circular Linked List by k positions._
+
+
+**_12. Find Middle Element:_**
+
+```c
+Node *findMiddleElement(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+    return NULL;
+
+  Node *tortoise = list->head;
+  Node *hare = list->head;
+
+  while (hare->next != list->head && hare->next != list->head)
+  {
+    tortoise = tortoise->next;
+    hare = hare->next->next;
+  }
+
+  return tortoise;
+}
+```
+
+_The `findMiddleElement` function returns the middle node of the Circular Linked List._
+
+
+**_13. Find Kth Element:_**
+
+```c
+Node *findKthElement(CircularLinkedList *list, int k)
+{
+  int i = 0;
+  Node *current = list->head;
+
+  while (i < k && current->next != list->head)
+  {
+    current = current->next;
+    i++;
+  }
+
+  if (current == list->head)
+    return NULL;
+
+  return current;
+}
+```
+
+_The `findKthElement` function returns the kth node of the Circular Linked List._
+
+
+**_14. Merge Circular Linked Lists:_**
+
+```c
+CircularLinkedList *mergeCircularLinkedLists(CircularLinkedList *list1, CircularLinkedList *list2)
+{
+  CircularLinkedList *mergedList = createCircularLinkedList();
+
+  if (list1->head == NULL)
+    mergedList->head = list2->head;
+  else if (list2->head == NULL)
+    mergedList->head = list1->head;
+  else
+  {
+    Node *endList1 = list1->head;
+    while (endList1->next != list1->head)
+      endList1 = endList1->next;
+
+    endList1->next = list2->head;
+
+    Node *endList2 = list2->head;
+    while (endList2->next != list2->head)
+      endList2 = endList2->next;
+
+    endList2->next = list1->head;
+
+    mergedList->head = list1->head;
+  }
+
+  return mergedList;
+}
+```
+
+_The `mergeCircularLinkedLists` function merges two Circular Linked Lists into a new one._
+
+
+**_15. Is Palindrome:_**
+
+```c
+int isPalindrome(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+  {
+    return 1; // An empty list is considered a palindrome
+  }
+
+  CircularLinkedList reversedList;
+  reversedList.head = NULL;
+  Node *current = list->head;
+
+  do
+  {
+    insertAtHead(&reversedList, current->data);
+    current = current->next;
+  } while (current != list->head);
+
+  current = list->head;
+  Node *reversedCurrent = reversedList.head;
+
+  do
+  {
+    if (current->data != reversedCurrent->data)
+    {
+      return 0;
+    }
+    current = current->next;
+    reversedCurrent = reversedCurrent->next;
+  } while (current != list->head);
+
+  return 1;
+}
+```
+
+_The `isPalindrome` function checks if the Circular Linked List is a palindrome and returns 1 if it is, 0 otherwise._
+
+
+**_16. Delete Node at Position:_**
+
+```c
+void deleteNodeAtPosition(CircularLinkedList *list, int position)
+{
+  if (list->head == NULL || position < 0 || position >= getLength(list))
+    return;
+
+  Node *current = list->head;
+  Node *previous = NULL;
+  int currentPosition = 0;
+
+  while (currentPosition != position)
+  {
+    previous = current;
+    current = current->next;
+    currentPosition++;
+
+    if (current == list->head)
+      break;
+  }
+
+  if (position == 0)
+  {
+    Node *tail = list->head;
+    while (tail->next != list->head)
+      tail = tail->next;
+    list->head = current->next;
+    tail->next = list->head;
+  }
+  else
+    previous->next = current->next;
+
+  free(current);
+}
+```
+
+_The `deleteNodeAtPosition` function removes the node at the specified position in the Circular Linked List._
+
+
+**_17. Insert Node After Node:_**
+
+```c
+void insertNodeAfterNode(CircularLinkedList *list, Node *node, int data)
+{
+  Node *newNode = (Node *)malloc(sizeof(Node));
+  newNode->data = data;
+  newNode->next = node->next;
+
+  node->next = newNode;
+}
+```
+
+_The `insertNodeAfterNode` function inserts a new node with the specified data after a given node._
+
+
+**_18. Find First Occurrence:_**
+
+```c
+int findFirstOccurrence(CircularLinkedList *list, int element)
+{
+  int position = 0;
+  Node *current = list->head;
+
+  do
+  {
+    if (current->data == element)
+      return position;
+
+    position++;
+    current = current->next;
+  } while (current != list->head);
+
+  return -1;
+}
+```
+
+_The `findFirstOccurrence` function finds the position of the first occurrence of a specified element in the Circular Linked List._
+
+
+**_19. Find Last Occurrence:_**
+
+```c
+int findLastOccurrence(CircularLinkedList *list, int element)
+{
+  int position = 0;
+  int length = getLength(list);
+  Node *current = list->head;
+
+  int lastPosition = -1;
+
+  while (current != list->head)
+  {
+    if (current->data == element)
+      lastPosition = position;
+
+    position++;
+    current = current->next;
+  }
+
+  if (lastPosition != -1)
+    lastPosition = length - 1 - lastPosition;
+
+  return lastPosition;
+}
+```
+
+_The `findLastOccurrence` function finds the position of the last occurrence of a specified element in the Circular Linked List._
+
+
+**_20. Has Cycle:_**
+
+```c
+int hasCycle(CircularLinkedList *list)
+{
+  Node *fast = list->head;
+  Node *slow = list->head;
+
+  while (fast != NULL && fast->next != NULL)
+  {
+    fast = fast->next->next;
+    slow = slow->next;
+
+    if (fast == slow)
+      return 1;
+  }
+
+  return 0;
+}
+```
+
+_The `hasCycle` function checks if the Circular Linked List contains a cycle and returns 1 if it does, 0 otherwise._
+
+
+**_21. Split Circular Linked List:_**
+
+```c
+CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
+{
+  CircularLinkedList *firstHalf = createCircularLinkedList();
+  CircularLinkedList *secondHalf = createCircularLinkedList();
+
+  Node *middleNode = findMiddleElement(list);
+
+  if (middleNode == NULL || middleNode->next == list->head)
+  {
+    CircularLinkedList **halves = malloc(sizeof(CircularLinkedList *) * 2);
+    halves[0] = firstHalf;
+    halves[1] = secondHalf;
+    return halves;
+  }
+
+  firstHalf->head = list->head;
+  secondHalf->head = middleNode->next;
+  middleNode->next = list->head;
+
+  CircularLinkedList **halves = malloc(sizeof(CircularLinkedList *) * 2);
+  halves[0] = firstHalf;
+  halves[1] = secondHalf;
+
+  return halves;
+}
+```
+
+_The `splitCircularLinkedList` function splits a Circular Linked List into two halves and returns an array of the two halves._
+
+
+**_22. Find Maximum Element:_**
+
+```c
+int findMaximumElement(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+    return -1;
+
+  int maximumElement = list->head->data;
+  Node *current = list->head->next;
+
+  if (list->head != current)
+    while (current != list->head)
+    {
+      if (current->data > maximumElement)
+        maximumElement = current->data;
+
+      current = current->next;
+    }
+
+  return maximumElement;
+}
+```
+
+_The `findMaximumElement` function finds and returns the maximum element in the Circular Linked List._
+
+
+**_23. Find Minimum Element:_**
+
+```c
+int findMinimumElement(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+    return -1;
+
+  int minimumElement = list->head->data;
+  Node *current = list->head->next;
+
+  if (list->head != current)
+    while (current != list->head)
+    {
+      if (current->data < minimumElement)
+        minimumElement = current->data;
+
+      current = current->next;
+    }
+
+  return minimumElement;
+}
+```
+
+_The `findMinimumElement` function finds and returns the minimum element in the Circular Linked List._
+
+# DOUBLY LINKED LIST
+
+_A doubly linked list is a type of linked list in which each node contains a pointer to the previous node in the list, in addition to the pointer to the next node. This makes it possible to traverse the list in both the forward and backward directions._
