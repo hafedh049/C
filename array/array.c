@@ -527,3 +527,13 @@ int searchWithCriteria(Array* arr, int (*criteria)(int)) {
     }
     return -1;
 }
+
+void toString(Array* arr) {
+    printf("[");
+    for (int i = 0; i < arr->size; i++) {
+        printf("%d", arr->data[i]);
+        if (i != arr->size - 1) 
+            printf(", ");
+    }
+    printf("]\n");
+}
