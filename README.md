@@ -5844,3 +5844,245 @@ char* toString(const String str)
 ```
 
 _This function converts the string to a C-style string enclosed in double quotes and returns a dynamically allocated C-style string._
+
+# TUPLE
+
+_A tuple is a data structure that is similar to a list, but it is immutable, which means that its elements cannot be changed after the tuple is created. Tuples are created using parentheses, and they can contain any type of data, including numbers, strings, and other tuples._
+
+**_1. Create Tuple:_**
+
+```c
+const Tuple *createTuple(int numArgs, ...)
+{
+    Tuple *newTuple = (Tuple *)malloc(sizeof(Tuple));
+    newTuple->head = NULL;
+    va_list args;
+    va_start(args, numArgs);
+    if (numArgs > 0)
+    {
+        newTuple->head = createNode(va_arg(args, int));
+        Node *current = newTuple->head;
+        for (int i = 1; i < numArgs; i++)
+        {
+            Node *newNode = createNode(va_arg(args, int));
+            current->next = newNode;
+            current = current->next;
+        }
+    }
+    va_end(args);
+    return newTuple;
+}
+```
+
+_This function creates a new Tuple object from a variable number of arguments. It allocates memory for the Tuple structure and its elements and returns the created Tuple._
+
+
+**_2. Get From Tuple:_**
+
+```c
+int getFromTuple(const Tuple tuple, int index)
+{
+    if (tuple.head == NULL)
+        return -1;
+    Node *current = tuple.head;
+    int currentIndex = 0;
+    while (current != NULL)
+    {
+        if (currentIndex == index)
+            return current->data;
+        current = current->next;
+        currentIndex++;
+    }
+    return -1;
+}
+```
+
+_This function retrieves the element at a specified index from a Tuple. If the index is out of bounds or the Tuple is empty, it returns -1._
+
+
+**_3. Show Tuple:_**
+
+```c
+void showTuple(const Tuple tuple)
+{
+    if (tuple.head == NULL)
+    {
+        printf("()\n");
+        return;
+    }
+    printf("(");
+    Node *current = tuple.head;
+    while (current != NULL)
+    {
+        printf(current->next ? "%d, " : "%d", current->data);
+        current = current->next;
+    }
+    printf(")\n");
+}
+```
+
+_This function displays the contents of a Tuple in the form of a tuple. If the Tuple is empty, it prints an empty tuple._
+
+
+**_4. Size:_**
+
+```c
+int size(const Tuple tuple)
+{
+    if (tuple.head == NULL)
+        return 0;
+    Node *current = tuple.head;
+    int currentSize = 0;
+    while (current != NULL)
+    {
+        current = current->next;
+        currentSize++;
+    }
+    return currentSize;
+}
+```
+
+_This function returns the number of elements in a Tuple. If the Tuple is empty, it returns 0._
+
+
+**_5. Tuples Equality:_**
+
+```c
+bool tuplesEquality(const Tuple firstTuple, const Tuple secondTuple)
+{
+    if (size(firstTuple) != size(secondTuple))
+        return false;
+    for (int index = 0; index < size(firstTuple); index++)
+        if (getFromTuple(firstTuple, index) != getFromTuple(secondTuple, index))
+            return false;
+    return true;
+}
+```
+
+_This function checks whether two Tuples are equal. It compares each element of the Tuples and returns true if they are the same, otherwise, it returns false._
+
+
+**_6. Copy Tuple:_**
+
+```c
+Tuple *copy(const Tuple tuple)
+{
+    Tuple *newTuple = (Tuple *)malloc(sizeof(Tuple));
+    newTuple->head = NULL;
+    if (tuple.head == NULL)
+        return newTuple;
+    newTuple->head = createNode(getFromTuple(tuple, 0));
+    Node *current = newTuple->head;
+    for (int index = 1; index < size(tuple); index++)
+    {
+        Node *newNode = createNode(getFromTuple(tuple, index));
+        current->next = newNode;
+        current = current->next;
+    }
+}
+```
+
+_This function creates a copy of a Tuple. It allocates memory for the new Tuple structure and its elements and returns the copied Tuple._
+
+
+**_7. Tuple to Array:_**
+
+```c
+int *tupleToArray(const Tuple tuple)
+{
+    int *array = (int *)malloc(size(tuple) * sizeof(int));
+    int *ptr = array;
+    for (int index = 0; index < size(tuple); index++)
+        *(ptr + index) = getFromTuple(tuple, index);
+    return array;
+}
+```
+
+_This function converts a Tuple to an array of integers. It allocates memory for the array and returns a pointer to the array._
+
+
+**_8. Count Digits:_**
+
+```c
+int countDigits(int number)
+{
+    int count = 0;
+    if (abs(number) < 10)
+        return 1;
+
+    while (number != 0)
+    {
+        number /= 10;
+        count++;
+    }
+    return count;
+}
+```
+
+_This function counts the number of digits in an integer. It returns the count of digits in the given integer._
+
+
+**_9. Calculate String Size:_**
+
+```c
+int calcStringSize(const Tuple tuple)
+{
+    int counter = 1 + 1 + 1 + 2 * (size(tuple) - 1);
+    for (int index = 0; index < size(tuple); index++)
+        counter += countDigits(getFromTuple(tuple, index));
+}
+```
+
+_This function calculates the size of a string representation of a Tuple. It returns the size of the string, taking into account the number of digits in each element._
+
+
+**_10. Tuple to String:_**
+
+```c
+char *tupleToString(const Tuple tuple)
+{
+    char *str = (char *)malloc(calcStringSize(tuple) * sizeof(char));
+    char *temp = str;
+    *temp = '(';
+    temp++;
+    for (int index = 0; index < size(tuple); index++)
+    {
+        int num = getFromTuple(tuple, index);
+        int charsWritten = sprintf(temp, "%d", num);
+        temp += charsWritten;
+        if (index < size(tuple) - 1)
+        {
+            *temp = ',';
+            temp++;
+            *temp = ' ';
+            temp++;
+        }
+    }
+    *temp = ')';
+    temp++;
+    *temp = '\0';
+    return str;
+}
+```
+
+_This function converts a Tuple to a string representation. It allocates memory for the string and returns the string._
+
+
+**_11. Count:_**
+
+```c
+int count(const Tuple tuple, int target)
+{
+    int count = 0;
+    for (int index = 0; index < size(tuple); index++)
+        if (getFromTuple(tuple, index) == target)
+            count++;
+    return count;
+}
+```
+
+_This function counts the occurrences of a target integer within a Tuple. It returns the count of occurrences._
+
+<p align="center">
+  <img src="your-image-source.jpg" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>

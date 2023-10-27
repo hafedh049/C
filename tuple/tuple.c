@@ -43,6 +43,7 @@ int getFromTuple(const Tuple tuple, int index)
     {
         if (currentIndex == index)
             return current->data;
+
         current = current->next;
         currentIndex++;
     }
@@ -70,6 +71,7 @@ int size(const Tuple tuple)
 {
     if (tuple.head == NULL)
         return 0;
+
     Node *current = tuple.head;
     int currentSize = 0;
     while (current != NULL)
@@ -84,6 +86,7 @@ bool tuplesEquality(const Tuple firstTuple, const Tuple secondTuple)
 {
     if (size(firstTuple) != size(secondTuple))
         return false;
+
     for (int index = 0; index < size(firstTuple); index++)
         if (getFromTuple(firstTuple, index) != getFromTuple(secondTuple, index))
             return false;
@@ -96,6 +99,7 @@ Tuple *copy(const Tuple tuple)
     newTuple->head = NULL;
     if (tuple.head == NULL)
         return newTuple;
+
     newTuple->head = createNode(getFromTuple(tuple, 0));
     Node *current = newTuple->head;
     for (int index = 1; index < size(tuple); index++)
@@ -120,9 +124,7 @@ int countDigits(int number)
     int count = 0;
 
     if (abs(number) < 10)
-    {
         return 1;
-    }
 
     while (number != 0)
     {
