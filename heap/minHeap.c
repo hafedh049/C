@@ -60,3 +60,53 @@ int extractMin(MinHeap* heap) {
     heapifyDown(heap, 0);
     return min;
 }
+
+void buildHeap(MinHeap* heap, int* arr, int n) {
+    for (int i = 0; i < n; i++)
+        insert(heap, arr[i]);
+}
+
+int delete(MinHeap* heap, int value) {
+    int index = -1;
+    for (int i = 0; i < heap->size; i++)
+        if (heap->arr[i] == value) {
+            index = i;
+            break;
+        }
+    
+    if (index == -1) {
+        printf("Element not found in the heap.\n");
+        return -1;
+    }
+    int deletedValue = heap->arr[index];
+    heap->arr[index] = heap->arr[heap->size - 1];
+    heap->size--;
+    heapifyDown(heap, index);
+    return deletedValue;
+}
+
+void decreaseKey(MinHeap* heap, int index, int newValue) {
+    if (index < 0 || index >= heap->size) {
+        printf("Invalid index.\n");
+        return;
+    }
+    if (newValue > heap->arr[index]) {
+        printf("New value is greater than the current value.\n");
+        return;
+    }
+    heap->arr[index] = newValue;
+    heapifyUp(heap, index);
+}
+
+void heapSort(int* arr, int n) {
+    MinHeap* heap = createMinHeap(n);
+
+    buildHeap(heap, arr, n);
+
+    for (int i = 0; i < n; i++) {
+        arr[i] = extractMin(heap);
+    }
+
+    free(heap->arr);
+    free(heap);
+}
