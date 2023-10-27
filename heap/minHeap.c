@@ -103,3 +103,14 @@ void heapSort(MinHeap* heap) {
     for (int i = n - 1; i >= 0; i--)
         heap->arr[i] = extractMin(heap);
 }
+
+void toString(MinHeap* heap) {
+    printf("[");
+    for (int i = 0; i < heap->size; i++) {
+        if (i != heap->size - 1) 
+            printf(", ");
+        
+        printf("%d", heap->arr[i]);
+    }
+    printf("]\n");
+}
