@@ -10,9 +10,8 @@ int hash(const char *key)
 {
     int hash = 0;
     for (int i = 0; key[i]; i++)
-    {
         hash += key[i];
-    }
+        
     return hash % NUM_BUCKETS;
 }
 
@@ -26,16 +25,12 @@ void insert(HashTable *hashtable, const char *key, int value)
     pair->next = NULL;
 
     if (hashtable->buckets[index] == NULL)
-    {
         hashtable->buckets[index] = pair;
-    }
     else
     {
         KV *current = hashtable->buckets[index];
         while (current->next != NULL)
-        {
             current = current->next;
-        }
         current->next = pair;
     }
 }
@@ -48,9 +43,8 @@ int get(HashTable *hashtable, const char *key)
     while (current != NULL)
     {
         if (strcmp(current->key, key) == 0)
-        {
             return current->value;
-        }
+        
         current = current->next;
     }
 

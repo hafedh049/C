@@ -3122,3 +3122,432 @@ Node *searchWithCriteria(DoublyLinkedList list, CriteriaFunction criteria)
 ```
 
 _This function searches for a node in the linked list 'list' based on a custom criteria function 'criteria.' It returns the first node that meets the criteria or NULL if no nodes match the criteria._
+
+# GRAPH
+
+_A graph is a non-linear data structure that consists of a set of vertices (also called nodes) and a set of edges. The edges connect the vertices in pairs, and can be either directed or undirected. A directed edge has a direction, meaning that it can only be traversed in one direction. An undirected edge does not have a direction, meaning that it can be traversed in either direction._
+
+**_1. Create Node:_**
+
+```c
+
+Node *createNode(int data)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+
+    newNode->data = data;
+    newNode->next = NULL;
+
+    return newNode;
+}
+
+
+```
+
+_This function creates a new node with the given data and initializes the 'next' pointer to NULL. It returns the newly created node._
+
+
+**_2. Create Graph:_**
+
+```c
+
+Graph *createGraph(int vertices)
+{
+    Graph *graph = (Graph *)malloc(sizeof(Graph));
+    graph->numVertices = vertices;
+    graph->type = DIRECTED;
+    graph->adjLists = (Node **)malloc(vertices * sizeof(Node *));
+
+    for (int i = 0; i < vertices; i++)
+        graph->adjLists[i] = NULL;
+
+    return graph;
+}
+
+```
+
+_This function creates a new graph with the specified number of vertices. It initializes the adjacency lists and graph type. It returns the newly created graph._
+
+
+**_3. Add Edge:_**
+
+```c
+
+void addEdge(Graph *graph, int src, int dest)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = dest;
+    newNode->next = graph->adjLists[src];
+    graph->adjLists[src] = newNode;
+
+    if (graph->type == UNDIRECTED)
+    {
+        newNode = (Node *)malloc(sizeof(Node));
+        newNode->data = src;
+        newNode->next = graph->adjLists[dest];
+        graph->adjLists[dest] = newNode;
+    }
+}
+
+```
+
+_This function adds a directed edge from the source vertex 'src' to the destination vertex 'dest' in the graph. For undirected graphs, it adds an edge in both directions if the graph type is set to 'UNDIRECTED'._
+
+
+**_4. Depth-First Search (DFS):_**
+
+```c
+
+void DFS(Graph *graph, int vertex, bool *visited)
+{
+    visited[vertex] = true;
+    printf("%d ", vertex);
+
+    Node *adjList = graph->adjLists[vertex];
+    while (adjList)
+    {
+        int neighbor = adjList->data;
+        if (!visited[neighbor])
+            DFS(graph, neighbor, visited);
+        adjList = adjList->next;
+    }
+}
+
+```
+
+_This function performs Depth-First Search (DFS) on the graph starting from a given vertex. It marks visited vertices and prints the traversal path._
+
+
+**_5. Breadth-First Search (BFS):_**
+
+```c
+
+void BFS(Graph *graph, int startVertex)
+{
+    bool visited[graph->numVertices];
+    for (int i = 0; i < graph->numVertices; i++)
+    {
+        visited[i] = false;
+    }
+
+    int queue[graph->numVertices];
+    int front = 0, rear = 0;
+
+    visited[startVertex] = true;
+    queue[rear++] = startVertex;
+
+    printf("Breadth-First Traversal: ");
+
+    while (front < rear)
+    {
+        int currentVertex = queue[front++];
+        printf("%d ", currentVertex);
+
+        Node *temp = graph->adjLists[currentVertex];
+        while (temp)
+        {
+            int adjVertex = temp->data;
+            if (!visited[adjVertex])
+            {
+                visited[adjVertex] = true;
+                queue[rear++] = adjVertex;
+            }
+            temp = temp->next;
+        }
+    }
+}
+
+```
+
+_This function performs Breadth-First Search (BFS) on the graph starting from a given vertex. It marks visited vertices and prints the traversal path._
+
+
+**_6. Show Graph:_**
+
+```c
+
+void showGraph(Graph *graph)
+{
+    for (int i = 0; i < graph->numVertices; i++)
+    {
+        Node *current = graph->adjLists[i];
+        printf("\e[1;36mVertex \e[4;32m%d\e[0m: ", i);
+        while (current)
+        {
+            printf("(\e[1;31m%d\e[0m)\e[1;36m -> ", current->data);
+            current = current->next;
+        }
+        printf("\e[1;31mNULL\e[0m\n");
+    }
+}
+
+```
+
+_This function displays the adjacency lists representation of the graph, showing the relationships between vertices._
+
+
+**_7. Graph from Matrix:_**
+
+```c
+
+Graph *graphFromMatrix(int graph[V][V], int V)
+{
+    Graph *newGraph = (Graph *)malloc(sizeof(Graph));
+    newGraph->numVertices = V;
+    newGraph->adjLists = (Node **)malloc(V * sizeof(Node *));
+
+    for (int i = 0; i < V; i++)
+    {
+        newGraph->adjLists[i] = NULL;
+        for (int j = 0; j < V; j++)
+        {
+            if (graph[i][j] == 1)
+            {
+                Node *newNode = createNode(j);
+                newNode->next = newGraph->adjLists[i];
+                newGraph->adjLists[i] = newNode;
+            }
+        }
+    }
+
+    return newGraph;
+}
+
+```
+
+_This function creates a graph from an adjacency matrix. It converts the matrix into an adjacency lists representation and returns the newly created graph._
+
+
+**_8. Graph from List:_**
+
+```c
+
+Graph *graphFromList(Node *adjacencyList[], int V)
+{
+    Graph *newGraph = (Graph *)malloc(sizeof(Graph));
+    newGraph->numVertices = V;
+    newGraph->adjLists = (Node **)malloc(V * sizeof(Node *));
+
+    for (int i = 0; i < V; i++)
+    {
+        newGraph->adjLists[i] = NULL;
+        Node *currentNode = adjacencyList[i];
+        while (currentNode)
+        {
+            Node *newNode = createNode(currentNode->data);
+            newNode->next = newGraph->adjLists[i];
+            newGraph->adjLists[i] = newNode;
+            currentNode = currentNode->next;
+        }
+    }
+
+    return newGraph;
+}
+
+```
+
+_This function creates a graph from an array of linked lists (adjacency lists). It converts the lists into an adjacency lists representation and returns the newly created graph._
+
+
+**_9. Topological Sort:_**
+
+```c
+
+void topologicalSort(Graph *graph)
+{
+    bool visited[graph->numVertices];
+    for (int i = 0; i < graph->numVertices; i++)
+        visited[i] = false;
+
+    Node *stack = NULL;
+
+    for (int i = 0; i < graph->numVertices; i++)
+        if (!visited[i])
+            topologicalSortUtil(graph, i, visited, &stack);
+
+    printf("Topological Sort: ");
+    while (stack)
+    {
+        printf("%d ", stack->data);
+        stack = stack->next;
+    }
+    printf("\n");
+}
+
+```
+
+_This function performs a topological sort on a directed acyclic graph (DAG). It prints the topological ordering of vertices._
+
+
+**_10. Graph to Matrix:_**
+
+```c
+
+int **graphToMatrix(Graph *graph)
+{
+    int numVertices = graph->numVertices;
+    int **adjacencyMatrix = (int **)malloc(numVertices * sizeof(int *));
+
+    for (int i = 0; i < numVertices; i++)
+    {
+        adjacencyMatrix[i] = (int *)malloc(numVertices * sizeof(int));
+        for (int j = 0; j < numVertices; j++)
+            adjacencyMatrix[i][j] = 0;
+    }
+
+    for (int i = 0; i < numVertices; i++)
+    {
+        Node *temp = graph->adjLists[i];
+        while (temp)
+        {
+            adjacencyMatrix[i][temp->data] = 1;
+            temp = temp->next;
+        }
+    }
+
+    return adjacencyMatrix;
+}
+
+```
+
+_This function converts a graph into an adjacency matrix representation and returns the adjacency matrix._
+
+
+**_11. Print Matrix:_**
+
+```c
+
+void printMatrix(int **matrix, int numVertices)
+{
+    printf("\e[4;31m{\n\e[0m");
+    for (int i = 0; i < numVertices; i++)
+    {
+        printf("\e[1;34m{ \e[0m");
+        for (int j = 0; j < numVertices; j++)
+        {
+            printf(matrix[i][j] ? "\e[1;35m%d" : "\e[1;32m%d", matrix[i][j]);
+            if (j < numVertices - 1)
+                printf("\e[1;33m, ");
+        }
+        printf("\e[1;34m },\n\e[0m");
+    }
+    printf("\e[4;31m }\n\e[0m");
+}
+
+```
+
+_This function prints an adjacency matrix, displaying the connectivity between vertices._
+
+# HASH MAP
+
+_A hash map, also known as a hash table, is a data structure that maps keys to values. It uses a hash function to convert each key into a unique index into an array. This allows the hash map to efficiently retrieve the value associated with a given key._
+
+**_1. Initialize Hash Table:_**
+
+```c
+
+void initializeHashTable(HashTable *hashtable)
+{
+    for (int i = 0; i < NUM_BUCKETS; i++)
+        hashtable->buckets[i] = NULL;
+}
+
+```
+
+_This function initializes the hash table by setting all buckets to NULL. It prepares the hash table for use._
+
+
+**_2. Hash Function:_**
+
+```c
+
+int hash(const char *key)
+{
+    int hash = 0;
+    for (int i = 0; key[i]; i++)
+        hash += key[i];
+
+    return hash % NUM_BUCKETS;
+}
+```
+
+_This function generates a hash value for the given key. It returns the hash value modulo the number of buckets to determine the index in the hash table._
+
+
+**_3. Insert into Hash Table:_**
+
+```c
+
+void insert(HashTable *hashtable, const char *key, int value)
+{
+    int index = hash(key);
+
+    KV *pair = (KV *)malloc(sizeof(KV));
+    pair->key = strdup(key);
+    pair->value = value;
+    pair->next = NULL;
+
+    if (hashtable->buckets[index] == NULL)
+        hashtable->buckets[index] = pair;
+    else
+    {
+        KV *current = hashtable->buckets[index];
+        while (current->next != NULL)
+            current = current->next;
+        current->next = pair;
+    }
+}
+
+```
+
+_This function inserts a key-value pair into the hash table. It handles collisions by chaining elements in linked lists within the same bucket._
+
+
+**_4. Get Value from Hash Table:_**
+
+```c
+
+int get(HashTable *hashtable, const char *key)
+{
+    int index = hash(key);
+
+    KV *current = hashtable->buckets[index];
+    while (current != NULL)
+    {
+        if (strcmp(current->key, key) == 0)
+            return current->value;
+			
+        current = current->next;
+    }
+
+    return -1;
+}
+
+```
+
+_This function retrieves the value associated with a key from the hash table. It returns the value or -1 if the key is not found in the hash table._
+
+
+**_5. Clear Hash Table:_**
+
+```c
+
+void clear(HashTable *hashtable)
+{
+    for (int i = 0; i < NUM_BUCKETS; i++)
+    {
+        KV *current = hashtable->buckets[i];
+        while (current != NULL)
+        {
+            KV *temp = current;
+            current = current->next;
+            free(temp->key);
+            free(temp);
+        }
+    }
+}
+
+```
+
+_This function clears the hash table and deallocates memory. It frees all key-value pairs and linked list nodes, making the hash table ready for cleanup._
+
