@@ -142,3 +142,10 @@ void reverse(Array* arr) {
         right--;
     }
 }
+
+void clear(Array* arr) {
+    for (int i = 0; i < arr->size; i++)
+        free(arr->data[i]);
+    arr->size = 0;
+    arr->capacity = 0;
+}
