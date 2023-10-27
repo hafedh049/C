@@ -258,7 +258,7 @@ Queue createQueue()
 }
 ```
 
-_The function ```Queue createQueue()``` creates and initializes a new queue data structure. It allocates memory for a new Queue struct and initializes its head and tail pointers to ```NULL```. This indicates that the queue is empty. The function then returns the new queue struct._
+_The function `Queue createQueue()` creates and initializes a new queue data structure. It allocates memory for a new Queue struct and initializes its head and tail pointers to `NULL`. This indicates that the queue is empty. The function then returns the new queue struct._
 
 **_2. Push item:_**
 
@@ -269,7 +269,7 @@ void push(Queue *queue, int item)
     newNode->data = item;
     newNode->next = NULL;
     if (isEmpty(*queue))
-    {    
+    {
         (*queue).tail = newNode;
         (*queue).head = newNode;
     }
@@ -295,7 +295,6 @@ int isEmpty(Queue queue)
 ```
 
 _The `isEmpty` function checks if the queue is empty. It examines both the head and tail of the queue to determine if it contains any elements. A return value of 1 indicates an empty queue, while 0 indicates a non-empty queue. This function is used to verify the status of the queue._
-
 
 **_4. Remove and Return Front Item:_**
 
@@ -331,7 +330,6 @@ Node *pop(Queue *queue)
 
 _The `pop` function removes and returns the front item from the queue. It ensures that the queue is not empty before attempting to remove an element. If the queue contains only one item, it deallocates the memory for that item. This function is essential for dequeuing items from the queue._
 
-
 **_5. Get Queue Size:_**
 
 ```c
@@ -351,7 +349,6 @@ int size(Queue queue)
 ```
 
 _The `size` function calculates and returns the number of elements in the queue. It iterates through the queue from the front to the end, counting the elements as it progresses. This function is used to determine the size or length of the queue._
-
 
 **_6. Display All Queue Items:_**
 
@@ -397,7 +394,6 @@ void showAllItems(Queue queue)
 
 _The `showAllItems` function is responsible for displaying all items in the queue. While the code is truncated here, the function likely formats and prints the queue's contents for easy visualization. It is often used for debugging and understanding the queue's current state._
 
-
 **_7. Clear Queue:_**
 
 ```c
@@ -412,7 +408,6 @@ void clear(Queue *queue)
 
 _The `clear` function removes all items from the queue, effectively emptying it. It continuously dequeues items from the front until the queue is empty. This function is useful when you want to reset or clean up the queue._
 
-
 **_8. Peek at Front Item:_**
 
 ```c
@@ -426,7 +421,6 @@ int peek(Queue queue)
 ```
 
 _The `peek` function retrieves the value of the front item in the queue without removing it. It is important to check that the queue is not empty before using this function. This is commonly used to inspect the next item that will be dequeued._
-
 
 **_9. Search for Key in Queue:_**
 
@@ -449,7 +443,6 @@ int search(Queue queue, int key)
 ```
 
 _The `search` function looks for a specific key within the queue and returns its index if found. It starts from the front of the queue and moves towards the end, counting the items. If the key is located, its index is returned. This function helps identify the position of a particular item in the queue._
-
 
 **_10. Sort Queue:_**
 
@@ -479,7 +472,6 @@ void sort(Queue *queue, int key)
 
 _The `sort` function arranges the elements in the queue in either ascending or descending order. The 'key' parameter determines the sorting direction, with 1 for ascending and -1 for descending. The function rearranges the queue to meet the specified order. Sorting is a common operation when managing data in a queue._
 
-
 **_11. Push Multiple Items to Queue:_**
 
 ```c
@@ -494,7 +486,6 @@ void pushMany(Queue *queue, int numberOfItems, ...)
 ```
 
 _The `pushMany` function allows multiple items to be pushed into the queue using variadic macros. It takes the 'numberOfItems' parameter to determine how many items to add. This function simplifies the process of adding multiple items to the queue simultaneously._
-
 
 **_12. Reverse Queue:_**
 
@@ -513,7 +504,6 @@ void reverse(Queue *queue)
 
 _The `reverse` function is responsible for reversing the order of items in the queue. It ensures that the queue is not empty before initiating the reversal process. This can be useful when the order of items in the queue needs to be inverted._
 
-
 **_13. Copy Queue:_**
 
 ```c
@@ -530,7 +520,6 @@ Queue copy(Queue queue)
 ```
 
 _The `copy` function creates a duplicate of the queue. It ensures that the original queue is not empty before copying its contents. The copied queue, 'copyQueue,' is returned as a new instance, allowing for independent manipulation of the copied data._
-
 
 **_14. Merge Queues:_**
 
@@ -549,3 +538,7 @@ Queue merge(Queue firstQueue, Queue secondQueue)
 ```
 
 _The `merge` function combines two queues, 'firstQueue' and 'secondQueue,' into a single new queue, 'mergingQueue.' It does so by dequeuing items from both input queues and adding them to the merging queue. The result is a unified queue containing all elements from both sources._
+
+# QUEUE
+
+_A queue is a first-in-first-out (FIFO) data structure. Elements are added to the end of the queue and removed from the front. Queues are often used to implement tasks that must be processed in order, such as printing jobs or tasks in a production line._
