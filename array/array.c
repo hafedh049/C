@@ -149,3 +149,107 @@ void clear(Array* arr) {
     arr->size = 0;
     arr->capacity = 0;
 }
+
+int lastIndexOf(Array* arr, int element) {
+    for (int i = arr->size - 1; i >= 0; i--) 
+        if (arr->data[i] == element)
+            return i;
+        
+    return -1;
+}
+
+int contains(Array* arr, int element) {
+    return indexOf(arr, element) != -1;
+}
+
+Array* copy(Array* arr) {
+    Array* copyArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++) {
+        push(copyArr, arr->data[i]);
+    }
+    return copyArr;
+}
+
+int isEmpty(Array* arr) {
+    return arr->size == 0;
+}
+
+int size(Array* arr) {
+    return arr->size;
+}
+
+int capacity(Array* arr) {
+    return arr->capacity;
+}
+
+void trimToSize(Array* arr) {
+    if (arr->size < arr->capacity) {
+        arr->capacity = arr->size;
+        arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
+    }
+}
+
+Array* reversedArray(Array* arr) {
+    Array* reversedArr = createArray(arr->size);
+    for (int i = arr->size - 1; i >= 0; i--) {
+        push(reversedArr, arr->data[i]);
+    }
+    return reversedArr;
+}
+
+Array* concatenate(Array* arr1, Array* arr2) {
+    Array* concatenatedArr = createArray(arr1->size + arr2->size);
+    for (int i = 0; i < arr1->size; i++) {
+        push(concatenatedArr, arr1->data[i]);
+    }
+    for (int i = 0; i < arr2->size; i++) {
+        push(concatenatedArr, arr2->data[i]);
+    }
+    return concatenatedArr;
+}
+
+void bubbleSort(Array* arr) {
+    for (int i = 0; i < arr->size - 1; i++) {
+        for (int j = 0; j < arr->size - i - 1; j++) {
+            if (arr->data[j] > arr->data[j + 1]) {
+                int temp = arr->data[j];
+                arr->data[j] = arr->data[j + 1];
+                arr->data[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int binarySearch(Array* arr, int target) {
+    int left = 0;
+    int right = arr->size - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (arr->data[mid] == target)
+            return mid;
+        if (arr->data[mid] < target)
+            left = mid + 1;
+        else 
+            right = mid - 1;
+    }
+    return -1;
+}
+
+Array* unique(Array* arr) {
+    Array* uniqueArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++) {
+        int element = arr->data[i];
+        if (!contains(uniqueArr, element))
+            push(uniqueArr, element);
+    }
+    return uniqueArr;
+}
+
+Array* map(Array* arr, int (*function)(int)) {
+    Array* mappedArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++) {
+        int result = function(arr->data[i]);
+        push(mappedArr, result);
+    }
+    return mappedArr;
+}
