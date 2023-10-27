@@ -353,3 +353,61 @@ int every(Array *arr, int (*condition)(int))
             return 0;
     return 1;
 }
+
+int maximum(Array *arr)
+{
+    int maximum = arr->data[0];
+    for (int i = 1; i < arr->size; i++)
+        if (arr->data[i] > maximum)
+            maximum = arr->data[i];
+
+    return maximum;
+}
+
+int minimum(Array *arr)
+{
+    int minimum = arr->data[0];
+    for (int i = 1; i < arr->size; i++)
+        if (arr->data[i] < minimum)
+            minimum = arr->data[i];
+
+    return minimum;
+}
+
+void rotateLeft(Array *arr, int positions)
+{
+    if (positions < 0)
+        positions = positions + arr->size;
+
+    positions = positions % arr->size;
+
+    Array *tempArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++)
+    {
+        int newPosition = (i + positions) % arr->size;
+        tempArr->data[newPosition] = arr->data[i];
+    }
+    for (int i = 0; i < arr->size; i++)
+        arr->data[i] = tempArr->data[i];
+
+    destroyArray(tempArr);
+}
+
+void rotateRight(Array *arr, int positions)
+{
+    if (positions < 0)
+        positions = positions + arr->size;
+
+    positions = positions % arr->size;
+
+    Array *tempArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++)
+    {
+        int newPosition = (i - positions + arr->size) % arr->size;
+        tempArr->data[newPosition] = arr->data[i];
+    }
+    for (int i = 0; i < arr->size; i++)
+        arr->data[i] = tempArr->data[i];
+
+    destroyArray(tempArr);
+}
