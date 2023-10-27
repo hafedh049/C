@@ -98,15 +98,8 @@ void decreaseKey(MinHeap* heap, int index, int newValue) {
     heapifyUp(heap, index);
 }
 
-void heapSort(int* arr, int n) {
-    MinHeap* heap = createMinHeap(n);
-
-    buildHeap(heap, arr, n);
-
-    for (int i = 0; i < n; i++) {
-        arr[i] = extractMin(heap);
-    }
-
-    free(heap->arr);
-    free(heap);
+void heapSort(MinHeap* heap) {
+    int n = heap->size;
+    for (int i = n - 1; i >= 0; i--)
+        heap->arr[i] = extractMin(heap);
 }
