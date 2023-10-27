@@ -411,3 +411,60 @@ void rotateRight(Array *arr, int positions)
 
     destroyArray(tempArr);
 }
+
+void shuffle(Array* arr) {
+    srand(time(NULL));
+    for (int i = arr->size - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = arr->data[i];
+        arr->data[i] = arr->data[j];
+        arr->data[j] = temp;
+    }
+}
+
+void swap(Array* arr, int index1, int index2) {
+    if (index1 >= 0 && index1 < arr->size && index2 >= 0 && index2 < arr->size) {
+        int temp = arr->data[index1];
+        arr->data[index1] = arr->data[index2];
+        arr->data[index2] = temp;
+    }
+}
+
+void fill(Array* arr, int value) {
+    for (int i = 0; i < arr->size; i++)
+        arr->data[i] = value;
+}
+
+int compareAscending(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+void qqsort(Array* arr) {
+    qsort(arr->data, arr->size, sizeof(int), compareAscending);
+}
+
+char* join(Array* arr, const char* delimiter) {
+    int resultLength = 1;
+    for (int i = 0; i < arr->size; i++) {
+        int element = arr->data[i];
+        int digits = element == 0 ? 1 : (int)(log10(abs(element)) + 1);
+        resultLength += digits + (i < arr->size - 1 ? strlen(delimiter) : 0);
+    }
+
+    char* result = (char*)malloc(resultLength);
+    result[0] = '\0';
+
+    for (int i = 0; i < arr->size; i++) {
+        const int MAX_STRING_LENGTH = (int)(log10(abs(arr->data[i])) + 1);
+        char *elementAsString = (char*)malloc(sizeof(char) * MAX_STRING_LENGTH);
+        snprintf(elementAsString, MAX_STRING_LENGTH, "%d", arr->data[i]);
+        strcat(result, elementAsString);
+        if (i < arr->size - 1)
+            strcat(result, delimiter);
+        free(elementAsString);
+        resultLength = strlen(result) + 1;
+        result = (char*)realloc(result, resultLength + 1);
+    }
+
+    return result;
+}
