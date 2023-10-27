@@ -510,3 +510,20 @@ double average(Array* arr) {
 
     return (double)sum(arr) / arr->size;
 }
+
+int sum(Array* arr) {
+    int result = 0;
+    for (int i = 0; i < arr->size; i++)
+        result += arr->data[i];
+    
+    return result;
+}
+
+int searchWithCriteria(Array* arr, int (*criteria)(int)) {
+    for (int i = 0; i < arr->size; i++) {
+        if (criteria(arr->data[i])) {
+            return arr->data[i];
+        }
+    }
+    return -1;
+}
