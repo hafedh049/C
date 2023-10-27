@@ -2,9 +2,9 @@
 
 int main() {
     Array *arr = createArray();
-    push(arr,10);
-    push(arr,10);
-    push(arr,10);
-    push(arr,10);
+    pushMany(arr,3,1,2,3);
+    removeAll(arr,1);
+    unshift(arr,1);
+    toString(arr);
     return 0;
 }
