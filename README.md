@@ -539,6 +539,6 @@ Queue merge(Queue firstQueue, Queue secondQueue)
 
 _The `merge` function combines two queues, 'firstQueue' and 'secondQueue,' into a single new queue, 'mergingQueue.' It does so by dequeuing items from both input queues and adding them to the merging queue. The result is a unified queue containing all elements from both sources._
 
-# QUEUE
+# ARRAY
 
-_A queue is a first-in-first-out (FIFO) data structure. Elements are added to the end of the queue and removed from the front. Queues are often used to implement tasks that must be processed in order, such as printing jobs or tasks in a production line._
+_An array is a data structure that stores a collection of elements of the same type. The elements are stored in contiguous memory locations, and each element is identified by a unique index. Arrays are one of the most fundamental and widely used data structures in computer programming._
