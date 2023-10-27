@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-typedef struct Array {
-    int* data;
-    int size;
-    int capacity;
-}Array;
+#include "array.h"
 
 Array* createArray() {
     Array* arr = (Array*)malloc(sizeof(Array));
