@@ -5312,6 +5312,94 @@ int index(String *str, String *substring)
     return position;
 }
 
+```
+
+_This function finds the position of the first occurrence of a substring in a string and returns its index. If the substring is not found, it exits with an error message._
+
+
+**_12. Is Alphanumeric:_**
+
+```c
+
+bool isalnums(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isalnum(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of alphanumeric characters and returns true if all characters are alphanumeric, otherwise, it returns false._
+
+
+**_13. Is Alphabetical:_**
+
+```c
+
+bool isalphas(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isalpha(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of alphabetical characters and returns true if all characters are alphabetical, otherwise, it returns false._
+
+
+**_14. Is Numeric:_**
+
+```c
+
+bool isnumerics(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isdigit(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of numeric characters and returns true if all characters are numeric, otherwise, it returns false._
+
+
+**_15. Is Lowercase:_**
+
+```c
+
+bool islowers(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!islower(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of lowercase characters and returns true if all characters are lowercase, otherwise, it returns false._
+
+
+**_16. Is Uppercase:_**
+
+```c
+
+bool isuppers(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isupper(str->str[i]))
+            return false;
+    return true;
+}
+```
+
+_This function checks if the string consists of uppercase characters and returns true if all characters are uppercase, otherwise, it returns false._
+
 
 **_17. Join:_**
 
@@ -5932,3 +6020,65 @@ int countDigits(int number)
 ```
 
 _This function counts the number of digits in an integer. It returns the count of digits in the given integer._
+
+
+**_9. Calculate String Size:_**
+
+```c
+int calcStringSize(const Tuple tuple)
+{
+    int counter = 1 + 1 + 1 + 2 * (size(tuple) - 1);
+    for (int index = 0; index < size(tuple); index++)
+        counter += countDigits(getFromTuple(tuple, index));
+}
+```
+
+_This function calculates the size of a string representation of a Tuple. It returns the size of the string, taking into account the number of digits in each element._
+
+
+**_10. Tuple to String:_**
+
+```c
+char *tupleToString(const Tuple tuple)
+{
+    char *str = (char *)malloc(calcStringSize(tuple) * sizeof(char));
+    char *temp = str;
+    *temp = '(';
+    temp++;
+    for (int index = 0; index < size(tuple); index++)
+    {
+        int num = getFromTuple(tuple, index);
+        int charsWritten = sprintf(temp, "%d", num);
+        temp += charsWritten;
+        if (index < size(tuple) - 1)
+        {
+            *temp = ',';
+            temp++;
+            *temp = ' ';
+            temp++;
+        }
+    }
+    *temp = ')';
+    temp++;
+    *temp = '\0';
+    return str;
+}
+```
+
+_This function converts a Tuple to a string representation. It allocates memory for the string and returns the string._
+
+
+**_11. Count:_**
+
+```c
+int count(const Tuple tuple, int target)
+{
+    int count = 0;
+    for (int index = 0; index < size(tuple); index++)
+        if (getFromTuple(tuple, index) == target)
+            count++;
+    return count;
+}
+```
+
+_This function counts the occurrences of a target integer within a Tuple. It returns the count of occurrences._
