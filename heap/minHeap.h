@@ -24,4 +24,4 @@ int delete(MinHeap *, int);
 
 void decreaseKey(MinHeap *, int, int);
 
-void heapSort(MinHeap *, int);
+void heapSort(MinHeap *);

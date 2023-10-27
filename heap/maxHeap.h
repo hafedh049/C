@@ -25,4 +25,4 @@ int delete(MaxHeap *, int);
 
 void decreaseKey(MaxHeap *, int, int);
 
-void heapSort(MaxHeap *, int);
+void heapSort(MaxHeap *);
