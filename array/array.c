@@ -468,3 +468,45 @@ char* join(Array* arr, const char* delimiter) {
 
     return result;
 }
+
+int shift(Array* arr) {
+    if (arr->size == 0)
+        return -1;
+    
+    int element = arr->data[0];
+    for (int i = 1; i < arr->size; i++)
+        arr->data[i - 1] = arr->data[i];
+
+    arr->size--;
+
+    if (arr->size < arr->capacity - 1) {
+        arr->capacity -= 1;
+        arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
+    }
+
+    return element;
+}
+
+void unshift(Array* arr, int element) {
+    if (arr->size >= arr->capacity) {
+        arr->capacity++;
+        arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
+    }
+    for (int i = arr->size; i > 0; i--) {
+        arr->data[i] = arr->data[i - 1];
+    }
+    arr->data[0] = element;
+    arr->size++;
+
+    if (arr->size == arr->capacity) {
+        arr->capacity++;
+        arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
+    }
+}
+
+double average(Array* arr) {
+    if (arr->size == 0)
+        return 0.0;
+
+    return (double)sum(arr) / arr->size;
+}
