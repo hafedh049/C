@@ -5098,3 +5098,7 @@ char *tupleToString(const Tuple tuple)
 ```
 
 _This function converts a Tuple to a string representation. It allocates memory for the string and returns the string._
+
+
+## ⚠ Contact
+If you come across any errors or encounter issues in the code, please don't hesitate to contact me at [hafedhgunichi@gmail.com](mailto:hafedhgunichi@gmail.com). Your feedback and contributions are greatly appreciated.
