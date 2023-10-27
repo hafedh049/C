@@ -10,19 +10,16 @@ Queue createQueue()
 
 void push(Queue *queue, int item)
 {
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    newNode->data = item;
+    newNode->next = NULL;
     if (isEmpty(*queue))
-    {
-        Node *newNode = (Node *)malloc(sizeof(Node));
-        newNode->data = item;
-        newNode->next = NULL;
+    {    
         (*queue).tail = newNode;
         (*queue).head = newNode;
     }
     else
     {
-        Node *newNode = (Node *)malloc(sizeof(Node));
-        newNode->data = item;
-        newNode->next = NULL;
         (*queue).tail->next = newNode;
         (*queue).tail = newNode;
     }
@@ -151,10 +148,11 @@ void sort(Queue *queue, int key)
 
         push(&auxilaryQueue, queueItem);
     }
+    free(queue);
     *queue = auxilaryQueue;
 }
 
-// variadics macros
+// variadics macro
 void pushMany(Queue *queue, int numberOfItems, ...)
 {
     va_list args;

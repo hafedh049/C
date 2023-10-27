@@ -13,10 +13,14 @@ Stack* createStack()
 
 void push(Stack *stack, int item)
 {
+    if (stack == NULL)
+        return;
+
     Node *newNode = (Node *)malloc(sizeof(Node));
+    
     newNode->data = item;
-    newNode->next = (*stack).head;
-    (*stack).head = newNode;
+    newNode->next = stack->head;
+    stack->head = newNode;
 }
 
 int isEmpty(Stack stack)
