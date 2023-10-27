@@ -3551,6 +3551,242 @@ void clear(HashTable *hashtable)
 
 _This function clears the hash table and deallocates memory. It frees all key-value pairs and linked list nodes, making the hash table ready for cleanup._
 
+# HEAPS (MIN-MAX)
+
+_A heap is a data structure that organizes elements in a tree-based structure such that the elements at any given level are greater than or equal to (or less than or equal to, depending on the type of heap) their child elements. This property is called the heap property. Heaps are often used to implement priority queues, which are abstract data types that provide efficient methods for inserting and removing the element with the highest (or lowest) priority._
+
+**_1. Create Max Heap:_**
+
+```c
+
+MaxHeap* createMaxHeap(int initialCapacity)
+{
+    MaxHeap *heap = (MaxHeap *)malloc(sizeof(MaxHeap));
+    heap->capacity = initialCapacity;
+    heap->size = 0;
+    heap->arr = (int *)malloc(sizeof(int) * initialCapacity);
+    return heap;
+}
+
+```
+
+_This function creates a new Max Heap with the specified initial capacity. It initializes the heap size and allocates memory for the heap array. It returns a pointer to the created Max Heap._
+
+
+**_2. Swap:_**
+
+```c
+
+void swap(int* a, int* b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+```
+
+_This function swaps the values of two integers by reference, using pointers to the integers._
+
+
+**_3. Heapify Up:_**
+
+```c
+
+void heapifyUp(MaxHeap* heap, int index)
+{
+    int parent = (index - 1) / 2;
+    while (index > 0 && heap->arr[index] > heap->arr[parent])
+    {
+        swap(&heap->arr[index], &heap->arr[parent]);
+        index = parent;
+        parent = (index - 1) / 2;
+    }
+}
+
+```
+
+_This function restores the Max Heap property by moving the element up the heap as needed, to maintain the heap structure._
+
+
+**_4. Insert into Max Heap:_**
+
+```c
+
+void insert(MaxHeap* heap, int value)
+{
+    if (heap->size >= heap->capacity)
+    {
+        heap->capacity *= 2;
+        heap->arr = (int *)realloc(heap->arr, sizeof(int) * heap->capacity);
+    }
+    heap->arr[heap->size] = value;
+    heapifyUp(heap, heap->size);
+    heap->size++;
+}
+
+```
+
+_This function inserts a value into the Max Heap while maintaining the Max Heap property. It dynamically resizes the heap if it exceeds its capacity._
+
+
+**_5. Heapify Down:_**
+
+```c
+
+void heapifyDown(MaxHeap* heap, int index)
+{
+    int left = 2 * index + 1;
+    int right = 2 * index + 2;
+    int largest = index;
+
+    if (left < heap->size && heap->arr[left] > heap->arr[largest])
+        largest = left;
+    if (right < heap->size && heap->arr[right] > heap->arr[largest])
+        largest = right;
+
+    if (largest != index)
+    {
+        swap(&heap->arr[index], &heap->arr[largest]);
+        heapifyDown(heap, largest);
+    }
+}
+
+```
+
+_This function restores the Max Heap property by moving the element down the heap as needed, to maintain the heap structure._
+
+
+**_6. Extract Max:_**
+
+```c
+
+int extractMax(MaxHeap* heap)
+{
+    if (heap->size <= 0)
+    {
+        printf("Heap is empty.\n");
+        return -1;
+    }
+    int max = heap->arr[0];
+    heap->arr[0] = heap->arr[heap->size - 1];
+    heap->size--;
+    heapifyDown(heap, 0);
+    return max;
+}
+
+```
+
+_This function removes and returns the maximum element from the Max Heap. It restores the Max Heap property after extraction. If the heap is empty, it prints an error message and returns -1._
+
+
+**_7. Build Max Heap:_**
+
+```c
+
+void buildMaxHeap(MaxHeap* heap, int* arr, int n)
+{
+    for (int i = 0; i < n; i++)
+        insert(heap, arr[i]);
+}
+
+```
+
+_This function builds a Max Heap from an array of elements. It inserts the elements into the heap to create a valid Max Heap structure._
+
+
+**_8. Delete:_**
+
+```c
+
+int delete(MaxHeap* heap, int value)
+{
+    int index = -1;
+    for (int i = 0; i < heap->size; i++)
+        if (heap->arr[i] == value)
+        {
+            index = i;
+            break;
+        }
+
+    if (index == -1)
+    {
+        printf("Element not found in the heap.\n");
+        return -1;
+    }
+    int deletedValue = heap->arr[index];
+    heap->arr[index] = heap->arr[heap->size - 1];
+    heap->size--;
+    heapifyDown(heap, index);
+    return deletedValue;
+}
+
+```
+
+_This function deletes an element with the specified value from the Max Heap. It restores the Max Heap property after deletion. If the element is not found, it prints an error message and returns -1._
+
+
+**_9. Decrease Key:_**
+
+```c
+
+void decreaseKey(MaxHeap* heap, int index, int newValue)
+{
+    if (index < 0 || index >= heap->size)
+    {
+        printf("Invalid index.\n");
+        return;
+    }
+    if (newValue < heap->arr[index])
+    {
+        printf("New value is smaller than the current value.\n");
+        return;
+    }
+    heap->arr[index] = newValue;
+    heapifyUp(heap, index);
+}
+
+```
+
+_This function decreases the value of an element at the specified index in the Max Heap. It checks for valid indices and ensures that the new value is smaller than the current value._
+
+
+**_10. Heap Sort:_**
+
+```c
+
+void heapSort(MaxHeap* heap)
+{
+    int n = heap->size;
+    for (int i = n - 1; i >= 0; i--)
+        heap->arr[i] = extractMax(heap);
+}
+
+```
+
+_This function sorts the Max Heap in ascending order using the heap sort algorithm._
+
+
+**_11. Convert to String:_**
+
+```c
+
+void toString(MaxHeap* heap)
+{
+    printf("[");
+    for (int i = 0; i < heap->size; i++)
+    {
+        printf("%d", heap->arr[i]);
+        if (i != heap->size - 1)
+            printf(", ");
+    }
+    printf("]\n");
+}
+
+```
+
+_This function converts the Max Heap into a string format for display, including its elements and structure._
+
 # SET
 
 _A set is an abstract data type that can store unique values, without any particular order. It is a computer implementation of the mathematical concept of a finite set. Unlike most other collection types, rather than retrieving a specific element from a set, one typically tests a value for membership in a set_
@@ -5846,3 +6082,7 @@ int count(const Tuple tuple, int target)
 ```
 
 _This function counts the occurrences of a target integer within a Tuple. It returns the count of occurrences._
+
+<p align="center">
+  <img src="pictures/Circulardoublylinkedlist-660x155.png" alt="Image Description" style="display: block; margin: 0 auto;">
+</p>
