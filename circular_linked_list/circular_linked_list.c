@@ -347,19 +347,26 @@ int findFirstOccurrence(CircularLinkedList *list, int element)
 
 int findLastOccurrence(CircularLinkedList *list, int element)
 {
-  int position = -1;
+  int position = 0;
+  int length = getLength(list);
   Node *current = list->head;
+
+  int lastPosition = -1;
 
   while (current != list->head)
   {
     if (current->data == element)
-      position = getLength(list) - 1 - position;
+      lastPosition = position;
 
     position++;
     current = current->next;
   }
 
-  return position;
+  if (lastPosition != -1) {
+    lastPosition = length - 1 - lastPosition;
+  }
+
+  return lastPosition;
 }
 
 int hasCycle(CircularLinkedList *list)
