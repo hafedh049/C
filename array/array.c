@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct Array {
     int* data;
     int size;
@@ -83,49 +86,45 @@ void freeArray(Array* arr) {
 }
 
 void insert(Array* arr, int index, int element) {
-    if (index < 0 || index > arr->size) {
-        // Handle out-of-bounds index
+    if (index < 0 || index > arr->size)
         return;
-    }
+
     if (arr->size >= arr->capacity) {
-        // Double the capacity if needed
-        arr->capacity *= 2;
+        arr->capacity++;
         arr->data = (int*)realloc(arr->data, sizeof(int) * arr->capacity);
     }
-    for (int i = arr->size; i > index; i--) {
+
+    for (int i = arr->size; i > index; i--)
         arr->data[i] = arr->data[i - 1];
-    }
+
     arr->data[index] = element;
     arr->size++;
 }
 
-// Create a new array by slicing the current array
 Array* slice(Array* arr, int start, int end) {
-    if (start < 0) {
+    if (start < 0) 
         start = 0;
-    }
-    if (end >= arr->size) {
+    
+    if (end >= arr->size)
         end = arr->size - 1;
-    }
-    if (start > end) {
-        // Handle invalid slice range
+    
+    if (start > end)
         return NULL;
-    }
-    Array* slicedArr = createArray(end - start + 1);
-    for (int i = start; i <= end; i++) {
+
+    // Its sizé = end - start + 1
+    Array* slicedArr = createArray();
+    for (int i = start; i <= end; i++)
         push(slicedArr, arr->data[i]);
-    }
+
     return slicedArr;
 }
 
-// Concatenate two arrays
 void concat(Array* arr1, Array* arr2) {
-    for (int i = 0; i < arr2->size; i++) {
+    for (int i = 0; i < arr2->size; i++)
         push(arr1, arr2->data[i]);
-    }
 }
 
-// Sort the array in ascending order (insertion sort)
+//(insertion sort)
 void sort(Array* arr) {
     for (int i = 1; i < arr->size; i++) {
         int key = arr->data[i];
@@ -138,7 +137,7 @@ void sort(Array* arr) {
     }
 }
 
-// Reverse the elements of the array in-place
+//in-place
 void reverse(Array* arr) {
     int left = 0;
     int right = arr->size - 1;
