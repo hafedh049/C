@@ -1,6 +1,6 @@
 # STACK
 
-_<font color="green">
+_<font color="Green">
 I. A stack is a last-in-first-out (LIFO) data structure. Elements can only be added to and removed from the top of the stack. Stacks are often used to implement undo/redo functionality, function calls, and expression evaluation.
 </font>_
 
