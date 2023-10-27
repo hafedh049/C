@@ -3914,3 +3914,2171 @@ void clearSet(Set *set)
     }
     set->head = NULL;
 }
+
+```
+
+_This function clears all elements from the Set and deallocates memory associated with each element. After this operation, the Set is empty._
+
+
+**_7. Union of Sets:_**
+
+```c
+
+Set *unions(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current1 = firstSet.head;
+    while (current1 != NULL)
+    {
+        add(result, current1->data);
+        current1 = current1->next;
+    }
+
+    current1 = secondSet.head;
+    while (current1 != NULL)
+    {
+        add(result, current1->data);
+        current1 = current1->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the union of two Sets. It returns a new Set containing all unique elements from both Sets._
+
+
+**_8. Intersection of Sets:_**
+
+```c
+
+Set *intersects(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (contains(secondSet, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the intersection of two Sets. It returns a new Set containing elements that are present in both Sets._
+
+
+**_9. Differences of Sets:_**
+
+```c
+
+Set *differences(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(secondSet, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the differences between two Sets. It returns a new Set containing elements from the first Set that are not present in the second Set._
+
+
+**_10. Is Subset:_**
+
+```c
+
+bool isSubset(Set firstSet, Set secondSet)
+{
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(secondSet, current->data))
+            return false;
+        current = current->next;
+    }
+    return true;
+}
+
+```
+
+_This function checks if the first Set is a subset of the second Set. It returns true if it is a subset; otherwise, it returns false._
+
+
+**_11. Cardinality of Set:_**
+
+```c
+
+int cardinal(Set set)
+{
+    int count = 0;
+    Node *current = set.head;
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+    return count;
+}
+
+```
+
+_This function computes the cardinality, which is the number of elements in the Set. It returns the count of elements in the Set._
+
+
+**_12. Is Empty:_**
+
+```c
+
+bool isEmpty(Set set)
+{
+    return set.head == NULL;
+}
+
+```
+
+_This function checks if the Set is empty. It returns true if the Set is empty; otherwise, it returns false._
+
+
+**_13. Get Element at Index:_**
+
+```c
+
+int getElementAtIndex(const Set set, int index)
+{
+    if (isEmpty(set))
+        return -1;
+
+    int count = 0;
+    Node *current = set.head;
+
+    while (current != NULL)
+    {
+        if (count == index)
+            return current->data;
+
+        current = current->next;
+        count++;
+    }
+
+    return -1;
+}
+
+```
+
+_This function retrieves the element at the specified index in the Set. It returns the element at the index, or -1 if the Set is empty or the index is out of bounds._
+
+
+**_14. Power Set:_**
+
+```c
+
+void powerSet(Set set, int setSize)
+{
+    int totalSubsets = (int)pow(2, setSize);
+    printf("{\n");
+    for (int i = 0; i < totalSubsets; i++)
+    {
+        printf(" {");
+        for (int j = 0; j < setSize; j++)
+            if (i & (1 << j))
+                printf("%d,", getElementAtIndex(set, j));
+        printf(i == totalSubsets - 1 ? "}\n" : "},\n");
+    }
+    printf("}\n");
+}
+
+```
+
+_This function computes and displays the power set of the Set, which consists of all possible subsets of the Set, including the empty set._
+
+
+**_15. Are Sets Equal:_**
+
+```c
+
+bool areSetsEqual(Set firstSet, Set secondSet)
+{
+    if (cardinal(firstSet) != cardinal(secondSet))
+        return false;
+
+    for (int j = 0; j < cardinal(firstSet); j++)
+        if (getElementAtIndex(firstSet, j) != getElementAtIndex(secondSet, j))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if two Sets are equal. It returns true if they have the same elements in the same order; otherwise, it returns false._
+
+
+**_16. Are Disjoint Sets:_**
+
+```c
+
+bool areDisjoints(Set firstSet, Set secondSet)
+{
+    return intersects(firstSet, secondSet)->head ? false : true;
+}
+
+```
+
+_This function checks if two Sets are disjoint, which means they have no common elements. It returns true if they are disjoint; otherwise, it returns false._
+
+
+**_17. Symmetric Differences of Sets:_**
+
+```c
+
+Set *symmetricDifferences(Set firstSet, Set secondSet)
+{
+    Set *result = createSet();
+    Set *intersection = intersects(firstSet, secondSet);
+    Node *current = firstSet.head;
+    while (current != NULL)
+    {
+        if (!contains(*intersection, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+    current = secondSet.head;
+    while (current != NULL)
+    {
+        if (!contains(*intersection, current->data))
+            add(result, current->data);
+        current = current->next;
+    }
+
+    return result;
+}
+
+```
+
+_This function computes the symmetric differences between two Sets. It returns a new Set containing elements that are present in either of the Sets but not in both._
+
+
+**_18. Cartesian Product of Sets:_**
+
+```c
+
+bool cartisianProduct(Set firstSet, Set secondSet)
+{
+    printf("Cartesian Product of the Sets: { ");
+    for (int i = 0; i < cardinal(firstSet); i++)
+    {
+        for (int j = 0; j < cardinal(secondSet); j++)
+        {
+            printf("(%d, %d),\n", getElementAtIndex(firstSet, i), getElementAtIndex(secondSet, j));
+        }
+    }
+    printf("}\n");
+}
+
+```
+
+_This function computes and displays the Cartesian product of two Sets. It pairs each element of the first Set with each element of the second Set and displays all possible combinations._
+
+
+**_19. Is Superset:_**
+
+```c
+
+bool isSuperset(Set firstSet, Set secondSet)
+{
+    return isSubset(secondSet, firstSet);
+}
+
+```
+
+_This function checks if the first Set is a superset of the second Set. It returns true if it is a superset; otherwise, it returns false._
+
+
+**_20. Complement of Set:_**
+
+```c
+
+Set *complementSet(Set setB, Set setA)
+{
+    Set *result = createSet();
+    printf("Complement Set: { ");
+    for (int i = 0; i < cardinal(setB); i++)
+    {
+        bool found = false;
+
+        for (int j = 0; j < cardinal(setA); j++)
+            if (contains(setA, getElementAtIndex(setB, i)))
+            {
+                found = true;
+                break;
+            }
+
+        if (!found)
+            get(result, getElementAtIndex(setB, i));
+    }
+
+    return result;
+}
+
+```
+
+_This function computes and returns the complement of setB with respect to setA. It finds the elements that are in setB but not in setA and returns them as a new Set._
+
+
+**_21. Is Symmetric Set:_**
+
+```c
+
+bool isSymmetric(Set universalSet, Set set)
+{
+    return areSetsEqual(set, *complementSet(universalSet, set));
+}
+
+
+```
+
+_This function checks if the set is symmetric with respect to the universal set. It returns true if the set is symmetric; otherwise, it returns false._
+
+
+**_22. Inversion of Set:_**
+
+```c
+
+Set *inversionSet(Set universalSet, Set setA)
+{
+    return complementSet(universalSet, setA);
+}
+
+```
+
+_This function computes and returns the inversion of setA with respect to the universal set. It finds the elements that are in the universal set but not in setA and returns them as a new Set._
+
+
+**_23. Add All to Set:_**
+
+```c
+
+void addAll(Set *set, int numArgs, ...)
+{
+    va_list args;
+    va_start(args, numArgs);
+
+    for (int i = 0; i < numArgs; i++)
+        add(set, va_arg(args, int));
+
+    va_end(args);
+}
+
+```
+
+_This function adds a variable number of elements to the Set. It takes a variable number of arguments and adds each element to the Set._
+
+# SINGLY LINKED LIST
+
+_A singly linked list is a linear data structure that consists of a sequence of nodes where each node contains a data field and a reference (link) to the next node in the list. The last node in the list has a reference to null. Singly linked lists are relatively simple to implement and efficient for certain operations, such as insertion and deletion._
+
+**_1. Create Singly Linked List:_**
+
+```c
+
+SinglyLinkedList *createSinglyLinkedList()
+{
+    SinglyLinkedList *linkedList = (SinglyLinkedList *)malloc(sizeof(SinglyLinkedList));
+    linkedList->head = NULL;
+    return linkedList;
+}
+
+```
+
+_This function creates an empty Singly Linked List. It initializes the head as NULL and returns a pointer to the created Singly Linked List._
+
+
+**_2. Is Empty:_**
+
+```c
+
+int isEmpty(SinglyLinkedList list)
+{
+    return list.head == NULL;
+}
+
+```
+
+_This function checks if the Singly Linked List is empty. It returns 1 if the list is empty; otherwise, it returns 0._
+
+
+**_3. Append:_**
+
+```c
+
+void append(SinglyLinkedList *list, int item)
+{
+    Node *node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+    node->next = NULL;
+    if (isEmpty(*list))
+    {
+        list->head = node;
+    }
+    else
+    {
+        Node *last = list->head;
+        while (last->next)
+            last = last->next;
+        last->next = node;
+    }
+}
+
+```
+
+_This function appends an item to the end of the Singly Linked List, maintaining the list's structure._
+
+
+**_4. Append All:_**
+
+```c
+
+void appendAll(SinglyLinkedList *list, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        append(list, va_arg(args, int));
+}
+
+```
+
+_This function appends a variable number of items to the end of the Singly Linked List. It takes a variable number of arguments and appends each item to the list._
+
+
+**_5. Shift All:_**
+
+```c
+
+void shiftAll(SinglyLinkedList *list, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        shift(list, va_arg(args, int));
+}
+
+```
+
+_This function shifts (prepends) a variable number of items to the beginning of the Singly Linked List. It takes a variable number of arguments and adds each item to the list's front._
+
+
+**_6. Shift:_**
+
+```c
+
+void shift(SinglyLinkedList *list, int item)
+{
+    Node *node = (Node *)malloc(sizeof(Node));
+    node->data = item;
+
+    if (isEmpty(*list))
+    {
+        node->next = NULL;
+        list->head = node;
+    }
+    else
+    {
+        node->next = list->head;
+        list->head = node;
+    }
+}
+
+```
+
+_This function shifts (prepends) an item to the beginning of the Singly Linked List, making it the new head of the list._
+
+
+**_7. Insert After:_**
+
+```c
+
+void insertAfter(SinglyLinkedList *list, Node *node, int item)
+{
+    if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != node)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        headNode->next = node;
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Element added Successfully");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function inserts an item after a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_8. Insert All After:_**
+
+```c
+
+void insertAllAfter(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertAfter(list, node, va_arg(args, int));
+}
+
+```
+
+_This function inserts a variable number of items after a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_9. Insert Before:_**
+
+```c
+
+void insertBefore(SinglyLinkedList *list, Node *searchnode, int item)
+{
+    if (isEmpty(*list))
+    {
+        append(list, item);
+        return;
+    }
+
+    Node *headNode = list->head;
+    while (headNode && headNode != searchnode)
+        headNode = headNode->next;
+    if (headNode)
+    {
+        Node *node = (Node *)malloc(sizeof(Node));
+        node->data = item;
+        node->next = headNode->next;
+        headNode->next = node;
+        node->data = headNode->data;
+        headNode->data = item;
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Element added Successfully");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("You entered an inexisting element from the linked list");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function inserts an item before a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_10. Insert All Before:_**
+
+```c
+
+void insertAllBefore(SinglyLinkedList *list, Node *node, int item, int itemCount, ...)
+{
+    va_list args;
+    va_start(args, itemCount);
+    for (int index = 0; index < itemCount; index++)
+        insertBefore(list, node, va_arg(args, int));
+}
+
+```
+
+_This function inserts a variable number of items before a specified node in the Singly Linked List. If the specified node is not found, it provides an error message._
+
+
+**_11. Show All Items:_**
+
+```c
+
+void showAllItems(SinglyLinkedList SinglyLinkedList)
+{
+    printf("\033[1;33m\n\n---------------------------\n\n");
+
+    if (isEmpty(SinglyLinkedList))
+    {
+        printf("This list is empty x(");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+        return;
+    }
+    Node *head = SinglyLinkedList.head;
+    while (head)
+    {
+        if (head->next)
+            printf("\033[1;32m| %d | -> ", head->data);
+        else
+            printf("\033[1;32m| %d |", head->data);
+        head = head->next;
+    }
+    printf("\033[1;33m\n\n---------------------------\n\n");
+    printf("\033[1;0m");
+}
+
+```
+
+_This function displays all items in the Singly Linked List for visualization, with special formatting._
+
+
+**_12. Search:_**
+
+```c
+
+int search(SinglyLinkedList list, int item)
+{
+    assert(!isEmpty(list));
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->data == item)
+            return 1;
+        head = head->next;
+    }
+    return 0;
+}
+
+```
+
+_This function searches for an item in the Singly Linked List. It returns 1 if the item is found; otherwise, it returns 0._
+
+
+**_13. Pop First:_**
+
+```c
+
+int popFirst(SinglyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result = head->data;
+    list->head = list->head->next;
+    free(head);
+    return result;
+}
+
+```
+
+_This function removes and returns the first item in the Singly Linked List. It ensures that the list structure is maintained._
+
+
+**_14. Pop Last:_**
+
+```c
+
+int popLast(SinglyLinkedList *list)
+{
+    assert(!isEmpty(*list));
+
+    Node *head = list->head;
+    int result;
+    if (!head->next)
+    {
+        result = head->data;
+        list->head = NULL;
+        free(head);
+        return result;
+    }
+    while (head->next->next)
+        head = head->next;
+    result = head->next->data;
+    free(head->next);
+    head->next = NULL;
+    return result;
+}
+
+```
+
+_This function removes and returns the last item in the Singly Linked List. It ensures that the list structure is maintained._
+
+
+**_15. Pop:_**
+
+```c
+
+int pop(SinglyLinkedList *list, int item)
+{
+    assert(!isEmpty(*list));
+    if (!list->head->next && list->head->data == item)
+        return popFirst(list);
+    Node *head = list->head;
+    while (head->next && head->next->data != item)
+        head = head->next;
+    if (head->next)
+    {
+        Node *aux = head->next;
+        int value = aux->data;
+        head->next = aux->next;
+        free(aux);
+        return value;
+    }
+    else
+    {
+        return 2147483647;
+    }
+}
+
+```
+
+_This function removes and returns the specified item in the Singly Linked List. If the item is not found, it returns a large positive value._
+
+
+**_16. Get First:_**
+
+```c
+
+int getFirst(SinglyLinkedList list)
+{
+    assert(!isEmpty(list));
+    return list.head->data;
+}
+
+```
+
+_This function gets the first item in the Singly Linked List and returns its value._
+
+
+**_17. Get Last:_**
+
+```c
+
+int getLast(SinglyLinkedList list)
+{
+    assert(!isEmpty(list));
+    Node *node = list.head;
+    while (node->next)
+        node = node->next;
+    return node->data;
+}
+
+```
+
+_This function gets the last item in the Singly Linked List and returns its value._
+
+
+**_18. Get Size:_**
+
+```c
+
+int getSize(SinglyLinkedList list, Node *head)
+{
+    if (isEmpty(list))
+        return 0;
+    if (head)
+        return 1 + getSize(list, head->next);
+}
+
+```
+
+_This function calculates and returns the size (number of items) of the Singly Linked List. It traverses the list using recursion to count the items._
+
+
+**_19. Get Item By Index:_**
+
+```c
+
+int getItemByIndex(SinglyLinkedList list, int index)
+{
+    assert(!isEmpty(list));
+    int counter = -1;
+    Node *head = list.head;
+    while (head)
+    {
+        counter++;
+        if (counter == index)
+            break;
+        head = head->next;
+    }
+    assert(counter == index);
+    return head->data;
+}
+
+```
+
+_This function gets the item at a specified index in the Singly Linked List and returns its value. It ensures that the index is valid._
+
+
+**_20. Sort:_**
+
+```c
+
+void sort(SinglyLinkedList *list, int key)
+{
+    Node *primaryPointer, *secondaryPointer;
+    for (primaryPointer = list->head; primaryPointer->next; primaryPointer = primaryPointer->next)
+        for (secondaryPointer = primaryPointer->next; secondaryPointer; secondaryPointer = secondaryPointer->next)
+            if (key == 1 && primaryPointer->data > secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+            else if (key == -1 && primaryPointer->data < secondaryPointer->data)
+                primaryPointer->data = primaryPointer->data + secondaryPointer->data - (secondaryPointer->data = primaryPointer->data);
+}
+
+```
+
+_This function sorts the Singly Linked List in ascending or descending order based on the provided key (1 for ascending, -1 for descending). It uses a bubble sort algorithm for sorting._
+
+
+**_21. Reverse:_**
+
+```c
+
+void reverse(SinglyLinkedList *list)
+{
+    Node *prev = NULL;
+    Node *current = list->head;
+    Node *next;
+    while (current)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    list->head = prev;
+}
+
+```
+
+_This function reverses the order of items in the Singly Linked List while maintaining the list structure._
+
+
+**_22. Get Node:_**
+
+```c
+
+Node *getNode(SinglyLinkedList list, int item)
+{
+    assert(!isEmpty(list));
+    Node *head = list.head;
+    while (head)
+    {
+        if (head->data == item)
+            return head;
+        head = head->next;
+    }
+    return NULL;
+}
+
+```
+
+_This function gets the node containing a specific item in the Singly Linked List and returns a pointer to the node if found, otherwise, it returns NULL._
+
+
+**_23. Update:_**
+
+```c
+
+void update(SinglyLinkedList *list, int oldValue, int newValue)
+{
+    Node *element = getNode(*list, oldValue);
+    if (element)
+        element->data = newValue;
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function updates an item's value in the Singly Linked List from `oldValue` to `newValue`. If the `oldValue` is not found, it provides an error message._
+
+
+**_24. Concatenate:_**
+
+```c
+
+void concatenate(SinglyLinkedList *list1, SinglyLinkedList list2)
+{
+    if (list1->head == NULL)
+        list1->head = list2.head;
+    else
+    {
+        Node *current = list1->head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = list2.head;
+    }
+}
+
+```
+
+_This function concatenates two Singly Linked Lists. If the first list is empty, it assigns the second list to it. Otherwise, it appends the second list to the end of the first list._
+
+
+**_25. Split By Position:_**
+
+```c
+
+void splitByPosition(SinglyLinkedList list, int posiiton, SinglyLinkedList *firstHalf, SinglyLinkedList *secondHalf)
+{
+    Node *element = getNode(list, getItemByIndex(list, posiiton));
+    if (element)
+    {
+        Node *listHelper = list.head;
+        Node *firstHalfHelper = (firstHalf->head = listHelper);
+        while (listHelper && listHelper->next->data != element->data) /*should not reach the element or the link will be destroyed after referencing the second half*/
+        {
+            listHelper = listHelper->next;
+            firstHalfHelper->next = listHelper;
+            firstHalfHelper = firstHalfHelper->next;
+        }
+        firstHalfHelper->next = NULL;
+        secondHalf->head = element;
+    }
+    else
+    {
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("Item does not exist");
+        printf("\033[1;33m\n\n---------------------------\n\n");
+        printf("\033[1;0m");
+    }
+}
+
+```
+
+_This function splits the list into two parts at the position of a specified element. It creates `firstHalf` and `secondHalf` lists and assigns elements based on the specified position._
+
+
+**_26. Merge Sorted:_**
+
+```c
+
+SinglyLinkedList *mergeSorted(SinglyLinkedList firstSortedList, SinglyLinkedList secondSortedList, int key)
+{
+    SinglyLinkedList *thirdSortedList = createSinglyLinkedList();
+    Node *secondListPointer = secondSortedList.head;
+    Node *firstListPointer = firstSortedList.head;
+    while (firstListPointer && secondListPointer)
+        if ((key == 1 && firstListPointer->data < secondListPointer->data) ||
+            (key != 1 && firstListPointer->data > secondListPointer->data))
+        {
+            append(thirdSortedList, firstListPointer->data);
+            firstListPointer = firstListPointer->next;
+        }
+        else
+        {
+            if (firstListPointer->data == secondListPointer->data)
+                firstListPointer = firstListPointer->next;
+            append(thirdSortedList, secondListPointer->data);
+            secondListPointer = secondListPointer->next;
+        }
+    while (firstListPointer)
+    {
+        append(thirdSortedList, firstListPointer->data);
+        firstListPointer = firstListPointer->next;
+    }
+
+    while (secondListPointer)
+    {
+        append(thirdSortedList, secondListPointer->data);
+        secondListPointer = secondListPointer->next;
+    }
+
+    return thirdSortedList;
+}
+
+```
+
+_This function merges two sorted Singly Linked Lists into a new sorted list, based on the specified key (1 for ascending, -1 for descending). It returns a pointer to the merged sorted list._
+
+
+**_27. Floyd's Tortoise and Hare Cycle Detection:_**
+
+```c
+
+bool FloydTurtoisHareCycle(SinglyLinkedList list)
+{
+    if (!list.head || !list.head->next)
+        return false;
+
+    Node *tortoise = list.head;
+    Node *hare = list.head;
+
+    while (hare != NULL && hare->next != NULL)
+    {
+        tortoise = tortoise->next;
+        hare = hare->next->next;
+
+        if (tortoise == hare)
+            return true;
+    }
+
+    return false;
+}
+
+```
+
+_This function detects a cycle in the Singly Linked List using Floyd's Tortoise and Hare algorithm. It returns true if a cycle is detected, otherwise, it returns false._
+
+
+**_28. Find Intersection Node:_**
+
+```c
+
+Node *findIntersectionNode(SinglyLinkedList list1, SinglyLinkedList list2)
+{
+    if (list1.head == NULL || list2.head == NULL)
+        return NULL;
+
+    Node *ptr1 = list1.head;
+    Node *ptr2 = list2.head;
+
+    bool switchPtr1 = false;
+    bool switchPtr2 = false;
+
+    while (ptr1 != ptr2)
+    {
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+
+        if (ptr1 == NULL && !switchPtr1)
+        {
+            ptr1 = list2.head;
+            switchPtr1 = true;
+        }
+
+        if (ptr2 == NULL && !switchPtr2)
+        {
+            ptr2 = list1.head;
+            switchPtr2 = true;
+        }
+
+        if (switchPtr1 && switchPtr2 && ptr1 != ptr2)
+        {
+            return NULL;
+        }
+    }
+
+    return ptr1;
+}
+
+```
+
+_This function finds the intersection node of two Singly Linked Lists. It returns a pointer to the intersection node if found, otherwise, it returns NULL._
+
+
+**_29. Remove Duplicates:_**
+
+```c
+
+void removeDuplicates(SinglyLinkedList *list)
+{
+    if (list->head == NULL || list->head->next == NULL)
+        return;
+
+    Node *current = list->head;
+
+    while (current != NULL)
+    {
+        Node *runner = current;
+
+        while (runner->next != NULL)
+        {
+            if (runner->next->data == current->data)
+            {
+                Node *duplicate = runner->next;
+                runner->next = runner->next->next;
+                free(duplicate);
+            }
+            else
+                runner = runner->next;
+        }
+        current = current->next;
+    }
+}
+
+```
+
+_This function removes duplicate items from the Singly Linked List, leaving only distinct values in the list._
+
+
+**_30. Is Sorted Ascending:_**
+
+```c
+
+bool isSortedAsc(SinglyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data > current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if the Singly Linked List is sorted in ascending order. It returns true if the list is sorted in ascending order, otherwise, it returns false._
+
+
+**_31. Is Sorted Descending:_**
+
+```c
+
+bool isSortedDesc(SinglyLinkedList list)
+{
+    if (list.head == NULL || list.head->next == NULL)
+        return true;
+
+    Node *current = list.head;
+
+    while (current->next != NULL)
+    {
+        if (current->data < current->next->data)
+            return false;
+        current = current->next;
+    }
+
+    return true;
+}
+
+```
+
+_This function checks if the Singly Linked List is sorted in descending order. It returns true if the list is sorted in descending order, otherwise, it returns false._
+
+
+**_32. Search With Criteria:_**
+
+```c
+
+Node *searchWithCriteria(SinglyLinkedList list, CriteriaFunction criteria)
+{
+    Node *current = list.head;
+
+    while (current != NULL)
+    {
+        if (criteria(current->data))
+            return current;
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+```
+
+_This function searches for an item in the Singly Linked List based on custom criteria provided by the `criteria` function. It returns a pointer to the node that satisfies the criteria or NULL if not found._
+
+# STRING
+
+_A string is a sequence of characters. It can be used to represent text, code, or any other data that can be expressed as a sequence of characters. Strings are one of the most fundamental data types in computer programming._
+
+**_1. Create String:_**
+
+```c
+String *createString(char *str)
+{
+    String *createdStr = (String *)malloc(sizeof(String));
+    int len = strlen(str);
+    createdStr->str = (char *)malloc((len + 1) * sizeof(char));
+    strcpy(createdStr->str, str);
+    createdStr->length = len;
+    return createdStr;
+}
+```
+
+_This function creates a new String object from a given C-style string. It allocates memory to store the string and returns the created String structure._
+
+
+**_2. Clear String:_**
+
+```c
+void clearString(String *str)
+{
+    if (str != NULL)
+    {
+        free(str->str);
+        free(str);
+    }
+}
+```
+
+_This function deallocates the memory associated with a String object. It takes a pointer to the String structure as input and frees the memory used for the string._
+
+
+**_3. Get Length:_**
+
+```c
+int length(String str)
+{
+    return str.length;
+}
+```
+
+_This function returns the length of the string stored in a given String structure. It does not modify the string and simply returns its length._
+
+
+**_4. Capitalize String:_**
+
+```c
+String *capitalize(String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
+    if (str->length > 0)
+        result->str[0] = toupper(str->str[0]);
+    for (int i = 1; i <= str->length; i++)
+        result->str[i] = str->str[i];
+    result->length = str->length;
+    return result;
+}
+```
+
+_This function capitalizes the first character of a string stored in a String structure. It returns a new String structure with the first character capitalized._
+
+
+**_5. Casefold String:_**
+
+```c
+String *casefold(String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
+    for (int i = 0; i <= str->length; i++)
+        result->str[i] = tolower(str->str[i]);
+    result->length = str->length;
+    return result;
+}
+```
+
+_This function converts all characters in the string stored in a String structure to lowercase. It returns a new String structure with all characters in lowercase._
+
+
+**_6. Center String:_**
+
+```c
+String *center(String *str, int width, char fillchar)
+{
+    if (width <= str->length)
+        return str;
+    const int padding = width - str->length;
+    const int left_padding = padding / 2;
+    const int right_padding = padding - left_padding;
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((width + 1) * sizeof(char));
+    for (int i = 0; i < left_padding; i++)
+        result->str[i] = fillchar;
+    for (int i = 0; i < str->length; i++)
+        result->str[left_padding + i] = str->str[i];
+    for (int i = 0; i < right_padding; i++)
+        result->str[left_padding + str->length + i] = fillchar;
+    result->str[width] = '\0';
+    result->length = width;
+    return result;
+}
+```
+
+_This function centers a string stored in a String structure within a specified width, filling the remaining space with a specified fill character. It returns a new String structure with the centered string._
+
+
+**_7. Count:_**
+
+```c
+
+int count(String *str, String *substring)
+{
+    int count = 0;
+    char *position = str->str;
+    while ((position = strstr(position, substring->str)) != NULL)
+    {
+        count++;
+        position += substring->length;
+    }
+    return count;
+}
+
+```
+
+_This function counts the number of occurrences of a substring in a string and returns the count._
+
+
+**_8. EndsWith:_**
+
+```c
+
+bool endswith(String *str, String *suffix)
+{
+    int str_len = str->length;
+    int suffix_len = suffix->length;
+
+    if (str_len < suffix_len)
+        return false;
+
+    const char *str_end = str->str + str_len - suffix_len;
+    return strcmp(str_end, suffix->str) == 0;
+}
+
+```
+
+_This function checks if the string ends with a given suffix and returns true if it does, otherwise, it returns false._
+
+
+**_9. StartsWith:_**
+
+```c
+
+bool startswith(String *str, String *prefix)
+{
+    if (str->length < prefix->length)
+        return false;
+
+    return strncmp(str->str, prefix->str, prefix->length) == 0;
+}
+
+```
+
+_This function checks if the string starts with a given prefix and returns true if it does, otherwise, it returns false._
+
+
+**_10. Find:_**
+
+```c
+
+int find(String *str, String *substring)
+{
+    const char *position = strstr(str->str, substring->str);
+    if (position == NULL)
+        return -1;
+    return position - str->str;
+}
+
+```
+
+_This function finds the position of the first occurrence of a substring in a string and returns its index. If the substring is not found, it returns -1._
+
+
+**_11. Index:_**
+
+```c
+
+int index(String *str, String *substring)
+{
+    int position = find(str, substring);
+    if (position == -1)
+    {
+        printf("Substring not found\n");
+        exit(1);
+    }
+    return position;
+}
+
+```
+
+_This function finds the position of the first occurrence of a substring in a string and returns its index. If the substring is not found, it exits with an error message._
+
+
+**_12. Is Alphanumeric:_**
+
+```c
+
+bool isalnums(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isalnum(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of alphanumeric characters and returns true if all characters are alphanumeric, otherwise, it returns false._
+
+
+**_13. Is Alphabetical:_**
+
+```c
+
+bool isalphas(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isalpha(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of alphabetical characters and returns true if all characters are alphabetical, otherwise, it returns false._
+
+
+**_14. Is Numeric:_**
+
+```c
+
+bool isnumerics(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isdigit(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of numeric characters and returns true if all characters are numeric, otherwise, it returns false._
+
+
+**_15. Is Lowercase:_**
+
+```c
+
+bool islowers(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!islower(str->str[i]))
+            return false;
+    return true;
+}
+
+```
+
+_This function checks if the string consists of lowercase characters and returns true if all characters are lowercase, otherwise, it returns false._
+
+
+**_16. Is Uppercase:_**
+
+```c
+
+bool isuppers(String *str)
+{
+    for (int i = 0; i < str->length; i++)
+        if (!isupper(str->str[i]))
+            return false;
+    return true;
+}
+```
+
+_This function checks if the string consists of uppercase characters and returns true if all characters are uppercase, otherwise, it returns false._
+
+
+**_17. Join:_**
+
+```c
+
+String *join(String *separator, String **strings, int num_strings)
+{
+    int total_length = 0;
+    for (int i = 0; i < num_strings; i++)
+        total_length += strings[i]->length;
+
+    total_length += (num_strings - 1) * separator->length;
+
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((total_length + 1) * sizeof(char));
+
+    char *result_position = result->str;
+
+    for (int i = 0; i < num_strings; i++)
+    {
+        const int str_length = strings[i]->length;
+        memcpy(result_position, strings[i]->str, str_length);
+        result_position += str_length;
+
+        if (i < num_strings - 1)
+        {
+            memcpy(result_position, separator->str, separator->length);
+            result_position += separator->length;
+        }
+    }
+
+    result->str[total_length] = '\0';
+    result->length = total_length;
+
+    return result;
+}
+
+```
+
+_This function joins an array of strings with a specified separator and returns a new string that is the concatenation of the strings with the separator._
+
+
+**_18. Lowercase:_**
+
+```c
+
+String *lower(String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
+
+    for (int i = 0; i < str->length; i++)
+    {
+        result->str[i] = tolower(str->str[i]);
+    }
+
+    result->str[str->length] = '\0';
+    result->length = str->length;
+
+    return result;
+}
+
+```
+
+_This function converts the string to lowercase and returns a new string in lowercase._
+
+
+**_19. Uppercase:_**
+
+```c
+
+String *upper(String *str)
+{
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
+
+    for (int i = 0; i < str->length; i++)
+    {
+        result->str[i] = toupper(str->str[i]);
+    }
+
+    result->str[str->length] = '\0';
+    result->length = str->length;
+
+    return result;
+}
+```
+
+_This function converts the string to uppercase and returns a new string in uppercase._
+
+
+**_20. Strip:_**
+
+```c
+
+String *strip(String *str, const char *chars)
+{
+    int left = 0;
+    int right = str->length - 1;
+
+    while (left <= right && strchr(chars, str->str[left]))
+        left++;
+
+    while (right >= left && strchr(chars, str->str[right]))
+        right--;
+
+    const int new_length = right - left + 1;
+
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((new_length + 1) * sizeof(char));
+    memcpy(result->str, str->str + left, new_length);
+    result->str[new_length] = '\0';
+    result->length = new_length;
+
+    return result;
+}
+
+```
+
+_This function removes leading and trailing characters specified in `chars` from the string and returns a new string without these characters._
+
+
+**_21. Replace:_**
+
+```c
+
+String *replace(String *str, String *old, String *new_str, int count)
+{
+    if (count <= 0)
+        return str;
+
+    String *result = (String *)malloc(sizeof(String));
+    result->str = (char *)malloc((str->length + 1) * sizeof(char));
+
+    const char *input_str = str->str;
+    char *output_str = result->str;
+
+    while (count > 0)
+    {
+        const char *found = strstr(input_str, old->str);
+        if (found == NULL)
+            break;
+
+        int before_length = found - input_str;
+        memcpy(output_str, input_str, before_length);
+        output_str += before_length;
+        input_str = found + old->length;
+
+        memcpy(output_str, new_str->str, new_str->length);
+        output_str += new_str->length;
+        count--;
+    }
+
+    int remaining_length = str->length - (input_str - str->str);
+    memcpy(output_str, input_str, remaining_length);
+    output_str += remaining_length;
+
+    *output_str = '\0';
+
+    result->length = output_str - result->str;
+    return result;
+}
+
+```
+
+_This function replaces occurrences of a substring in a string with another string. It returns a new string with the replacements, up to a specified count._
+
+
+**_22. Split:_**
+
+```c
+
+String **split(String *str, char *separator, int *numSplits)
+{
+    *numSplits = 0;
+    String **splits = NULL;
+    char *token = strtok(str->str, separator);
+
+    while (token != NULL)
+    {
+        (*numSplits)++;
+        splits = (String **)realloc(splits, sizeof(String *) * (*numSplits));
+        splits[(*numSplits) - 1] = createString(token);
+        token = strtok(NULL, separator);
+    }
+
+    return splits;
+}
+
+```
+
+_This function splits a string into an array of substrings using a specified separator and returns an array of substrings. It also updates 'numSplits' with the number of splits._
+
+
+**_23. Title:_**
+
+```c
+
+String *title(String *str)
+{
+    int length = str->length;
+    char *titleStr = (char *)malloc((length + 1) * sizeof(char));
+
+    int capitalizeNext = 1;
+    for (int i = 0; i < length; i++)
+    {
+        char c = str->str[i];
+        if (isalpha(c))
+        {
+            if (capitalizeNext)
+            {
+                titleStr[i] = toupper(c);
+                capitalizeNext = 0;
+            }
+            else
+                titleStr[i] = tolower(c);
+        }
+        else
+        {
+            titleStr[i] = c;
+            capitalizeNext = 1;
+        }
+    }
+
+    titleStr[length] = '\0';
+
+    return createString(titleStr);
+}
+
+```
+
+_This function converts the string to title case and returns a new string in title case where the first letter of each word is capitalized._
+
+
+**_24. Zfill:_**
+
+```c
+
+String *zfill(String *str, int width)
+{
+    if (width <= str->length)
+        return createString(str->str);
+
+    int numZeros = width - str->length;
+    char *zfilledStr = (char *)malloc((width + 1) * sizeof(char));
+    memset(zfilledStr, '0', numZeros);
+    strcpy(zfilledStr + numZeros, str->str);
+    zfilledStr[width] = '\0';
+
+    return createString(zfilledStr);
+}
+
+```
+
+_This function pads the string with zeros on the left to reach a specified width and returns a new string with zero padding._
+
+
+**_25. Create Substring:_**
+
+```c
+
+String *createSubstring(String *str, int start, int end)
+{
+    if (start < 0)
+        start = 0;
+
+    if (end > str->length)
+        end = str->length;
+
+    if (start >= end)
+        return createString("");
+
+    int length = end - start;
+    char *substring = (char *)malloc((length + 1) * sizeof(char));
+
+    for (int i = start; i < end; i++)
+        substring[i - start] = str->str[i];
+
+    substring[length] = '\0';
+
+    return createString(substring);
+}
+
+```
+
+_This function creates a substring from the string based on specified start and end indices and returns a new substring of the original string._
+
+
+**_26. Partition:_**
+
+```c
+
+String **partition(String *str, char separator)
+{
+    int separatorIndex = -1;
+    for (int i = 0; i < str->length; i++)
+        if (str->str[i] == separator)
+        {
+            separatorIndex = i;
+            break;
+        }
+
+    String **parts = (String **)malloc(3 * sizeof(String *));
+
+    if (separatorIndex >= 0)
+    {
+        parts[0] = createSubstring(str, 0, separatorIndex);
+        parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
+        parts[2] = createSubstring(str, separatorIndex + 1, str->length);
+    }
+    else
+    {
+        parts[0] = createString(str->str);
+        parts[1] = createString("");
+        parts[2] = createString("");
+    }
+
+    return parts;
+}
+
+```
+
+_This function partitions the string into three parts based on the first occurrence of a separator character and returns an array of three substrings: part before separator, separator, and part after separator._
+
+
+**_27. Rpartition:_**
+
+```c
+
+String **rpartition(String *str, char separator)
+{
+    int separatorIndex = -1;
+    for (int i = str->length - 1; i >= 0; i--)
+        if (str->str[i] == separator)
+        {
+            separatorIndex = i;
+            break;
+        }
+
+    String **parts = (String **)malloc(3 * sizeof(String *));
+
+    if (separatorIndex >= 0)
+    {
+        parts[0] = createSubstring(str, 0, separatorIndex);
+        parts[1] = createSubstring(str, separatorIndex, separatorIndex + 1);
+        parts[2] = createSubstring(str, separatorIndex + 1, str->length);
+    }
+    else
+    {
+        parts[0] = createString("");
+        parts[1] = createString("");
+        parts[2] = createString(str->str);
+    }
+
+    return parts;
+}
+```
+
+_This function partitions the string into three parts based on the last occurrence of a separator character and returns an array of three substrings: part before separator, separator, and part after separator._
+
+
+**_28. Slice:_**
+
+```c
+
+String *slice(String *str, int start, int end)
+{
+    if (start < 0 || start >= str->length || end < start || end >= str->length)
+        return createString("");
+
+    char *slicedStr = (char *)malloc((end - start + 1) * sizeof(char));
+    for (int i = start, j = 0; i <= end; i++, j++)
+        slicedStr[j] = str->str[i];
+    slicedStr[end - start + 1] = '\0';
+
+    String *result = createString(slicedStr);
+    free(slicedStr);
+    return result;
+}
+```
+
+_This function extracts a slice of the string based on specified start and end indices and returns a new string representing the slice._
+
+
+**_29. Get Char at Index:_**
+
+```c
+
+char getCharAtIndex(String *str, int index)
+{
+    if (index < 0 || index >= str->length)
+        return '\0';
+    return str->str[index];
+}
+```
+
+_This function retrieves a character from the string at a specific index and returns the character at the specified index or ' ' if the index is out of bounds._
+
+
+**_30. Swapcase:_**
+
+```c
+
+String *swapcase(String *str)
+{
+    char *swappedStr = (char *)malloc((str->length + 1) * sizeof(char));
+
+    for (int i = 0; i < str->length; i++)
+    {
+        char c = str->str[i];
+        if (c >= 'a' && c <= 'z')
+            swappedStr[i] = c - 'a' + 'A';
+        else if (c >= 'A' && c <= 'Z')
+            swappedStr[i] = c - 'A' + 'a';
+        else
+            swappedStr[i] = c;
+    }
+    swappedStr[str->length] = '\0';
+
+    String *result = createString(swappedStr);
+    free(swappedStr);
+    return result;
+}
+
+```
+
+_This function swaps the case of characters in the string and returns a new string with characters in the opposite case._
+
+
+**_31. To String:_**
+
+```c
+
+char* toString(const String str)
+ {
+    int resultLength = str.length + 2;
+    char* result = (char*)malloc(resultLength + 1);
+    snprintf(result, resultLength + 1, "\"%s\"", str.str);
+    return result;
+}
+
+```
+
+_This function converts the string to a C-style string enclosed in double quotes and returns a dynamically allocated C-style string._
+
+# TUPLE
+
+_A tuple is a data structure that is similar to a list, but it is immutable, which means that its elements cannot be changed after the tuple is created. Tuples are created using parentheses, and they can contain any type of data, including numbers, strings, and other tuples._
+
+**_1. Create Tuple:_**
+
+```c
+const Tuple *createTuple(int numArgs, ...)
+{
+    Tuple *newTuple = (Tuple *)malloc(sizeof(Tuple));
+    newTuple->head = NULL;
+    va_list args;
+    va_start(args, numArgs);
+    if (numArgs > 0)
+    {
+        newTuple->head = createNode(va_arg(args, int));
+        Node *current = newTuple->head;
+        for (int i = 1; i < numArgs; i++)
+        {
+            Node *newNode = createNode(va_arg(args, int));
+            current->next = newNode;
+            current = current->next;
+        }
+    }
+    va_end(args);
+    return newTuple;
+}
+```
+
+_This function creates a new Tuple object from a variable number of arguments. It allocates memory for the Tuple structure and its elements and returns the created Tuple._
+
+
+**_2. Get From Tuple:_**
+
+```c
+int getFromTuple(const Tuple tuple, int index)
+{
+    if (tuple.head == NULL)
+        return -1;
+    Node *current = tuple.head;
+    int currentIndex = 0;
+    while (current != NULL)
+    {
+        if (currentIndex == index)
+            return current->data;
+        current = current->next;
+        currentIndex++;
+    }
+    return -1;
+}
+```
+
+_This function retrieves the element at a specified index from a Tuple. If the index is out of bounds or the Tuple is empty, it returns -1._
+
+
+**_3. Show Tuple:_**
+
+```c
+void showTuple(const Tuple tuple)
+{
+    if (tuple.head == NULL)
+    {
+        printf("()\n");
+        return;
+    }
+    printf("(");
+    Node *current = tuple.head;
+    while (current != NULL)
+    {
+        printf(current->next ? "%d, " : "%d", current->data);
+        current = current->next;
+    }
+    printf(")\n");
+}
+```
+
+_This function displays the contents of a Tuple in the form of a tuple. If the Tuple is empty, it prints an empty tuple._
+
+
+**_4. Size:_**
+
+```c
+int size(const Tuple tuple)
+{
+    if (tuple.head == NULL)
+        return 0;
+    Node *current = tuple.head;
+    int currentSize = 0;
+    while (current != NULL)
+    {
+        current = current->next;
+        currentSize++;
+    }
+    return currentSize;
+}
+```
+
+_This function returns the number of elements in a Tuple. If the Tuple is empty, it returns 0._
+
+
+**_5. Tuples Equality:_**
+
+```c
+bool tuplesEquality(const Tuple firstTuple, const Tuple secondTuple)
+{
+    if (size(firstTuple) != size(secondTuple))
+        return false;
+    for (int index = 0; index < size(firstTuple); index++)
+        if (getFromTuple(firstTuple, index) != getFromTuple(secondTuple, index))
+            return false;
+    return true;
+}
+```
+
+_This function checks whether two Tuples are equal. It compares each element of the Tuples and returns true if they are the same, otherwise, it returns false._
+
+
+**_6. Copy Tuple:_**
+
+```c
+Tuple *copy(const Tuple tuple)
+{
+    Tuple *newTuple = (Tuple *)malloc(sizeof(Tuple));
+    newTuple->head = NULL;
+    if (tuple.head == NULL)
+        return newTuple;
+    newTuple->head = createNode(getFromTuple(tuple, 0));
+    Node *current = newTuple->head;
+    for (int index = 1; index < size(tuple); index++)
+    {
+        Node *newNode = createNode(getFromTuple(tuple, index));
+        current->next = newNode;
+        current = current->next;
+    }
+}
+```
+
+_This function creates a copy of a Tuple. It allocates memory for the new Tuple structure and its elements and returns the copied Tuple._
+
+
+**_7. Tuple to Array:_**
+
+```c
+int *tupleToArray(const Tuple tuple)
+{
+    int *array = (int *)malloc(size(tuple) * sizeof(int));
+    int *ptr = array;
+    for (int index = 0; index < size(tuple); index++)
+        *(ptr + index) = getFromTuple(tuple, index);
+    return array;
+}
+```
+
+_This function converts a Tuple to an array of integers. It allocates memory for the array and returns a pointer to the array._
+
+
+**_8. Count Digits:_**
+
+```c
+int countDigits(int number)
+{
+    int count = 0;
+    if (abs(number) < 10)
+        return 1;
+
+    while (number != 0)
+    {
+        number /= 10;
+        count++;
+    }
+    return count;
+}
+```
+
+_This function counts the number of digits in an integer. It returns the count of digits in the given integer._
+
+
+**_9. Calculate String Size:_**
+
+```c
+int calcStringSize(const Tuple tuple)
+{
+    int counter = 1 + 1 + 1 + 2 * (size(tuple) - 1);
+    for (int index = 0; index < size(tuple); index++)
+        counter += countDigits(getFromTuple(tuple, index));
+}
+```
+
+_This function calculates the size of a string representation of a Tuple. It returns the size of the string, taking into account the number of digits in each element._
+
+
+**_10. Tuple to String:_**
+
+```c
+char *tupleToString(const Tuple tuple)
+{
+    char *str = (char *)malloc(calcStringSize(tuple) * sizeof(char));
+    char *temp = str;
+    *temp = '(';
+    temp++;
+    for (int index = 0; index < size(tuple); index++)
+    {
+        int num = getFromTuple(tuple, index);
+        int charsWritten = sprintf(temp, "%d", num);
+        temp += charsWritten;
+        if (index < size(tuple) - 1)
+        {
+            *temp = ',';
+            temp++;
+            *temp = ' ';
+            temp++;
+        }
+    }
+    *temp = ')';
+    temp++;
+    *temp = '\0';
+    return str;
+}
+```
+
+_This function converts a Tuple to a string representation. It allocates memory for the string and returns the string._
+
+
+**_11. Count:_**
+
+```c
+int count(const Tuple tuple, int target)
+{
+    int count = 0;
+    for (int index = 0; index < size(tuple); index++)
+        if (getFromTuple(tuple, index) == target)
+            count++;
+    return count;
+}
+```
+
+_This function counts the occurrences of a target integer within a Tuple. It returns the count of occurrences._
