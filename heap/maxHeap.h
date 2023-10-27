@@ -17,7 +17,7 @@ void insert(MaxHeap *, int);
 
 void heapifyDown(MaxHeap *, int);
 
-int extractMin(MaxHeap *);
+int extractMax(MaxHeap *);
 
 void buildHeap(MaxHeap *, int *, int);
 

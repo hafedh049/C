@@ -107,10 +107,9 @@ void heapSort(MaxHeap* heap) {
 void toString(MaxHeap* heap) {
     printf("[");
     for (int i = 0; i < heap->size; i++) {
+        printf("%d", heap->arr[i]);
         if (i != heap->size - 1) 
             printf(", ");
-        
-        printf("%d", heap->arr[i]);
     }
     printf("]\n");
 }
