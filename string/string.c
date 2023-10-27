@@ -382,13 +382,11 @@ String **partition(String *str, char separator)
 {
     int separatorIndex = -1;
     for (int i = 0; i < str->length; i++)
-    {
         if (str->str[i] == separator)
         {
             separatorIndex = i;
             break;
         }
-    }
 
     String **parts = (String **)malloc(3 * sizeof(String *));
 
@@ -412,13 +410,11 @@ String **rpartition(String *str, char separator)
 {
     int separatorIndex = -1;
     for (int i = str->length - 1; i >= 0; i--)
-    {
         if (str->str[i] == separator)
         {
             separatorIndex = i;
             break;
         }
-    }
 
     String **parts = (String **)malloc(3 * sizeof(String *));
 
@@ -481,9 +477,10 @@ String *swapcase(String *str)
     return result;
 }
 
-char* toString(const String str) {
+char *toString(const String str)
+{
     int resultLength = str.length + 2;
-    char* result = (char*)malloc(resultLength + 1);
+    char *result = (char *)malloc(resultLength + 1);
     snprintf(result, resultLength + 1, "\"%s\"", str.str);
     return result;
 }
