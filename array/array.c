@@ -253,3 +253,14 @@ Array* map(Array* arr, int (*function)(int)) {
     }
     return mappedArr;
 }
+
+Array* filter(Array* arr, int (*condition)(int)) {
+    Array* filteredArr = createArray(arr->size);
+    for (int i = 0; i < arr->size; i++) {
+        int element = arr->data[i];
+        if (condition(element)) {
+            push(filteredArr, element);
+        }
+    }
+    return filteredArr;
+}
