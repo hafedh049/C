@@ -257,8 +257,10 @@ CircularLinkedList *mergeCircularLinkedLists(CircularLinkedList *list1, Circular
   return mergedList;
 }
 
-int isPalindrome(CircularLinkedList *list) {
-  if (list->head == NULL) {
+int isPalindrome(CircularLinkedList *list)
+{
+  if (list->head == NULL)
+  {
     return 1; // An empty list is considered a palindrome
   }
 
@@ -266,7 +268,8 @@ int isPalindrome(CircularLinkedList *list) {
   reversedList.head = NULL;
   Node *current = list->head;
 
-  do {
+  do
+  {
     insertAtHead(&reversedList, current->data);
     current = current->next;
   } while (current != list->head);
@@ -274,8 +277,10 @@ int isPalindrome(CircularLinkedList *list) {
   current = list->head;
   Node *reversedCurrent = reversedList.head;
 
-  do {
-    if (current->data != reversedCurrent->data) {
+  do
+  {
+    if (current->data != reversedCurrent->data)
+    {
       return 0;
     }
     current = current->next;
@@ -284,8 +289,6 @@ int isPalindrome(CircularLinkedList *list) {
 
   return 1;
 }
-
-
 
 void deleteNodeAtPosition(CircularLinkedList *list, int position)
 {
@@ -296,7 +299,8 @@ void deleteNodeAtPosition(CircularLinkedList *list, int position)
   Node *previous = NULL;
   int currentPosition = 0;
 
-  while (currentPosition != position) {
+  while (currentPosition != position)
+  {
     previous = current;
     current = current->next;
     currentPosition++;
@@ -305,19 +309,19 @@ void deleteNodeAtPosition(CircularLinkedList *list, int position)
       break;
   }
 
-  if (position == 0) {
+  if (position == 0)
+  {
     Node *tail = list->head;
-    while (tail->next != list->head) 
+    while (tail->next != list->head)
       tail = tail->next;
     list->head = current->next;
     tail->next = list->head;
-  } else
+  }
+  else
     previous->next = current->next;
 
   free(current);
 }
-
-
 
 void insertNodeAfterNode(CircularLinkedList *list, Node *node, int data)
 {
@@ -392,7 +396,8 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
 
   Node *middleNode = findMiddleElement(list);
 
-  if (middleNode == NULL || middleNode->next == list->head) {
+  if (middleNode == NULL || middleNode->next == list->head)
+  {
     CircularLinkedList **halves = malloc(sizeof(CircularLinkedList *) * 2);
     halves[0] = firstHalf;
     halves[1] = secondHalf;
@@ -409,7 +414,6 @@ CircularLinkedList **splitCircularLinkedList(CircularLinkedList *list)
 
   return halves;
 }
-
 
 int findMaximumElement(CircularLinkedList *list)
 {
