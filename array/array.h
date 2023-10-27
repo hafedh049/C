@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#include <stdarg.h>
 
 typedef struct Array
 {
@@ -51,3 +52,6 @@ double average(Array *);
 int sum(Array *);
 int searchWithCriteria(Array *, int (*)(int));
 void toString(Array *);
+void pushMany(Array *, int, ...);
+void removeAll(Array *, int);
+void removeAllMany(Array *, int, ...);

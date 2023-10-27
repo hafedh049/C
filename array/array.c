@@ -530,3 +530,41 @@ void toString(Array* arr) {
     }
     printf("]\n");
 }
+
+void pushMany(Array* arr, int count, ...) {
+    va_list args;
+    va_start(args, count);
+
+    for (int i = 0; i < count; i++) {
+        int item = va_arg(args, int);
+        push(arr, item);
+    }
+
+    va_end(args);
+}
+
+void removeAll(Array* arr, int element) {
+    int newSize = 0;
+    
+    for (int i = 0; i < arr->size; i++) {
+        if (arr->data[i] != element) {
+            arr->data[newSize] = arr->data[i];
+            newSize++;
+        }
+    }
+    
+    arr->size = newSize;
+}
+
+void removeAllMany(Array* arr, int numIndices, ...) {
+    va_list args;
+    va_start(args, numIndices);
+
+    for (int i = 0; i < numIndices; i++) {
+        int index = va_arg(args, int);
+        if (index >= 0 && index < arr->size)
+            removeAll(arr, arr->data[index]);
+    }
+
+    va_end(args);
+}
