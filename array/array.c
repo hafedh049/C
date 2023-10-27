@@ -264,3 +264,12 @@ Array* filter(Array* arr, int (*condition)(int)) {
     }
     return filteredArr;
 }
+
+int reduce(Array* arr, int (*function)(int, int), int initial) {
+    int result = initial;
+    for (int i = 0; i < arr->size; i++) {
+        result = function(result, arr->data[i]);
+    }
+    return result;
+}
+
